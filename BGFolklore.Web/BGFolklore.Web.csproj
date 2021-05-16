@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BGFolklore.Data\BGFolklore.Data\BGFolklore.Data.csproj" />
+    <ProjectReference Include="..\BGFolklore.Data\BGFolklore.Models\BGFolklore.Models.csproj" />
   </ItemGroup>
 
 </Project>

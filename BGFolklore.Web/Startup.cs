@@ -39,6 +39,7 @@ namespace BGFolklore.Web
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 6;
+                options.User.RequireUniqueEmail = true;
 
 
             })
