@@ -74,7 +74,7 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = GetUsernameFromEmail(Input.Email), Email = Input.Email };
+                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -109,11 +109,6 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
-        }
-
-        private string GetUsernameFromEmail(string email)
-        {
-            return email.Split('@')[0];
         }
     }
 }
