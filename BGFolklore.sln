@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGFolklore.Web", "BGFolklore.Web\BGFolklore.Web.csproj", "{376A9919-BEEF-4257-A114-169B9E873717}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BGFolklore.Data", "BGFolklore.Data", "{EAD3121D-86F7-4271-A151-5094A78B8DE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BGFolklore.Data", "BGFolklore.Data\BGFolklore.Data\BGFolklore.Data.csproj", "{CA7D6EC7-74A6-498C-98DD-62C115FD0FCC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{376A9919-BEEF-4257-A114-169B9E873717}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{376A9919-BEEF-4257-A114-169B9E873717}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{376A9919-BEEF-4257-A114-169B9E873717}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{376A9919-BEEF-4257-A114-169B9E873717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA7D6EC7-74A6-498C-98DD-62C115FD0FCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA7D6EC7-74A6-498C-98DD-62C115FD0FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA7D6EC7-74A6-498C-98DD-62C115FD0FCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA7D6EC7-74A6-498C-98DD-62C115FD0FCC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CA7D6EC7-74A6-498C-98DD-62C115FD0FCC} = {EAD3121D-86F7-4271-A151-5094A78B8DE6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A8C623A-2420-4841-97E8-E96C45E4E6EB}
+	EndGlobalSection
+EndGlobal
