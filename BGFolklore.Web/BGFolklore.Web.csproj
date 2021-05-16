@@ -22,4 +22,8 @@
     <ProjectReference Include="..\BGFolklore.Data\BGFolklore.Models\BGFolklore.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\gallery\" />
+  </ItemGroup>
+
 </Project>
