@@ -1,0 +1,19 @@
+{
+  "ShopskaOblast": {
+    "Name": "Шопска област",
+    "Path": "~/wwwroot/images/gallery/shopska",
+    "Images": {
+      "Kyustendilskа_1": {
+        "FileName": "kyustendilska.jpg",
+        "Title": "Кюстендилска носия",
+        "Description": "Черна кюстендилска шопска носия."
+      },
+      "Trunska_1": {
+        "FileName": "trunska_1.jpg",
+        "Title": "Трънска носия",
+        "Description": "Трънска шопска носия. Нарича се още Трънски литак."
+      }
+    }
+  }
+
+}

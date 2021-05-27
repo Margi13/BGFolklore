@@ -1,104 +1,113 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Images";
 }
 <h1>Български народни носии</h1>
 
-<div class="map-container">
-    <img src ="/images/map/wholemap.gif" alt="Whole bulgarian map"/>
-</div>
-<div class="gallery">
-    <div class="card-group">
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text">Something</p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_2.jpeg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text">Използва се един къде си</p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_3.jpeg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
-            </div>
-        </div>
-    </div>
+@*<div class="map-container">
+        <img src="/images/map/wholemap.gif" alt="Whole bulgarian map" />
+    </div>*@
+@*<ul>
+        <li><а href="">Шопска област</а></li>
+        <li><а href="">Пиринска област</а></li>
+        <li><а href="">Тракийска област</а></li>
+        <li><а href="">Странджанска област</а></li>
+        <li><а href="">Северняшка област</а></li>
+        <li><а href="">Добруджанска област</а></li>
+    </ul>*@
 
-    <div class="card-group">
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_4.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_5.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_6.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
+@*<script src="assets/jquery.min.js"></script>
+    <script src="assets/popper.min.js"></script>
+    <script src="assets/bootstrap.min.js"></script>
+    <script src="assets/mauGallery.min.js"></script>
+    <script src="assets/scripts.js"></script>*@
+
+<section>
+    <div class="rt-container">
+        <div class="col-rt-12">
+            <div class="Scriptcontent">
+
+                <div class="container py-3">
+                    <div class="gallery">
+                        <ul class="my-4 tags-bar nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active active-tag" href="#" data-images-toggle="all">all</a></li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#" data-images-toggle="shopska">Шопска</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#" data-images-toggle="pirinska">Пиринска</a>
+                            </li>
+                        </ul>
+                        <img data-gallery-tag="shopska" class="gallery-item" src="~/images/gallery/shopska/small_kyustendilska.jpg" />
+                        <img data-gallery-tag="shopska" class="gallery-item" src="~/images/gallery/shopska/small_trunska_1.jpg" />
+                        <img data-gallery-tag="pirinska" class="gallery-item" src="~/images/gallery/pirinska/small_pirinska_2.jpg" />
+                        <img data-gallery-tag="shopska" class="gallery-item" src="~/images/gallery/shopska/small_kyustendilska.jpg" />
+                        <img data-gallery-tag="pirinska" class="gallery-item" src="~/images/gallery/pirinska/small_pirinska_2.jpg" />
+                        <img data-gallery-tag="shopska" class="gallery-item" src="~/images/gallery/shopska/small_kyustendilska.jpg" />
+                        <img data-gallery-tag="shopska" class="gallery-item" src="~/images/gallery/shopska/small_trunska_1.jpg" />
+                        @*<img data-gallery-tag="women" class="gallery-item" src="https://images.pexels.com/photos/39317/chihuahua-dog-puppy-cute-39317.jpeg?auto=compress&cs=tinysrgb&h=350" />
+                            <img data-gallery-tag="coffee" class="gallery-item" src="https://images.pexels.com/photos/434213/pexels-photo-434213.jpeg?auto=compress&cs=tinysrgb&h=350" />
+                            <img data-gallery-tag="men" class="gallery-item" src="https://images.pexels.com/photos/373899/pexels-photo-373899.jpeg?auto=compress&cs=tinysrgb&h=350" />
+                            <img data-gallery-tag="women" class="gallery-item" src="https://images.pexels.com/photos/1036621/pexels-photo-1036621.jpeg?auto=compress&cs=tinysrgb&h=350" />
+                            <img data-gallery-tag="coffee" class="gallery-item" src="https://images.pexels.com/photos/272887/pexels-photo-272887.jpeg?auto=compress&cs=tinysrgb&h=350" />
+                            <img data-gallery-tag="dogs" class="gallery-item" src="https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&h=350" />
+                            <div class="gallery-item h-100">
+                                <div class="bg-info d-flex flex-column text-warning justify-content-center align-items-center h-100 w-100 p-3">
+                                    <p class="lead m-0">Me neigher.</p>
+                                </div>
+                            </div>
+                            <img data-gallery-tag="women" class="gallery-item" src="https://images.pexels.com/photos/247204/pexels-photo-247204.jpeg?auto=compress&cs=tinysrgb&h=350" />
+                            <img data-gallery-tag="dogs" class="gallery-item" src="https://images.pexels.com/photos/59523/pexels-photo-59523.jpeg?auto=compress&cs=tinysrgb&h=350" />*@
+                    </div>
+                    <hr />
+                    <i>more to come here...</i>
+                </div>
+                <script src="assets/jquery.min.js"></script>
+                <script src="assets/popper.min.js"></script>
+                <script src="assets/bootstrap.min.js"></script>
+                <script src="assets/mauGallery.min.js"></script>
+                <script src="assets/scripts.js"></script>
+
             </div>
         </div>
     </div>
-    <div class="card-group">
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_7.jpeg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
+</section>
+
+<script src="~/js/mauGallery.js" asp-append-version="true"></script>
+@*<h2>Шопска етнографска област</h2>
+    <div class="gallery">
+        <div class="card-group">
+            <div class="card">
+                <img class="card-img-top" src="/images/gallery/shopska/kyustendilska.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Кюстендилска носия</h5>
+                    <p class="card-text">Something</p>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_2.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Кюстендилска носия</h5>
+                    <p class="card-text">Използва се един къде си</p>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_3.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Кюстендилска носия</h5>
+                    <p class="card-text"> Използва се някъде.</p>
+                </div>
             </div>
         </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/shopska_1.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Шопска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
+    </div>*@
+@*<div class="card-columns" style="flex-wrap:wrap">
+        @foreach (var file in ViewBag.images)
+        {
+            <div class="card">
+                <img class="card-img-top" src="~/images/gallery/shopska/@System.IO.Path.GetFileName(file)" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Кюстендилска носия</h5>
+                    <p class="card-text">Something</p>
+                </div>
             </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/shopska_2.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Шопска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
-             </div>
-         </div>
-     </div>
-      <div class="card-group">
-          <div class="card">
-              <img class="card-img-top" src="/images/gallery/shopska/trunska_1.jpg" alt="Card image cap">
-              <div class="card-body">
-                  <h5 class="card-title">Трънска носия</h5>
-                  <p class="card-text"> Използва се някъде.</p>
-              </div>
-          </div>
-          <div class="card">
-              <img class="card-img-top" src="/images/gallery/shopska/trunska_2.jpg" alt="Card image cap">
-              <div class="card-body">
-                  <h5 class="card-title">Трънска носия</h5>
-                  <p class="card-text"> Използва се някъде.</p>
-              </div>
-          </div>
-          <div class="card">
-              <img class="card-img-top" src="/images/gallery/shopska/trunska_3.jpg" alt="Card image cap">
-              <div class="card-body">
-                  <h5 class="card-title">Трънска носия</h5>
-                  <p class="card-text"> Използва се някъде.</p>
-              </div>
-          </div>
-      </div>
-</div>
+        }
+    </div>*@
