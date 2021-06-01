@@ -1,19 +1,62 @@
 {
-  "ShopskaOblast": {
-    "Name": "������ ������",
-    "Path": "~/wwwroot/images/gallery/shopska",
-    "Images": {
-      "Kyustendilsk�_1": {
-        "FileName": "kyustendilska.jpg",
-        "Title": "������������ �����",
-        "Description": "����� ������������ ������ �����."
-      },
-      "Trunska_1": {
-        "FileName": "trunska_1.jpg",
-        "Title": "������� �����",
-        "Description": "������� ������ �����. ������ �� ��� ������� �����."
-      }
+  "EthnoAreas": [
+    {
+      "Type": "Shopska",
+      "Name": "Шопска област",
+      "Path": "/images/gallery/shopska",
+      "Images": [
+        {
+          "FileName": "kyustendilska.jpg",
+          "Title": "Кюстендилска носия",
+          "Description": "Черна кюстендилска шопска носия."
+        },
+        {
+          "FileName": "trunska_1.jpg",
+          "Title": "Трънска носия",
+          "Description": "Трънска шопска носия. Нарича се още Трънски литак."
+        }
+      ],
+      "SmallerImages": [
+        {
+          "FileName": "small_kyustendilska.jpg",
+          "Title": "Кюстендилска носия",
+          "Description": "Черна кюстендилска шопска носия."
+        },
+        {
+          "FileName": "small_trunska_1.jpg",
+          "Title": "Трънска носия",
+          "Description": "Трънска шопска носия. Нарича се още Трънски литак."
+        }
+      ]
+    },
+    {
+      "Type": "Pirinska",
+      "Name": "Пиринска област",
+      "Path": "/images/gallery/pirinska",
+      "Images": [
+        {
+          "FileName": "pirinska_2.jpeg",
+          "Title": "Пиринска носия",
+          "Description": "Пиринска носия."
+        },
+        {
+          "FileName": "pirinska_2.jpeg",
+          "Title": "Пиринска носия 2",
+          "Description": "Пиринска носия номер 2."
+        }
+      ],
+      "SmallerImages": [
+        {
+          "FileName": "small_pirinska_2.jpg",
+          "Title": "Пиринска носия",
+          "Description": "Пиринска носия."
+        },
+        {
+          "FileName": "small_pirinska_2.jpg",
+          "Title": "Пиринска носия 2",
+          "Description": "Пиринска носия номер 2."
+        }
+      ]
     }
-  }
-
+  ]
 }
