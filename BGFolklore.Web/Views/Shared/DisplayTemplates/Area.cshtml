@@ -1,0 +1,47 @@
+﻿@model Area
+@{
+}
+
+<h2 style="text-align:center">
+    @Model.Name
+</h2>
+<hr />
+
+<div class="gallery">
+    <div class="images" style="display:flex; flex-wrap:wrap">
+        @foreach (var img in Model.Images)
+        {
+            <div class="image-card" style="text-align:center; width:300px">
+                <a href="@Model.Path/@img.FileName" data-fancybox="images" data-caption="@img.Title">
+                    <img class="gallery-item" src="@Model.Path/@img.FileName" style="height:200px">
+                </a>
+                <h4>@img.Title</h4>
+                <p>@img.Description</p>
+            </div>
+
+        }
+    </div>
+
+</div>
+
+@* For the popup image when you click on one *@
+<script>
+    $(document).ready(function () {
+        $('[data-fancybox="images"]').fancybox({
+            helpers: {
+                title: {
+                    type: 'outside',
+                    position: 'top'
+                }
+            },
+            arrows: false,
+            protect: true,
+            buttons: [
+                'download',
+                'zoom',
+                'close'
+            ]
+        });
+    });
+</script>
+

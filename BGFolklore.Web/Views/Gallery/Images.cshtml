@@ -1,104 +1,61 @@
-﻿
+﻿@using BGFolklore.Models
+@model JsonResponse
 @{
     ViewData["Title"] = "Images";
+    ViewData["CurrentAreaType"] = 0;
 }
-<h1>Български народни носии</h1>
 
-<div class="map-container">
-    <img src ="/images/map/wholemap.gif" alt="Whole bulgarian map"/>
-</div>
-<div class="gallery">
-    <div class="card-group">
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text">Something</p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_2.jpeg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text">Използва се един къде си</p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_3.jpeg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
+<header class="ScriptHeader">
+    <div class="rt-container">
+        <div class="col-rt-12">
+            <div class="rt-heading">
+                <h1>Български народни носии</h1>
+                <p>Галерия с различните български народни носии от всяка област.</p>
             </div>
         </div>
     </div>
+</header>
 
-    <div class="card-group">
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_4.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_5.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_6.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
-            </div>
-        </div>
+<div class="ScriptTop">
+    <div class="rt-container" style="align-content:center">
+        <ul class="my-4 tags-bar nav nav-pills">
+            @foreach (var area in Model.EthnoAreas)
+            {
+                <li class="nav-item"><a class="nav-link area-link" href="#@area.Type" data-images-toggle="@area.Type">@area.Name</a></li>
+            }
+        </ul>
+        @*<div class="col-rt-2" style="align-self:center">
+            <img src="~/images/map/wholemap.gif" alt="Whole bulgarian map" />
+        </div>*@
     </div>
-    <div class="card-group">
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/kyustendilska_7.jpeg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Кюстендилска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/shopska_1.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Шопска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
-            </div>
-        </div>
-        <div class="card">
-            <img class="card-img-top" src="/images/gallery/shopska/shopska_2.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Шопска носия</h5>
-                <p class="card-text"> Използва се някъде.</p>
-             </div>
-         </div>
-     </div>
-      <div class="card-group">
-          <div class="card">
-              <img class="card-img-top" src="/images/gallery/shopska/trunska_1.jpg" alt="Card image cap">
-              <div class="card-body">
-                  <h5 class="card-title">Трънска носия</h5>
-                  <p class="card-text"> Използва се някъде.</p>
-              </div>
-          </div>
-          <div class="card">
-              <img class="card-img-top" src="/images/gallery/shopska/trunska_2.jpg" alt="Card image cap">
-              <div class="card-body">
-                  <h5 class="card-title">Трънска носия</h5>
-                  <p class="card-text"> Използва се някъде.</p>
-              </div>
-          </div>
-          <div class="card">
-              <img class="card-img-top" src="/images/gallery/shopska/trunska_3.jpg" alt="Card image cap">
-              <div class="card-body">
-                  <h5 class="card-title">Трънска носия</h5>
-                  <p class="card-text"> Използва се някъде.</p>
-              </div>
-          </div>
-      </div>
 </div>
+
+<section>
+    @foreach (var area in Model.EthnoAreas)
+    {
+        <div class="area @area.Type" id="@area.Type" style="display:none">@Html.DisplayFor(a => area)</div>
+    }
+</section>
+
+<script>
+    $(document).ready(function () {
+        let linkItems = document.getElementsByClassName('area-link');
+        for (let link of linkItems) {
+            link.addEventListener("click", (e) => {
+                let areasDiv = document.getElementsByClassName("area");
+                for (let area of areasDiv) {
+                    if (area.classList.contains(e.target.dataset.imagesToggle)) {
+                        area.style.display = "";
+                        e.target.classList.add("active-tag");
+                        e.target.parentNode.classList.add("active");
+                    } else {
+                        area.style.display = "none";
+                        e.target.classList.remove("active-tag");
+                        e.target.parentNode.classList.remove("active");
+                    }
+                }
+            });
+        }
+
+    });
+</script>
