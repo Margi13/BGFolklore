@@ -4,6 +4,12 @@ namespace BGFolklore.Web.Models
     public enum AreasType
     {
         Shopska = 1,
-        Pirinska = 2
+        Makedonska = 2,
+        Rodopska = 3,
+        Severnqshka = 4,
+        Dobrudjanska = 5,
+        Stransjanska = 6,
+        Trakiiska = 7
+
     }
 }
