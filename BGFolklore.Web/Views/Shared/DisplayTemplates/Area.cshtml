@@ -11,7 +11,7 @@
     <div class="images" style="display:flex; flex-wrap:wrap">
         @foreach (var img in Model.Images)
         {
-            <div class="image-card" style="text-align:center; width:300px">
+            <div class="image-card" style="text-align:center; width:300px; padding:30px">
                 <a href="@Model.Path/@img.FileName" data-fancybox="images" data-caption="@img.Title">
                     <img class="gallery-item" src="@Model.Path/@img.FileName" style="height:200px">
                 </a>
