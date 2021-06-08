@@ -2,72 +2,75 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }
 
 
@@ -82,6 +85,7 @@ body {
     padding: 40px;
     margin: 120px;
 }
+
 
 /*---------------------------------*/
 
@@ -114,16 +118,24 @@ a {
     font-family: "Playfair Display",sans-serif;
     text-decoration: none;
     outline: none;
+    color: #222;
 }
 
     a:hover, a:focus {
         color: #373e18;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: #222;
+        background: #e1f4dc;
     }
 
 section {
     float: left;
     width: 100%;
     padding-bottom: 3em;
+    margin: 20px auto;
 }
 
 h2 {
@@ -132,7 +144,7 @@ h2 {
     font-weight: 700;
     line-height: normal;
     text-transform: uppercase;
-    margin-top:20px;
+    margin-top: 20px;
 }
 
     h2 span {
@@ -153,7 +165,7 @@ h2 {
 *********************************************************/
 
 .ScriptTop {
-    background: #fff none repeat scroll 0 0;
+    background: #efe3af none repeat scroll 0 0;
     float: left;
     font-size: 0.69em;
     font-weight: 600;
@@ -167,7 +179,7 @@ h2 {
     .ScriptTop ul {
         margin: 24px 0;
         padding: 0;
-        text-align: left;
+        text-align: center;
     }
 
     .ScriptTop li {
@@ -243,8 +255,24 @@ h2 {
     margin-top: 5px;
 }
 
+/* ******************************************************
+	Responsive Iframe
+*********************************************************/
 
+.iframe-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+}
 
+    .iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
 
 /* ******************************************************
 	Responsive Grids
@@ -270,13 +298,20 @@ h2 {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    -o-box-sizing: border-box;
-    -ms-box-sizing: border-box;
     padding: 0 15px;
     min-height: 1px;
     position: relative;
 }
 
+.area-information {
+    display: block;
+    text-align: center;
+}
+
+.gallery-section {
+    display: flex;
+    flex-wrap: wrap;
+}
 
 @media (min-width: 768px) {
     .rt-container {
@@ -347,4 +382,3 @@ h2 {
         float: none;
     }
 }
- 

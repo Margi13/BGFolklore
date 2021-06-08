@@ -1,6 +1,102 @@
-﻿
+﻿@using BGFolklore.Models
+@model JsonResponse
 @{
     ViewData["Title"] = "Videos";
 }
 
-<h1>Български народни хора</h1>
+<header class="ScriptHeader">
+    <div class="rt-container">
+        <div class="col-rt-12">
+            <div class="rt-heading">
+                <h1>Български народни хора</h1>
+                <p>Галерия с различните български народни хора и танци от всяка област.</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="ScriptTop">
+    <div class="rt-container" style="align-content:center">
+        <ul class="my-4 tags-bar nav nav-pills">
+            @foreach (var area in Model.EthnoAreas)
+            {
+                <li class="nav-item" style="margin:0px 5px 5px 5px"><a class="nav-link area-link" href="#@area.Type" data-images-toggle="@area.Type">@area.Name</a></li>
+            }
+        </ul>
+        @*@foreach (var area in Model.EthnoAreas)
+        {
+            <div class="area-information @area.Type" style="text-align:center; display:none">
+                <div class="info-container" style="margin: 0px 10px;">
+                    <h2>@area.Name</h2>
+                    <p>@area.Description_Videos</p>
+                </div>
+                <img src="@area.Area_Image" />
+            </div>
+        }*@
+    </div>
+</div>
+<section class="gallery-section">
+    <div id="iframe-container">
+
+    </div>
+    <div id="area-container" style="overflow-y:auto; height:500px; max-width:460px">
+
+        @foreach (var area in Model.EthnoAreas)
+        {
+            <div class="area @area.Type" id="@area.Type" style="display:none">@Html.DisplayFor(a => area)</div>
+        }
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+
+        $('.area-link').click(function (e) {
+            document.getElementById('iframe-container').innerHTML = '';
+
+            let areasDiv = document.getElementsByClassName("area");
+            for (let area of areasDiv) {
+                if (area.classList.contains(e.target.dataset.imagesToggle)) {
+                    area.style.display = "";
+                    e.target.classList.add("active-tag");
+                    e.target.parentNode.classList.add("active");
+                } else {
+                    area.style.display = "none";
+                    e.target.classList.remove("active-tag");
+                    e.target.parentNode.classList.remove("active");
+                }
+            }
+
+            //let areasDescription = document.getElementsByClassName("area-information");
+            //for (var area of areasDescription) {
+            //    if (area.classList.contains(e.target.dataset.imagesToggle)) {
+            //        area.style.display = "";
+            //    } else {
+            //        area.style.display = "none";
+            //    }
+            //}
+
+        });
+        $('.card').click(function () {
+            let playerDiv = document.getElementById('iframe-container');
+            playerDiv.innerHTML = '';
+
+            let frame = document.createElement('iframe');
+            frame.src = "https://www.youtube.com/embed/" + $(this).attr('id') + "?enablejsapi=1&autoplay=1";
+            frame.allowFullscreen = true;
+            frame.title = "YouTube video player";
+            frame.frameBorder = "0";
+            frame.width = "650px";
+            frame.height = "500px";
+            frame.classList.add('youtube-video');
+            playerDiv.appendChild(frame);
+
+            $('.nav-item').onfocus = () => {
+                $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+
+            }
+        });
+        
+    });
+
+</script>
