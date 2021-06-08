@@ -20,12 +20,21 @@ namespace BGFolklore.Web.Models
         public AreasType Type { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
+        public string Area_Image { get; set; }
+        public string Description_Images { get; set; }
+        public string Description_Videos { get; set; }
         public ICollection<Image> Images { get; set; }
-        public ICollection<Image> SmallerImages { get; set; }
+        public ICollection<Video> Videos { get; set; }
     }
     public class Image
     {
         public string FileName { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+    }
+    public class Video
+    {
+        public string Id_YouTube { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
     }

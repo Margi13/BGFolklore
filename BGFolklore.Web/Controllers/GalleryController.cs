@@ -30,21 +30,18 @@ namespace BGFolklore.Web.Controllers
         {
 
             JsonResponse items = LoadJson();
-            Console.WriteLine(items);
             return View(items);
         }
         public IActionResult Videos()
         {
-            return View();
+            JsonResponse items = LoadJson();
+            return View(items);
         }
-        public PartialViewResult _ImagePartial(Area area)
-        {
-            return PartialView(area);
-        }
+
         public static JsonResponse LoadJson()
         {
             JsonResponse items;
-            using (StreamReader r = new StreamReader("./images.json", Encoding.UTF8))
+            using (StreamReader r = new StreamReader("./areas.json", Encoding.UTF8))
             {
                 string json = r.ReadToEnd();
                 items = JsonConvert.DeserializeObject<JsonResponse>(json);
