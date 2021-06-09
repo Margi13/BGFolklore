@@ -1,5 +1,4 @@
-﻿@using BGFolklore.Models
-@model JsonResponse
+﻿
 @{
     ViewData["Title"] = "Videos";
 }
@@ -15,14 +14,14 @@
     </div>
 </header>
 
-<div class="ScriptTop">
+<!--<div class="ScriptTop">
     <div class="rt-container" style="align-content:center">
         <ul class="my-4 tags-bar nav nav-pills">
-            @foreach (var area in Model.EthnoAreas)
+            foreach (var area in Model.EthnoAreas)
             {
-                <li class="nav-item" style="margin:0px 5px 5px 5px"><a class="nav-link area-link" href="#@area.AreaType" data-images-toggle="@area.AreaType">@area.AreaName</a></li>
+                <li class="nav-item" style="margin:0px 5px 5px 5px"><a class="nav-link area-link" href="#area.AreaType" data-images-toggle="area.AreaType">area.AreaName</a></li>
             }
-        </ul>
+        </ul>-->
         @*@foreach (var area in Model.EthnoAreas)
         {
             <div class="area-information @area.Type" style="text-align:center; display:none">
@@ -33,7 +32,7 @@
                 <img src="@area.Area_Image" />
             </div>
         }*@
-    </div>
+    <!--</div>
 </div>
 <section class="gallery-section">
     <div id="iframe-container">
@@ -41,9 +40,9 @@
     </div>
     <div id="area-container" style="overflow-y:auto; height:500px; max-width:460px">
 
-        @foreach (var area in Model.EthnoAreas)
+        foreach (var area in Model.EthnoAreas)
         {
-            <div class="area @area.AreaType" id="@area.AreaType" style="display:none">@Html.DisplayFor(a => area)</div>
+            <div class="area area.AreaType" id="area.AreaType" style="display:none">Html.DisplayFor(a => area)</div>
         }
     </div>
 </section>
@@ -99,4 +98,4 @@
         
     });
 
-</script>
+</script>-->

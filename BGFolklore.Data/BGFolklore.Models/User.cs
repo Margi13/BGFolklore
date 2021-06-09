@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 
-namespace BGFolklore.Models
+namespace BGFolklore.Data.Models
 {
     public class User : IdentityUser
     {

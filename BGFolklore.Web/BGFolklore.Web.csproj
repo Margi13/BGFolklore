@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Grpc.AspNetCore.Server" Version="2.37.0" />
     <PackageReference Include="Grpc.Core" Version="2.38.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.5" />
@@ -22,7 +24,9 @@
   <ItemGroup>
     <ProjectReference Include="..\BGFolklore.Common\BGFolklore.Common.csproj" />
     <ProjectReference Include="..\BGFolklore.Data\BGFolklore.Data\BGFolklore.Data.csproj" />
-    <ProjectReference Include="..\BGFolklore.Data\BGFolklore.Models\BGFolklore.Models.csproj" />
+    <ProjectReference Include="..\BGFolklore.Data\BGFolklore.Models\BGFolklore.Data.Models.csproj" />
+    <ProjectReference Include="..\BGFolklore.Models\BGFolklore.Models.csproj" />
+    <ProjectReference Include="..\BGFolklore.Services\BGFolklore.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

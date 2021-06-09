@@ -9,11 +9,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BGFolklore.Data", "BGFolklo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGFolklore.Data", "BGFolklore.Data\BGFolklore.Data\BGFolklore.Data.csproj", "{CA7D6EC7-74A6-498C-98DD-62C115FD0FCC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGFolklore.Models", "BGFolklore.Data\BGFolklore.Models\BGFolklore.Models.csproj", "{1EB869EF-CEBA-44A3-AFD5-6618E4248214}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGFolklore.Data.Models", "BGFolklore.Data\BGFolklore.Models\BGFolklore.Data.Models.csproj", "{1EB869EF-CEBA-44A3-AFD5-6618E4248214}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BGFolklore.Common", "BGFolklore.Common", "{3CCC302F-42E3-48D3-91AF-E8DE1745DBC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BGFolklore.Common", "BGFolklore.Common\BGFolklore.Common.csproj", "{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGFolklore.Common", "BGFolklore.Common\BGFolklore.Common.csproj", "{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BGFolklore.Models", "BGFolklore.Models", "{49D1684B-9991-4BC1-BEBE-A6B5630DD734}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGFolklore.Models", "BGFolklore.Models\BGFolklore.Models.csproj", "{7F12C911-1E49-4ADA-81B8-C9CD9BC276DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BGFolklore.Services", "BGFolklore.Services", "{941DD0F7-37A7-4936-8756-B44EB6A2BD74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BGFolklore.Services", "BGFolklore.Services\BGFolklore.Services.csproj", "{6D6830D4-54A3-41ED-80F4-D279791E808D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +45,14 @@ Global
 		{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F12C911-1E49-4ADA-81B8-C9CD9BC276DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F12C911-1E49-4ADA-81B8-C9CD9BC276DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F12C911-1E49-4ADA-81B8-C9CD9BC276DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F12C911-1E49-4ADA-81B8-C9CD9BC276DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D6830D4-54A3-41ED-80F4-D279791E808D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D6830D4-54A3-41ED-80F4-D279791E808D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D6830D4-54A3-41ED-80F4-D279791E808D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D6830D4-54A3-41ED-80F4-D279791E808D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +61,8 @@ Global
 		{CA7D6EC7-74A6-498C-98DD-62C115FD0FCC} = {EAD3121D-86F7-4271-A151-5094A78B8DE6}
 		{1EB869EF-CEBA-44A3-AFD5-6618E4248214} = {EAD3121D-86F7-4271-A151-5094A78B8DE6}
 		{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B} = {3CCC302F-42E3-48D3-91AF-E8DE1745DBC3}
+		{7F12C911-1E49-4ADA-81B8-C9CD9BC276DE} = {49D1684B-9991-4BC1-BEBE-A6B5630DD734}
+		{6D6830D4-54A3-41ED-80F4-D279791E808D} = {941DD0F7-37A7-4936-8756-B44EB6A2BD74}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A8C623A-2420-4841-97E8-E96C45E4E6EB}

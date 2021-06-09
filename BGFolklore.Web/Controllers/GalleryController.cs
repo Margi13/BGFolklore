@@ -1,15 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Web;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Grpc.Core;
-using System.IO;
+﻿using BGFolklore.Models.Gallery.ViewModels;
+using BGFolklore.Services.Public.Interfaces;
 using Microsoft.AspNetCore.Hosting;
-using BGFolklore.Web.Models;
-using Newtonsoft.Json;
-using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace BGFolklore.Web.Controllers
@@ -17,10 +11,12 @@ namespace BGFolklore.Web.Controllers
     public class GalleryController : Controller
     {
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IGalleryService galleryService;
 
-        public GalleryController(IWebHostEnvironment webHostEnvironment)
+        public GalleryController(IWebHostEnvironment webHostEnvironment, IGalleryService galleryService)
         {
             this.webHostEnvironment = webHostEnvironment;
+            this.galleryService = galleryService;
         }
         public IActionResult Index()
         {
@@ -29,24 +25,25 @@ namespace BGFolklore.Web.Controllers
         public IActionResult Images()
         {
 
-            JsonResponse items = LoadJson();
-            return View(items);
+            string jsonString = LoadJson();
+            IList<AreaImagesViewModel> viewModelList = galleryService.GetImagesFromJson(jsonString);
+            return View(viewModelList);
         }
         public IActionResult Videos()
         {
-            JsonResponse items = LoadJson();
-            return View(items);
+            //var items = LoadJson();
+            return View();
         }
 
-        public static JsonResponse LoadJson()
+        //Common, ErrorHandling
+        public static string LoadJson()
         {
-            JsonResponse items;
+            string jsonString;
             using (StreamReader r = new StreamReader("./areas.json", Encoding.UTF8))
             {
-                string json = r.ReadToEnd();
-                items = JsonConvert.DeserializeObject<JsonResponse>(json);
+                jsonString = r.ReadToEnd();
             }
-            return items;
+            return jsonString;
         }
     }
 

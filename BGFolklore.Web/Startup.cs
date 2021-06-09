@@ -1,17 +1,14 @@
 using BGFolklore.Data;
+using BGFolklore.Services.Public;
+using BGFolklore.Services.Public.Interfaces;
+using BGFolklore.Web.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BGFolklore.Web
 {
@@ -44,6 +41,8 @@ namespace BGFolklore.Web
 
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            RegisterServiceLayer(services);
+            services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddControllersWithViews();
         }
 
@@ -76,6 +75,11 @@ namespace BGFolklore.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+        }
+        private void RegisterServiceLayer(IServiceCollection services)
+        {
+            services.AddScoped<IGalleryService, GalleryService>();
+
         }
     }
 }

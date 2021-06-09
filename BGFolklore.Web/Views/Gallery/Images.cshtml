@@ -1,5 +1,5 @@
-﻿@using BGFolklore.Models
-@model JsonResponse
+﻿@using BGFolklore.Models.Gallery.ViewModels
+@model IList<AreaImagesViewModel>
 @{
     ViewData["Title"] = "Images";
 }
@@ -16,78 +16,102 @@
 </header>
 
 <div class="ScriptTop" style="padding: 10px; width: max-content">
-    <div class="rt-container" style="padding:15px; text-align:center">
+    <!--<div class="rt-container" style="padding:15px; text-align:center">
+        <p>Model</p>
         <ul class="my-4 tags-bar nav nav-pills">
-            @foreach (var area in Model.EthnoAreas)
+            @*@foreach (var area in Model)
             {
                 <li class="nav-item" style="margin:0px 5px 5px 5px"><a class="nav-link area-link" href="#area-information" data-images-toggle="@area.AreaType">@area.AreaName</a></li>
-            }
+            }*@
         </ul>
-        <div id="area-information">
-
-            @foreach (var area in Model.EthnoAreas)
-            {
-                <div class="area-information @area.AreaType" style="text-align:center; display:none">
-                    <div class="info-container" style="margin: 0px 10px;">
-                        <h2>@area.AreaName</h2>
-                        <p>@area.Description_Images</p>
-                    </div>
-                    <img src="@area.Area_Image" />
+        <div id="area-information">-->
+    @*@foreach (var area in Model)
+        {
+            <div class="area-information @area.AreaType" style="text-align:center; display:none">
+                <div class="info-container" style="margin: 0px 10px;">
+                    <h2>@area.AreaName</h2>
+                    <p>@area.Description_Images</p>
                 </div>
-            }
-        </div>
-    </div>
-   
-
+                <img src="@area.Area_Image" />
+            </div>
+        }*@
+    <!--</div>
+    </div>-->
     @*<object data="~/images/map/whole.svg"></object>*@
+    @foreach (var area in Model)
+    {
+        <div>@area.AreaType</div>
+        @Html.DisplayFor(a => area.Images,"","", new Dictionary<string, string>().Add(key:"fancyBox", value:"smthng")) //TODO
+
+    }
 </div>
 
-<section>
-    @foreach (var area in Model.EthnoAreas)
-    {
-        <div class="area @area.AreaType" id="@area.AreaType" style="display:none">@Html.DisplayFor(a => area)</div>
-    }
-</section>
-
+@*<section>
+        @foreach (var area in Model)
+        {
+            <div class="area @area.AreaType" id="@area.AreaType" style="display:none">@Html.DisplayFor(a => area)</div>
+        }
+    </section>*@
 <script>
-    $(document).ready(function () {
-        let linkItems = document.getElementsByClassName('area-link');
-        for (let link of linkItems) {
-            link.addEventListener("click", (e) => {
-                let areasDiv = document.getElementsByClassName("area");
-                for (let area of areasDiv) {
-                    if (area.classList.contains(e.target.dataset.imagesToggle)) {
-                        area.style.display = "";
-                        e.target.classList.add("active-tag");
-                        e.target.parentNode.classList.add("active");
-                    } else {
-                        area.style.display = "none";
-                        e.target.classList.remove("active-tag");
-                        e.target.parentNode.classList.remove("active");
+    $(document).ready(
+        function () {
+            $('[data-fancybox="shopska"]').fancybox({
+                helpers: {
+                    title: {
+                        type: 'outside',
+                        position: 'top'
                     }
-                }
-
-                let areasDescription = document.getElementsByClassName("area-information");
-                for (var area of areasDescription) {
-                    if (area.classList.contains(e.target.dataset.imagesToggle)) {
-                        area.style.display = "";
-                    } else {
-                        area.style.display = "none";
-                    }
-                }
-                
+                },
+                arrows: false,
+                protect: true,
+                buttons: [
+                    'download',
+                    'zoom',
+                    'close'
+                ]
             });
         }
+    );
+</script>
+@*<script>
+        $(document).ready(function () {
+            let linkItems = document.getElementsByClassName('area-link');
+            for (let link of linkItems) {
+                link.addEventListener("click", (e) => {
+                    let areasDiv = document.getElementsByClassName("area");
+                    for (let area of areasDiv) {
+                        if (area.classList.contains(e.target.dataset.imagesToggle)) {
+                            area.style.display = "";
+                            e.target.classList.add("active-tag");
+                            e.target.parentNode.classList.add("active");
+                        } else {
+                            area.style.display = "none";
+                            e.target.classList.remove("active-tag");
+                            e.target.parentNode.classList.remove("active");
+                        }
+                    }
 
-    });
-    function openGallery(areaName) {
-        let areasDiv = document.getElementsByClassName("area");
-        for (let area of areasDiv) {
-            if (area.classList.contains(areaName)) {
-                area.style.display = "";
-            } else {
-                area.style.display = "none";
+                    let areasDescription = document.getElementsByClassName("area-information");
+                    for (var area of areasDescription) {
+                        if (area.classList.contains(e.target.dataset.imagesToggle)) {
+                            area.style.display = "";
+                        } else {
+                            area.style.display = "none";
+                        }
+                    }
+
+                });
+            }
+
+        });
+        function openGallery(areaName) {
+            let areasDiv = document.getElementsByClassName("area");
+            for (let area of areasDiv) {
+                if (area.classList.contains(areaName)) {
+                    area.style.display = "";
+                } else {
+                    area.style.display = "none";
+                }
             }
         }
-    }
-</script>
+    </script>*@
