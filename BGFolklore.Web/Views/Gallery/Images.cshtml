@@ -20,16 +20,16 @@
         <ul class="my-4 tags-bar nav nav-pills">
             @foreach (var area in Model.EthnoAreas)
             {
-                <li class="nav-item" style="margin:0px 5px 5px 5px"><a class="nav-link area-link" href="#area-information" data-images-toggle="@area.Type">@area.Name</a></li>
+                <li class="nav-item" style="margin:0px 5px 5px 5px"><a class="nav-link area-link" href="#area-information" data-images-toggle="@area.AreaType">@area.AreaName</a></li>
             }
         </ul>
         <div id="area-information">
 
             @foreach (var area in Model.EthnoAreas)
             {
-                <div class="area-information @area.Type" style="text-align:center; display:none">
+                <div class="area-information @area.AreaType" style="text-align:center; display:none">
                     <div class="info-container" style="margin: 0px 10px;">
-                        <h2>@area.Name</h2>
+                        <h2>@area.AreaName</h2>
                         <p>@area.Description_Images</p>
                     </div>
                     <img src="@area.Area_Image" />
@@ -45,7 +45,7 @@
 <section>
     @foreach (var area in Model.EthnoAreas)
     {
-        <div class="area @area.Type" id="@area.Type" style="display:none">@Html.DisplayFor(a => area)</div>
+        <div class="area @area.AreaType" id="@area.AreaType" style="display:none">@Html.DisplayFor(a => area)</div>
     }
 </section>
 

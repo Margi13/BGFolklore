@@ -17,9 +17,9 @@ namespace BGFolklore.Web.Models
     {
         //public int Id { get; set; }
         [EnumDataType(typeof(AreasType))]
-        public AreasType Type { get; set; }
-        public string Name { get; set; }
-        public string Path { get; set; }
+        public AreasType AreaType { get; set; }
+        public string AreaName { get; set; }
+        public string ImagesPath { get; set; }
         public string Area_Image { get; set; }
         public string Description_Images { get; set; }
         public string Description_Videos { get; set; }

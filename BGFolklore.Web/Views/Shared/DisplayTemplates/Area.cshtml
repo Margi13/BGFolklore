@@ -23,8 +23,8 @@
             @foreach (var img in Model.Images)
             {
                 <div class="image-card" style="text-align:center; width:360px; padding:30px">
-                    <a href="@Model.Path/@img.FileName" data-fancybox="images" data-caption="@img.Title">
-                        <img class="gallery-item" src="@Model.Path/@img.FileName" style="height:250px">
+                    <a href="@Model.ImagesPath/@img.FileName" data-fancybox="images" data-caption="@img.Title">
+                        <img class="gallery-item" src="@Model.ImagesPath/@img.FileName" style="height:250px">
                     </a>
                     <h4>@img.Title</h4>
                     <p>@img.Description</p>
