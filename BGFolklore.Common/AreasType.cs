@@ -1,5 +1,6 @@
-﻿
-namespace BGFolklore.Web.Models
+﻿using System;
+
+namespace BGFolklore.Common
 {
     public enum AreasType
     {

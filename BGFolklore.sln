@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGFolklore.Web", "BGFolklor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BGFolklore.Data", "BGFolklore.Data", "{EAD3121D-86F7-4271-A151-5094A78B8DE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BGFolklore.Data", "BGFolklore.Data\BGFolklore.Data\BGFolklore.Data.csproj", "{CA7D6EC7-74A6-498C-98DD-62C115FD0FCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGFolklore.Data", "BGFolklore.Data\BGFolklore.Data\BGFolklore.Data.csproj", "{CA7D6EC7-74A6-498C-98DD-62C115FD0FCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BGFolklore.Models", "BGFolklore.Data\BGFolklore.Models\BGFolklore.Models.csproj", "{1EB869EF-CEBA-44A3-AFD5-6618E4248214}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGFolklore.Models", "BGFolklore.Data\BGFolklore.Models\BGFolklore.Models.csproj", "{1EB869EF-CEBA-44A3-AFD5-6618E4248214}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BGFolklore.Common", "BGFolklore.Common", "{3CCC302F-42E3-48D3-91AF-E8DE1745DBC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BGFolklore.Common", "BGFolklore.Common\BGFolklore.Common.csproj", "{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +33,10 @@ Global
 		{1EB869EF-CEBA-44A3-AFD5-6618E4248214}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EB869EF-CEBA-44A3-AFD5-6618E4248214}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EB869EF-CEBA-44A3-AFD5-6618E4248214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CA7D6EC7-74A6-498C-98DD-62C115FD0FCC} = {EAD3121D-86F7-4271-A151-5094A78B8DE6}
 		{1EB869EF-CEBA-44A3-AFD5-6618E4248214} = {EAD3121D-86F7-4271-A151-5094A78B8DE6}
+		{B5526AB2-AD75-49CE-A2A9-4A994C0DC25B} = {3CCC302F-42E3-48D3-91AF-E8DE1745DBC3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A8C623A-2420-4841-97E8-E96C45E4E6EB}
