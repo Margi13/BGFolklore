@@ -9,11 +9,11 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-
+    <script src="https://kit.fontawesome.com/9ad02b2086.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bulgarian Folklore</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -37,16 +37,42 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="main-container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - BGFolklore.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+        <section class="footer-container">
+            <article class="footer-container-left">
+                <h4>Друго, което може да прочетете:</h4>
+                <article class="other-to-read-container">
+                    <ul type="none">
+                        <li><a href="#" class="footer-link">HTTP</a></li>
+                        <li><a href="#" class="footer-link">SSL / TLS</a></li>
+                        <li><a href="#" class="footer-link">HTTPS</a></li>
+                    </ul>
+                </article>
+            </article>
+            <article class="footer-container-right">
+                <h4>За контакти:</h4>
+                <article class="contact-info-container">
+                    <ul type="none">
+                        <li>
+                            <a href="https://github.com/Margi13" class="github-link" title="GitHub" target="_blanck">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/margarita-petrova-356aaa1b0" class="linkedin-link" title="LinkedIn" target="_blanck">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </li>
+                        <li><i class="fas fa-female"></i> Маргарита Николова Петрова</li>
+                        <li><i class="far fa-envelope"></i> margarita.petrova.kn@gmail.com</li>
+                    </ul>
+                </article>
+            </article>
+        </section>
     </footer>
    
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

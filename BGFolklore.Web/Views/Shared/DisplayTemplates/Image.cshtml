@@ -1,13 +1,16 @@
 ﻿@using BGFolklore.Models.Gallery.ViewModels
+@using BGFolklore.Common
 @model Image
 
-    <div class="image-card" style="text-align:center; width:360px; padding:30px">
-        <a href="@Model.Path" data-fancybox="shopska" data-caption="@Model.Title">
-            <img class="gallery-item" src="@Model.Path" style="height:250px"/>
-        </a>
+<div class="image-card">
+    <a href="@Model.Path" data-fancybox="@((AreasType)ViewData["data"])" data-caption="@Model.Title">
+        <img class="gallery-item" src="@Model.Path" />
+    </a>
+    <div class="info-card" style="padding:10px">
         <h4>@Model.Title</h4>
         <p>@Model.Description</p>
     </div>
+</div>
 
 
 
