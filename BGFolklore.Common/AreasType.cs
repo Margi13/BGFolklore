@@ -9,7 +9,7 @@ namespace BGFolklore.Common
         Rodopska = 3,
         Severnqshka = 4,
         Dobrudjanska = 5,
-        Stransjanska = 6,
+        Strandjanska = 6,
         Trakiiska = 7
 
     }
