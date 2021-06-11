@@ -17,7 +17,7 @@
     </div>
 
 </header>
-<section class="gallery-section">
+<section class="gallery-section" id="gallery">
     @foreach (var area in Model)
     {
         <div class="area-gallery @area.AreaType" id="@area.AreaType"> @Html.DisplayFor(a => area.Images, new { data = area.AreaType })</div>

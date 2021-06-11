@@ -201,7 +201,6 @@ h2 {
 /*Background behind text*/
 .bg-brown {
     background: brown;
-    border-radius: 35px;
     color: white;
 }
 /* ******************************************************
@@ -227,13 +226,14 @@ h2 {
     .ScriptTop-navbar ul {
     }
 
-    .ScriptTop-navbar li {
+    .ScriptTop-navbar ul li {
         list-style: none;
         display: inline-block;
         width: 200px;
+        margin: 4px;
     }
 
-        .ScriptTop-navbar li a {
+        .ScriptTop-navbar ul li a {
             padding: 5px 18px;
             display: flex;
             justify-content: center;
@@ -243,11 +243,10 @@ h2 {
             text-transform: capitalize;
         }
 
-            .ScriptTop-navbar li a:hover {
-                background: #000;
-                color: #fff;
+            .ScriptTop-navbar ul li a:hover {
+                opacity:100%;
             }
-            .ScriptTop-navbar li a:visited {
+            .ScriptTop-navbar ul li a:visited {
                 background: brown;
                 color: white;
             }
@@ -400,11 +399,11 @@ img.gallery-item {
 }
 
 @media (min-width: 1200px) {
-    .rt-container {
+    /*.rt-container {
         width: 1170px;
-    }
+    }*/
 
-    .col-rt-1 {
+    /*.col-rt-1 {
         width: 16.6%;
     }
 
@@ -422,7 +421,7 @@ img.gallery-item {
 
     .col-rt-5 {
         width: 83.33%;
-    }
+    }*/
     div.image-card {
         width: 24%;
         margin: 15px 5px
@@ -464,6 +463,9 @@ img.gallery-item {
             font-size: 1rem;
             margin-bottom: 0px;
         }
+    .ScriptHeader h1 {
+        font-size: 26px;
+    }
 }
 
 @media all and (max-width: 580px) {
@@ -472,33 +474,3 @@ img.gallery-item {
         width: 100%;
     }
 }
-
-
-/*@media only screen and (min-width:240px) and (max-width: 768px) {
-    .ScriptTop-navbar h1, .ScriptTop-navbar ul {
-        text-align: center;
-    }
-
-    .ScriptTop-navbar h1 {
-        margin-top: 0;
-        margin-bottom: 15px;
-    }
-
-    .ScriptTop ul {
-        margin-top: 12px;
-    }
-
-    .ScriptHeader h1,
-    .ScriptHeader h2,
-    .scriptnav ul {
-        text-align: center;
-    }
-
-    .scriptnav ul {
-        margin-top: 12px;
-    }
-
-    #float-right {
-        float: none;
-    }
-}*/
