@@ -267,9 +267,7 @@ h2 {
     height: inherit;
     position: relative;
 }
-.gallery-header {
-    background-image: url("../images/banners/nosii-banner.jpg");
-}
+
 .rt-container {
     margin: 0 auto;
     padding-left: 12px;
@@ -321,6 +319,10 @@ h2 {
     text-align: center;
 }
 
+.gallery-header {
+    background-image: url("../images/banners/nosii-banner.jpg");
+}
+
 .gallery-top {
     justify-content: center;
 }
@@ -328,16 +330,6 @@ h2 {
 .gallery-navbar {
     width: auto;
 }
-
-    .gallery-navbar ul li a {
-        height: 150px;
-        align-items: center;
-    }
-
-        .gallery-navbar ul li a:hover {
-            clip-path: polygon(70% 0, 100% 30%, 100% 100%, 0 100%, 0 0);
-        }
-
 
 .gallery-section {
     display: none;
