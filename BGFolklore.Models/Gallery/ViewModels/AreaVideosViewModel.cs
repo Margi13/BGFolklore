@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace BGFolklore.Models.Gallery.ViewModels
 {
-    public class AreaImagesViewModel
+    public class AreaVideosViewModel
     {
         [EnumDataType(typeof(AreasType))]
         public AreasType AreaType { get; set; }
         public string AreaName { get; set; }
-        public ICollection<ImageViewModel> Images { get; set; }
+        public ICollection<VideoViewModel> Videos { get; set; }
     }
 }

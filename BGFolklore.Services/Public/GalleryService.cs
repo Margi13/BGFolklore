@@ -34,5 +34,20 @@ namespace BGFolklore.Services.Public
 
             return areaImages;
         }
+
+        public IList<AreaVideosViewModel> GetVideosFromJson(string jsonString)
+        {
+            EthnographicAreas areas = JsonConvert.DeserializeObject<EthnographicAreas>(jsonString);
+            //foreach (var area in areas.EthnoAreas)
+            //{
+            //    foreach (var image in area.Images)
+            //    {
+            //        image.Path = Path.Combine(area.ImagesPath, image.FileName);
+            //    }
+            //}
+            IList<AreaVideosViewModel> areaVideos = this.Mapper.Map<List<AreaVideosViewModel>>(areas.EthnoAreas); //
+
+            return areaVideos;
+        }
     }
 }

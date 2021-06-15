@@ -10,5 +10,6 @@ namespace BGFolklore.Services.Public.Interfaces
     public interface IGalleryService
     {
         IList<AreaImagesViewModel> GetImagesFromJson(string jsonString);
+        IList<AreaVideosViewModel> GetVideosFromJson(string jsonString);
     }
 }

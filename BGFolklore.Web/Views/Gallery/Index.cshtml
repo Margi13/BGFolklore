@@ -2,13 +2,24 @@
 @{
     ViewData["Title"] = "Gallery";
 }
-<h1>Галерия</h1>
+<header class="ScriptHeader gallery-header">
+    <div class="rt-container op-80 bg-brown">
+        <h1>Галерия</h1>
+        <p>Галерия с различните български народни носии хора и танци от всяка област.</p>
+    </div>
+    <div class="ScriptTop gallery-top">
+        <div class="ScriptTop-navbar gallery-navbar">
+            <ul class="my-4">
+                <li>
+                    <a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Gallery" asp-action="Images">Носии</a>
+                </li>
+                <li>
+                    <a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Gallery" asp-action="Videos">Хора</a>
+                </li>
+            </ul>
+        </div>
+        @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
+    </div>
+</header>
 
-<ul>
-    <li>
-        <a asp-area="" asp-controller="Gallery" asp-action="Images">Носии</a>
-    </li>
-    <li>
-        <a asp-area="" asp-controller="Gallery" asp-action="Videos">Хора</a>
-    </li>
-</ul>
+

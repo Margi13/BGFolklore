@@ -1,49 +1,41 @@
-﻿
+﻿@using BGFolklore.Models.Gallery.ViewModels
+@model IList<AreaVideosViewModel>
 @{
     ViewData["Title"] = "Videos";
 }
 
-<header class="ScriptHeader">
-    <div class="rt-container">
-        <div class="col-rt-12">
-            <div class="rt-heading">
-                <h1>Български народни хора</h1>
-                <p>Галерия с различните български народни хора и танци от всяка област.</p>
-            </div>
+<header class="ScriptHeader gallery-header">
+    <div class="rt-container op-80 bg-brown">
+        <h1>Български народни хора</h1>
+        <p>Галерия с различните български народни хора и танци от всяка област.</p>
+    </div>
+    <div class="ScriptTop">
+        <div class="ScriptTop-navbar" id="area-nav-bar">
+            @*<partial name="_AreasNavBar" />*@
+            <ul class="my-4 tags-bar nav">
+                @foreach (var area in Model)
+                {
+                    <li class="nav-item"><a class="area-link nav-link op-80 bg-brown" href="#gallery" id="area-@area.AreaType">@area.AreaName</a></li>
+                }
+            </ul>
         </div>
+        @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
     </div>
 </header>
 
-<!--<div class="ScriptTop">
-    <div class="rt-container" style="align-content:center">
-        <ul class="my-4 tags-bar nav nav-pills">
-            foreach (var area in Model.EthnoAreas)
+
+<section class="gallery-section" id="gallery">
+    <div class="videos-container">
+        <div id="iframe-container">
+
+        </div>
+        <div id="area-container">
+
+            @foreach (var area in Model)
             {
-                <li class="nav-item" style="margin:0px 5px 5px 5px"><a class="nav-link area-link" href="#area.AreaType" data-images-toggle="area.AreaType">area.AreaName</a></li>
+                <div class="area-videos @area.AreaType" id="@area.AreaType">@Html.DisplayFor(a => area.Videos, new { data = area.AreaType })</div>
             }
-        </ul>-->
-        @*@foreach (var area in Model.EthnoAreas)
-        {
-            <div class="area-information @area.Type" style="text-align:center; display:none">
-                <div class="info-container" style="margin: 0px 10px;">
-                    <h2>@area.Name</h2>
-                    <p>@area.Description_Videos</p>
-                </div>
-                <img src="@area.Area_Image" />
-            </div>
-        }*@
-    <!--</div>
-</div>
-<section class="gallery-section">
-    <div id="iframe-container">
-
-    </div>
-    <div id="area-container" style="overflow-y:auto; height:500px; max-width:460px">
-
-        foreach (var area in Model.EthnoAreas)
-        {
-            <div class="area area.AreaType" id="area.AreaType" style="display:none">Html.DisplayFor(a => area)</div>
-        }
+        </div>
     </div>
 </section>
 
@@ -52,29 +44,9 @@
 
         $('.area-link').click(function (e) {
             document.getElementById('iframe-container').innerHTML = '';
-
-            let areasDiv = document.getElementsByClassName("area");
-            for (let area of areasDiv) {
-                if (area.classList.contains(e.target.dataset.imagesToggle)) {
-                    area.style.display = "";
-                    e.target.classList.add("active-tag");
-                    e.target.parentNode.classList.add("active");
-                } else {
-                    area.style.display = "none";
-                    e.target.classList.remove("active-tag");
-                    e.target.parentNode.classList.remove("active");
-                }
-            }
-
-            //let areasDescription = document.getElementsByClassName("area-information");
-            //for (var area of areasDescription) {
-            //    if (area.classList.contains(e.target.dataset.imagesToggle)) {
-            //        area.style.display = "";
-            //    } else {
-            //        area.style.display = "none";
-            //    }
-            //}
-
+            $(".area-videos").hide();
+            $(".gallery-section").show();
+            $("#" + e.target.id.split('-')[1]).show();
         });
         $('.card').click(function () {
             let playerDiv = document.getElementById('iframe-container');
@@ -95,7 +67,7 @@
 
             }
         });
-        
+
     });
 
-</script>-->
+</script>

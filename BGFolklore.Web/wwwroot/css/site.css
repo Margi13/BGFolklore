@@ -1,7 +1,7 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
 a.navbar-brand {
     white-space: normal;
@@ -38,9 +38,9 @@ a {
 }
 
 .container {
-    margin:0;
-    padding:0;
-    width:100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -137,11 +137,10 @@ i {
 
 
 /*---------------------------------*/
-
 body {
     background: white !important;
     color: #222;
-    font-family: "Playfair Display",sans-serif;
+    font-family: "Playfair Display", serif;
     font-size: 100%;
     line-height: 24px;
     margin: 0;
@@ -149,7 +148,7 @@ body {
 }
 
 a {
-    font-family: "Playfair Display",sans-serif;
+    font-family: "Playfair Display",serif;
     text-decoration: none;
     outline: none;
     color: #222;
@@ -162,12 +161,12 @@ a {
 
     a:visited {
         color: #222;
-        background: #e1f4dc;
+        background: white;
     }
 
 section {
     width: 100%;
-    padding-bottom: 3em;
+    padding: 3em 0;
     margin: 20px auto;
 }
 
@@ -198,11 +197,13 @@ h2 {
 .op-80 {
     opacity: 80%
 }
+
 /*Background behind text*/
 .bg-brown {
     background: brown;
     color: white;
 }
+
 /* ******************************************************
 	Script Top
 *********************************************************/
@@ -210,7 +211,7 @@ h2 {
     /*background-color: #efe3af;*/
     text-align: center;
     display: flex;
-    justify-content:flex-end;
+    justify-content: flex-end;
 }
 
 .ScriptTop-navbar {
@@ -226,37 +227,39 @@ h2 {
     .ScriptTop-navbar ul {
     }
 
-    .ScriptTop-navbar ul li {
-        list-style: none;
-        display: inline-block;
-        width: 200px;
-        margin: 4px;
-    }
-
-        .ScriptTop-navbar ul li a {
-            padding: 5px 18px;
-            display: flex;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            text-transform: capitalize;
+        .ScriptTop-navbar ul li {
+            list-style: none;
+            display: inline-block;
+            width: 200px;
+            margin: 4px;
         }
 
-            .ScriptTop-navbar ul li a:hover {
-                opacity:100%;
+            .ScriptTop-navbar ul li a {
+                padding: 5px 18px;
+                display: flex;
+                justify-content: center;
+                font-size: 14px;
+                font-weight: 600;
+                text-decoration: none;
+                text-transform: capitalize;
             }
-            .ScriptTop-navbar ul li a:visited {
-                background: brown;
-                color: white;
-            }
+
+                .ScriptTop-navbar ul li a:hover {
+                    opacity: 100%;
+                }
+
+                .ScriptTop-navbar ul li a:visited {
+                    background: brown;
+                    color: white;
+                }
 
 
 /* ******************************************************
 	Script Header
 *********************************************************/
 .ScriptHeader {
-    background-image: url("../images/banners/nosii-banner.jpg");
+    /*background-image: url("../images/banners/nosii-banner.jpg");*/
+    background-color:brown;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
@@ -264,7 +267,9 @@ h2 {
     height: inherit;
     position: relative;
 }
-
+.gallery-header {
+    background-image: url("../images/banners/nosii-banner.jpg");
+}
 .rt-container {
     margin: 0 auto;
     padding-left: 12px;
@@ -309,12 +314,65 @@ h2 {
 }
 
 /* ******************************************************
-	Responsive Iframe
+	Gallery: Images, Videos, Responsive Iframe
 *********************************************************/
+.area-information {
+    display: block;
+    text-align: center;
+}
+
+.gallery-top {
+    justify-content: center;
+}
+
+.gallery-navbar {
+    width: auto;
+}
+
+    .gallery-navbar ul li a {
+        height: 150px;
+        align-items: center;
+    }
+
+        .gallery-navbar ul li a:hover {
+            clip-path: polygon(70% 0, 100% 30%, 100% 100%, 0 100%, 0 0);
+        }
+
+
+.gallery-section {
+    display: none;
+}
+
+div.area-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    width: inherit;
+    justify-content: space-around;
+}
+
+div.image-card {
+    background-color: white;
+    background-size: cover;
+    text-align: center;
+    width: 30%;
+    padding: 15px;
+    margin: 15px 0px;
+    border: 10px solid;
+    border-image: url("../images/borders/shevitsa.png") 22 round;
+}
+
+img.gallery-item {
+    height: 250px;
+}
+
+.videos-container {
+    display: flex;
+    justify-content: center;
+}
 
 .iframe-container {
     position: relative;
-    width: 100%;
+    width: 50%;
     padding-bottom: 56.25%;
     height: 0;
 }
@@ -327,6 +385,39 @@ h2 {
         height: 100%;
     }
 
+#area-container {
+    overflow-y: auto;
+    height: 500px;
+    max-width: 100%;
+    margin-left: 20px;
+}
+
+.card {
+    border: 10px solid;
+    border-image: url("../images/borders/shevitsa.png") 22 round;
+}
+
+.video-card {
+    display: flex;
+    margin: 5px;
+}
+
+    .video-card img {
+        height: 120px;
+        max-width: 120px;
+    }
+
+.info-card {
+    padding: 10px;
+}
+
+    .info-card h4 {
+        font-size: 17px;
+    }
+
+    .info-card p {
+        font-size: 12px;
+    }
 /* ******************************************************
 	Responsive Grids
 *********************************************************/
@@ -349,35 +440,7 @@ h2 {
     position: relative;
 }
 
-.area-information {
-    display: block;
-    text-align: center;
-}
 
-.gallery-section {
-    display: none;
-}
-
-div.area-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    width: inherit;
-    justify-content: space-around;
-}
-
-div.image-card {
-    background-size: cover;
-    text-align: center;
-    width: 30%;
-    padding: 15px;
-    margin:15px 0px;
-    border: 10px solid transparent;
-    border-image: url("../images/borders/shevitsa.png") 22 round;
-}
-
-img.gallery-item {
-    height: 250px;
-}
 
 @media (min-width: 768px) {
     .rt-container {
@@ -433,6 +496,32 @@ img.gallery-item {
         width: 50%;
     }
 
+    #iframe-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+        height: 0;
+    }
+
+        #iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+    .videos-container {
+        flex-wrap: wrap;
+    }
+
+    #area-container {
+        width: 80%;
+        margin-top: 20px;
+        margin-left: 0;
+        overflow: no-display;
+        height: auto;
+    }
 }
 
 @media all and (max-width: 768px) {
@@ -463,8 +552,13 @@ img.gallery-item {
             font-size: 1rem;
             margin-bottom: 0px;
         }
+
     .ScriptHeader h1 {
         font-size: 26px;
+    }
+
+    #area-container {
+        width: 100%;
     }
 }
 

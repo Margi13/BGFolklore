@@ -31,8 +31,9 @@ namespace BGFolklore.Web.Controllers
         }
         public IActionResult Videos()
         {
-            //var items = LoadJson();
-            return View();
+            string jsonString = LoadJson();
+            IList<AreaVideosViewModel> viewModelList = galleryService.GetVideosFromJson(jsonString);
+            return View(viewModelList);
         }
 
         //Common, ErrorHandling

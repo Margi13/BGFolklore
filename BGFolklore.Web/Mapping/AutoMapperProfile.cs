@@ -12,8 +12,12 @@ namespace BGFolklore.Web.Mapping
     {
         public AutoMapperProfile()
         {
-            this.CreateMap<BGFolklore.Models.Gallery.ViewModels.Image, Data.Models.Image>().ReverseMap();
+            this.CreateMap<ImageViewModel, Image>().ReverseMap();
             this.CreateMap<Area, AreaImagesViewModel>();
+
+
+            this.CreateMap<VideoViewModel, Video>().ReverseMap();
+            this.CreateMap<Area, AreaVideosViewModel>();
         }
     }
 }

@@ -4,14 +4,20 @@
     ViewData["Title"] = "Images";
 }
 
-<header class="ScriptHeader">
+<header class="ScriptHeader gallery-header">
     <div class="rt-container op-80 bg-brown">
         <h1>Български народни носии</h1>
         <p>Галерия с различните български народни носии от всяка област.</p>
     </div>
     <div class="ScriptTop">
         <div class="ScriptTop-navbar" id="area-nav-bar">
-            <partial name="_AreasNavBar" />
+            @*<partial name="_AreasNavBar" />*@
+            <ul class="my-4 tags-bar nav">
+                @foreach (var area in Model)
+                {
+                    <li class="nav-item"><a class="area-link nav-link op-80 bg-brown" href="#gallery" id="area-@area.AreaType">@area.AreaName</a></li>
+                }
+            </ul>
         </div>
         @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
     </div>

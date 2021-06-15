@@ -1,0 +1,12 @@
+﻿@using BGFolklore.Models.Gallery.ViewModels
+@using BGFolklore.Common
+@model VideoViewModel
+<a class="fancybox fancybox.iframe card" id="@Model.Id_YouTube" href="#gallery">
+    <div class="video-card">
+        <img src="https://img.youtube.com/vi/@Model.Id_YouTube/1.jpg" />
+        <div class="info-card">
+            <h4>@Model.Title</h4>
+            <p>@Model.Description</p>
+        </div>
+    </div>
+</a>
