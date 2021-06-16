@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,18 @@ namespace BGFolklore.Web.Controllers
 {
     public class BaseController : Controller
     {
-        private readonly ILogger<BaseController> logger;
+        protected readonly ILogger<BaseController> logger;
+        //protected readonly IStringLocalizer<BaseController> localizer;
 
-        public BaseController(ILogger<BaseController> logger)
+        protected BaseController(ILogger<BaseController> logger)
         {
             this.logger = logger;
+            //this.localizer = localizer;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
     }
 }

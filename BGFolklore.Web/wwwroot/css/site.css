@@ -312,6 +312,14 @@ h2 {
 }
 
 /* ******************************************************
+	Home: Index, History
+*********************************************************/
+.history-header {
+    background-image: url("../images/others/bg-folklore.jpg");
+}
+
+
+/* ******************************************************
 	Gallery: Images, Videos, Responsive Iframe
 *********************************************************/
 .area-information {

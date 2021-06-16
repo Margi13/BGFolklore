@@ -1,31 +1,45 @@
 ﻿using BGFolklore.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Threading.Tasks;
 
 namespace BGFolklore.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IStringLocalizer<HomeController> localizer;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<BaseController> logger,
+            IStringLocalizer<HomeController> localizer)
+            : base(logger)
         {
-            _logger = logger;
+            this.localizer = localizer;
         }
+
+        //private readonly ILogger<HomeController> _logger;
+
+        //public HomeController(ILogger<HomeController> logger):base
+
+        //{
+        //    _logger = logger;
+        //}
 
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult BulgarianDances()
+        public IActionResult History()
         {
-            return View();
+            //string str = localizer["First"]; // Returns right thing
+            return View(localizer);
         }
 
 

@@ -5,10 +5,13 @@ using BGFolklore.Web.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace BGFolklore.Web
 {
@@ -37,13 +40,15 @@ namespace BGFolklore.Web
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 6;
                 options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-            })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
             RegisterServiceLayer(services);
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddControllersWithViews();
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +65,7 @@ namespace BGFolklore.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -81,5 +87,6 @@ namespace BGFolklore.Web
             services.AddScoped<IGalleryService, GalleryService>();
 
         }
+        
     }
 }
