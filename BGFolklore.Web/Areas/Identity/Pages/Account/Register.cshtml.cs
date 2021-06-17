@@ -104,7 +104,7 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return LocalRedirect("~/Home/Index");
                     }
                 }
                 foreach (var error in result.Errors)

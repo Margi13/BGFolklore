@@ -1,6 +1,7 @@
 using BGFolklore.Data;
 using BGFolklore.Services.Public;
 using BGFolklore.Services.Public.Interfaces;
+using BGFolklore.Web.Common;
 using BGFolklore.Web.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +33,17 @@ namespace BGFolklore.Web
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            //services.AddDefaultIdentity<IdentityUser>(options =>
+            //{
+            //    options.SignIn.RequireConfirmedAccount = true;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //    options.Password.RequireUppercase = false;
+            //    options.Password.RequireDigit = false;
+            //    options.Password.RequiredLength = 6;
+            //    options.User.RequireUniqueEmail = true;
+            //});
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireNonAlphanumeric = false;
@@ -40,16 +51,17 @@ namespace BGFolklore.Web
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 6;
                 options.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            }).AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddMvc()
                 .AddViewLocalization();
+            
             RegisterServiceLayer(services);
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddControllersWithViews();
-            
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,6 +84,7 @@ namespace BGFolklore.Web
 
             app.UseRouting();
 
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -82,6 +95,7 @@ namespace BGFolklore.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+            app.SeedDatabaseAsync();
         }
         private void RegisterServiceLayer(IServiceCollection services)
         {
