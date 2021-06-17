@@ -43,7 +43,8 @@ namespace BGFolklore.Web
             }).AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-
+            services.AddMvc()
+                .AddViewLocalization();
             RegisterServiceLayer(services);
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddControllersWithViews();

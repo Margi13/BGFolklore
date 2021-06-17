@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer historyLocalizer
+@{
+    ViewData["Title"] = "Ethnographic Areas";
+}
+<header class="ScriptHeader home-header">
+    <div class="rt-container op-80 bg-brown">
+        <h1>История на българските народни танци</h1>
+    </div>
+    <div class="ScriptTop">
+        <div class="ScriptTop-navbar">
+            <ul class="my-4">
+                <li><a class="nav-link op-80 bg-brown" href="#history">Шопска област</a></li>
+                <li><a class="nav-link op-80 bg-brown" href="#writers"></a></li>
+                <li><a class="nav-link op-80 bg-brown" href="#costumes"></a></li>
+                <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="History">История на българските хора</a></li>
+                <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="Embroidery">Шевицата - символика</a></li>
+            </ul>
+        </div>
+        @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
+    </div>
+</header>
+
+<section>
+    <span class="rel">
+        <span class="sticky">
+            <a href="#top">
+                <i class="fas fa-angle-double-up" aria-hidden="true"></i>
+            </a>
+        </span>
+    </span>
+</section>

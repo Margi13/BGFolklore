@@ -1,0 +1,191 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer embroideryLocalizer
+@{
+    ViewData["Title"] = "Embroidery";
+}
+<header class="ScriptHeader home-header">
+    <div class="rt-container op-80 bg-brown">
+        <h1>Български шевици</h1>
+    </div>
+    <div class="ScriptTop">
+        <div class="ScriptTop-navbar">
+            <ul class="my-4">
+                <li><a class="nav-link op-80 bg-brown" href="#emb-info">Шевиците в българската история</a></li>
+                <li><a class="nav-link op-80 bg-brown" href="#emb-symbols">Какви символи се срещат в тях?</a></li>
+                <li><a class="nav-link op-80 bg-brown" href="#emb-colors">Какво символизират различните цветове?</a></li>
+                <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="History">История на българските хора</a></li>
+                <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="EthnoAreas">Етнографски области</a></li>
+            </ul>
+        </div>
+        @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
+    </div>
+</header>
+
+
+<section class="home-section">
+    <h1>Българските носии и шевици</h1>
+    <h2 id="emb-info">Шевиците в българската история</h2>
+    <div class="history-body">
+
+        <div class="info-card text-center float-right">
+            <img src="~/images/history/folk-costume.jpg" alt="costume" />
+            <p>Снимка на българска носия</p>
+        </div>
+        <p>@embroideryLocalizer["Еmbroidery"]</p>
+    </div>
+    <span class="rel">
+        <span class="sticky">
+            <a href="#top">
+                <i class="fas fa-angle-double-up" aria-hidden="true"></i>
+            </a>
+        </span>
+    </span>
+    <h2 id="emb-symbols">Какви символи се срещат в тях?</h2>
+    <div class="history-body">
+        <h3>Флорални символи</h3>
+        <dl>
+            <dt>Дърво на живота</dt>
+            <dd>
+                @embroideryLocalizer["Tree of Life"]
+                <br />
+                <div class="dl-images">
+
+                    <div class="info-card text-center">
+                        <img src="~/images/embroidery/treeOfLife.jpg" alt="embroidery" />
+                        <p>Дърво на живота</p>
+                    </div>
+
+                    <div class="info-card text-center">
+                        <img src="~/images/embroidery/treeOfLife_2.jpg" alt="embroidery" />
+                        <p>Дърво на живота</p>
+                    </div>
+                </div>
+            </dd>
+
+            <dt>Лозата</dt>
+            <dd>
+                @embroideryLocalizer["Lozata"]
+                <br />
+                <div class="dl-images">
+
+                    <div class="info-card text-center">
+                        <img src="~/images/embroidery/lozata.jpg" alt="embroidery" />
+                        <p>Лозата</p>
+                    </div>
+
+                    <div class="info-card text-center">
+                        <img src="~/images/embroidery/lozata_2.jpg" alt="embroidery" />
+                        <p>Лозата</p>
+                    </div>
+                </div>
+            </dd>
+
+            <dt>Небесна костенурка</dt>
+            <dd>
+                @embroideryLocalizer["Sky Turtle"]
+                <br />
+                <div class="dl-images">
+
+                    <div class="info-card text-center">
+                        <img src="~/images/embroidery/skyTurtle.jpg" alt="embroidery" />
+                        <p>Небесна костенурка</p>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+
+        <h3>Слънчеви символи</h3>
+        <dl>
+            <dt>Елбетица (двоен кръст)</dt>
+            <dd>
+                @embroideryLocalizer["Elbetitsa"]
+                <br />
+                <div class="dl-images">
+                    <div class="info-card text-center">
+                        <img title="Елбетица" src="~/images/embroidery/elbetitsa_2.jpg" />
+                        <p>Елбетица</p>
+                    </div>
+                    <div class="info-card text-center">
+                        <img src="~/images/embroidery/elbetitsa.jpg" alt="embroidery" />
+                        <p>Елбетица</p>
+                    </div>
+                </div>
+            </dd>
+            <dt>Сувастика</dt>
+            <dd>
+                @embroideryLocalizer["Suvastika"]
+                <br />
+                <div class="dl-images">
+                    <div class="info-card text-center">
+                        <img src="~/images/embroidery/suvastika.jpg" alt="embroidery" />
+                        <p>Сувастика</p>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+
+        <h3>Родови символи</h3>
+        <dl>
+            <dt>Маказ</dt>
+            <dd>
+                @embroideryLocalizer["Makaz"]
+            </dd>
+            <dt>Катаница</dt>
+            <dd>
+                @embroideryLocalizer["Katanitsa"]
+                <br />
+                <div class="dl-images">
+
+                    <div class="info-card text-center">
+                        <img src="~/images/embroidery/makaz_katanitsa.jpg" alt="embroidery" />
+                        <p>Маказ и Катаница</p>
+                    </div>
+
+                    <div class="info-card text-center">
+                        <img src="~/images/embroidery/katanitsa.jpg" alt="embroidery" />
+                        <p>Катаница</p>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+    </div>
+
+    <h2 id="emb-colors">Какво символизират различните цветове?</h2>
+    <div class="history-body">
+        <p>@embroideryLocalizer["Colors"]</p>
+        <table border="1" border-color="brown">
+            <thead>
+                <tr>
+                    <th class="vertical-heading">Цвят</th>
+                    <th>Символика</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="vertical-heading">Червен</td>
+                    <td>@embroideryLocalizer["Color Red"]</td>
+                </tr>
+                <tr>
+                    <td class="vertical-heading">Зелен</td>
+                    <td>@embroideryLocalizer["Color Green"]</td>
+                </tr>
+                <tr>
+                    <td class="vertical-heading">Бял</td>
+                    <td>@embroideryLocalizer["Color White"]</td>
+                </tr>
+                <tr>
+                    <td class="vertical-heading">Син</td>
+                    <td>@embroideryLocalizer["Color Blue"]</td>
+                </tr>
+                <tr>
+                    <td class="vertical-heading">Жълт</td>
+                    <td>@embroideryLocalizer["Color Yellow"]</td>
+                </tr>
+                <tr>
+                    <td class="vertical-heading">Черен/Кафяв</td>
+                    <td>@embroideryLocalizer["Color Brown"]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

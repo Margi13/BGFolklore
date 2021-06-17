@@ -67,32 +67,11 @@ button.accept-policy {
     line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-/*html {
-    position: absolute;
-    min-height: 100%;
-}*/
-
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
 }
 
-/*.footer {*/
-/*position:absolute;
-    bottom: 0;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 60px;*/ /* Vertically center the text there */
-/*color: #fff;
-    font-size: 15px;
-    letter-spacing: 1px;
-    display: flex;
-    justify-content: space-around;
-    background: white;
-    margin: 0px;
-}*/
 .footer-container {
     color: #1861ac;
     font-size: 15px;
@@ -127,6 +106,21 @@ i {
     margin: 20px auto auto 30px;
     font-weight: 600;
 }
+
+.rel {
+    position:relative;
+    left:100px;
+}
+.sticky {
+    position: sticky;
+    top: 50px;
+    margin-top: 50px;
+    width: min-content;
+}
+    .sticky a {
+        display: block;
+        font-size: 30px;
+    }
 
 
 .card-img-top {
@@ -246,6 +240,8 @@ h2 {
 
                 .ScriptTop-navbar ul li a:hover {
                     opacity: 100%;
+                    background: brown;
+                    color: white;
                 }
 
                 .ScriptTop-navbar ul li a:visited {
@@ -259,7 +255,7 @@ h2 {
 *********************************************************/
 .ScriptHeader {
     /*background-image: url("../images/banners/nosii-banner.jpg");*/
-    background-color:brown;
+    background-color: brown;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
@@ -314,11 +310,44 @@ h2 {
 /* ******************************************************
 	Home: Index, History
 *********************************************************/
-.history-header {
+.home-header {
     background-image: url("../images/others/bg-folklore.jpg");
 }
 
+.home-section h1, h2, h3 {
+    margin-bottom: 40px;
+    text-align: center;
+}
 
+.history-body {
+    width: 70%;
+    text-align: justify;
+    margin: 5px auto;
+}
+
+    .home-section .info-card img {
+        width: 80%;
+        max-width: 400px;
+        max-height:300px;
+    }
+.dl-images{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:end;
+}
+.dl-images div{
+    flex-basis:50%
+}
+table, th, td {
+    border: 2px solid brown;
+    padding: 10px;
+}
+
+.vertical-heading, thead {
+    background: rgb(165, 42, 42,0.80);
+    color: white;
+}
 /* ******************************************************
 	Gallery: Images, Videos, Responsive Iframe
 *********************************************************/

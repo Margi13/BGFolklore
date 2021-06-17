@@ -1,8 +1,33 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer homeLocalizer
+@{
     ViewData["Title"] = "Home Page";
 }
+<header class="ScriptHeader home-header">
+    <div class="rt-container op-80 bg-brown">
+        <h1>Българският фолклор</h1>
+        <p>Там, където музиката се включва, а заобикалящият ни свят се изключва!</p>
+    </div>
+    <div class="ScriptTop">
+        <div class="ScriptTop-navbar">
+            <ul class="my-4">
+                <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="History">История на българските хора</a></li>
+                <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="Embroidery">Шевиците - символика</a></li>
+                <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="EthnoAreas">Етнографските области</a></li>
+                <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Gallery" asp-action="Index">Галерия</a></li>
+            </ul>
+        </div>
+        @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
+    </div>
+</header>
+<section class="home-section">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Добре дошли!</h1>
+        <p>@homeLocalizer["Quote"]</p>
+        <p>@homeLocalizer["Introduction"]</p>
+        <p>
+            Тук ще можете да се запознаете с историята на българския фолклор и в частност - българските народни танци...
+        </p>
+    </div>
+</section>

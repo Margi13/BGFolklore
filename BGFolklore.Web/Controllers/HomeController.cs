@@ -1,5 +1,6 @@
 ﻿using BGFolklore.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,24 +13,14 @@ using System.Threading.Tasks;
 
 namespace BGFolklore.Web.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
-        private readonly IStringLocalizer<HomeController> localizer;
 
-        public HomeController(ILogger<BaseController> logger,
-            IStringLocalizer<HomeController> localizer)
-            : base(logger)
+        private readonly ILogger<HomeController> _logger;
+        public HomeController(ILogger<HomeController> logger)
         {
-            this.localizer = localizer;
+            _logger = logger;
         }
-
-        //private readonly ILogger<HomeController> _logger;
-
-        //public HomeController(ILogger<HomeController> logger):base
-
-        //{
-        //    _logger = logger;
-        //}
 
         public IActionResult Index()
         {
@@ -39,9 +30,20 @@ namespace BGFolklore.Web.Controllers
         public IActionResult History()
         {
             //string str = localizer["First"]; // Returns right thing
-            return View(localizer);
+            return View();
         }
 
+        public IActionResult Embroidery()
+        {
+            //string str = localizer["First"]; // Returns right thing
+            return View();
+        }
+
+        public IActionResult EthnoAreas()
+        {
+            //string str = localizer["First"]; // Returns right thing
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

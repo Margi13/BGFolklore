@@ -1,23 +1,21 @@
-﻿@using Microsoft.Extensions.Localization
-@using BGFolklore.Web.Controllers
-@model IStringLocalizer<HomeController>
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer historyLocalizer
 @*@model string*@
 @{
-    ViewData["Title"] = "Bulgarian Dances";
+    ViewData["Title"] = "History";
 }
-<header class="ScriptHeader history-header">
+<header class="ScriptHeader home-header">
     <div class="rt-container op-80 bg-brown">
-        <h1>Български народни танци</h1>
+        <h1>История на българските народни танци</h1>
     </div>
     <div class="ScriptTop">
         <div class="ScriptTop-navbar">
             <ul class="my-4">
-                <li>
-                    <a class="nav-link op-80 bg-brown" href="#history">История</a>
-                </li>
-                <li>
-                    <a class="nav-link op-80 bg-brown" href="#ethnographicAreas">Етнографски области</a>
-                </li>
+                <li><a class="nav-link op-80 bg-brown" href="#history">Фолклорът в миналото</a></li>
+                <li><a class="nav-link op-80 bg-brown" href="#writers">Какво казват писателите</a></li>
+                <li><a class="nav-link op-80 bg-brown" href="#costumes">Символика на носията</a></li>
+                <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="Embroidery">Шевицата - символика</a></li>
+                <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="EthnoAreas">Етнографски области</a></li>
             </ul>
         </div>
         @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
@@ -25,11 +23,76 @@
 </header>
 
 
-<div id="history">
-    <h1>История на българските народни танци</h1>
-    <p>@Model["Quote"]</p>
-</div>
+<section class="home-section">
 
-<div id="ethnographicAreas">
-    <h1>Етнографски области</h1>
-</div>
+    <h1>Българските народни танци</h1>
+    <h2 id="history">История</h2>
+    <div class="history-body">
+        <div class="info-card text-center float-right">
+            <img src="~/images/history/old_image.jpg" alt="history image" />
+            <p>Стара снимка на българи в носии</p>
+        </div>
+
+        <p>@historyLocalizer["Introduction"]</p>
+        <p>@historyLocalizer["The word folklore"]</p>
+
+        <div class="info-card text-center float-left">
+            <img src="~/images/history/horo.jpg" />
+            <p>Хоро</p>
+        </div>
+        <p>@historyLocalizer["Religion and folklore"]</p>
+
+    </div>
+    <span class="rel">
+        <span class="sticky">
+            <a href="#top">
+                <i class="fas fa-angle-double-up" aria-hidden="true"></i>
+            </a>
+        </span>
+    </span>
+    <h2 id="writers">Какво пише за танците?</h2>
+    <div class="history-body">
+        <div class="info-card text-center float-right">
+            <img src="~/images/history/field.jpg" />
+            <p>Снимка на ФА "Родолюбие" в гр.Боровец</p>
+        </div>
+
+        <p>@historyLocalizer["Travelogues of foreigners"]</p>
+        <p>@historyLocalizer["Slaveikov"]</p>
+
+        <div class="info-card text-center float-left">
+            <img src="~/images/history/horo_2.jpg" />
+            <p>Снимка на ФА "Родолюбие" в с.Дрен</p>
+        </div>
+
+        <p>@historyLocalizer["Rakovski and Karavelov"]</p>
+
+        <div class="info-card text-center float-right">
+            <img src="~/images/history/dance.jpg" />
+            <p>Снимка на ФА "Родолюбие" в с.Първомай</p>
+        </div>
+
+        <p>@historyLocalizer["Miladinovi and Cholakov"]</p>
+        <p>@historyLocalizer["Vodovozova"]</p>
+    </div>
+
+    <h2 id="costumes">Българската носия</h2>
+    <div class="history-body">
+        <p>@historyLocalizer["Costumes Origin"]</p>
+
+        <div class="info-card text-center float-left">
+            <img src="~/images/history/svatba.jpg" />
+            <p>Снимка на ФА "Родолюбие" в гр.Кюстендил</p>
+        </div>
+
+        <p>@historyLocalizer["Costume Wedding"]</p>
+
+        <div class="info-card text-center float-right">
+            <img src="~/images/history/folk-costume.jpg" />
+            <p>Снимка на българска носия</p>
+        </div>
+
+        <p>@historyLocalizer["Еmbroidery"]</p>
+    </div>
+</section>
+

@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Color Blue" xml:space="preserve">
+    <value>Това е ангелският цвят, който изобразява небето, морето, водата. Олицетворява истината и доверието, чистотата, спокойствието и съзерцанието.</value>
+  </data>
+  <data name="Color Brown" xml:space="preserve">
+    <value>Цветът на Майката земя. Олицетворява стабилност и сигурност, плодородие.</value>
+  </data>
+  <data name="Color Green" xml:space="preserve">
+    <value>Tова е цвета на Майката природа и новият живот. Свързан е с Дървото на живота.</value>
+  </data>
+  <data name="Color Red" xml:space="preserve">
+    <value>Значението на този царски цвят е запазил значението си до наши дни. Основен цвят, който е символ на кръвта и войната. Пази от уроки и зли магии. Не случайно булките били покрити с червено було, а новороденото повивано в червени пелени.</value>
+  </data>
+  <data name="Color White" xml:space="preserve">
+    <value>Символ и до днес на чистота, младост и невинност.</value>
+  </data>
+  <data name="Color Yellow" xml:space="preserve">
+    <value>Символ на златото и Слънцето, източник на радост и веселие, огън, светлина, както и с отвъдното и починалите.</value>
+  </data>
+  <data name="Colors" xml:space="preserve">
+    <value>Както геометричните форми и композициите, така и цветовете имат своята важна роля в цялостното изграждане и послание на шевицата. Често следват определени цветови схеми. Всеки от тях е натоварен със значение, което допълва цялостното значение на българските шевици:</value>
+  </data>
+  <data name="Elbetitsa" xml:space="preserve">
+    <value>Това интересно име се получава от древното „елем-бехт“, което се превежда със значението на 8-те кръговрата на природата – зима/ север, лято/юг, пролет/изток, есен/ запад. Елбетицата (видоизменена розета) представлява двойна звезда или два кръстосани кръста и е създадена като култ към Слънцето. То е положителен знак, закодирало в себе си пожелания за здраве, благоденствие и хармония. Този орнамент се открива и в титлата „багатур“  със значението на сила и мощ. Тя е символ и на Богинята-майка и по тази причина се среща предимно като елемент върху женските одежди.</value>
+    <comment>Слънчеви</comment>
+  </data>
+  <data name="Katanitsa" xml:space="preserve">
+    <value>Тя е известна като знака за „Семейство“. Представлява надграден Маказ чрез добавянето на два по-малки триъгълника симетрично от двете страни на Маказ, които символизират появата на деца. Създаването на семейство и продължението на рода чрез ново поколение е една от най-важните ценности за човека и именно това е заложено в тази най-разпространена шевица.
+
+В последствие, когато се появата и внуци- се добавят по още един чифт триъгълници и така се появява „Голямата Канатица“. И накрая идва „Великата Канатица“, при която композицията се утроява, показвайки разрастването на рода.</value>
+    <comment>Родови</comment>
+  </data>
+  <data name="Lozata" xml:space="preserve">
+    <value>Лозата е древен символ на изобилие, плодовитост, мир и любов. Тя е един от най-важните символи в християнската религия и идеята за кръговрата на живота. Още от най-дълбока древност лозата и виното са символ на младост, плодородие и дълголетие. Ето защо този мотив присъства навсякъде в българския бит, култура и изкуство.</value>
+    <comment>Флорални</comment>
+  </data>
+  <data name="Makaz" xml:space="preserve">
+    <value>Маказът е основният сред тези шевици и служи за основа на следващите. Той е във вид на два обърнати с върховете един към друг триъгълници, които образуват ромб, представяйки така годежа и сродяването на фамилиите. Заложена е идеята за хармоничност  и равновесие във всяко отношение- божествената и земната природа, мъжкото и женското начало.
+
+Различава се и още една разновидност на този знак и това е т.нар. Голям Маказ – това е следващият етап след годежа- Сватбата, затова и при него върховете на триъгълниците не само се допират, а вече са сплетени.</value>
+    <comment>Родови</comment>
+  </data>
+  <data name="Sky Turtle" xml:space="preserve">
+    <value>Този орнамент се приема за един от най-древните и мистични знаци за защита, датиращ още от времето на прабългарите. Използвал се е като символ на бог Тангра. Наричана още Космическа Костенурка, тя представлява три преплетени осмици (знаците за безкрайност), които изобразяват идеята за съвършенството, баланса и взаимосвързаността на всичко във Вселената. Невероятно е, че още тогава хората са имали съзнанието да гледат мащабно и глобално на света и Вселената, уважавали са и се прекланяли пред мощта ѝ.</value>
+    <comment>Флорални</comment>
+  </data>
+  <data name="Suvastika" xml:space="preserve">
+    <value>Може би това е най-разпознаваемия символ в света и за жалост предизвиква негативни асоциации, но всъщност това е един изключително положителен знак- заклинание за плодородие и прогонване на злините. Той е съвършеното стилизирано съчетание на движение и покой едновременно. Съчетание на противоположностите.
+
+Различават се две разновидности. Първата е познатата ни с печална слава Свастика- когато краищата се пречупват по посока на часовниковата стрелка и Сувастика – когато е в обратната посока.</value>
+    <comment>Слънчеви</comment>
+  </data>
+  <data name="Tree of Life" xml:space="preserve">
+    <value>То е един от най-старите и пропити с мистика елементи в бита на българите. То е своеобразен символ на трите свята, в които са вярвали - небесният или короната му (на Бог, ангели, птици), средният - стволът (на хората и животните), и подземният - корените. То е вечния символ на Кръговрата на живота.</value>
+    <comment>Флорални</comment>
+  </data>
+  <data name="Еmbroidery" xml:space="preserve">
+    <value>Българските народни носии и шевици са изтъкани от тайнственост и традиция. Нравите и обичаите на прабългари, славяни и траки са се свързвали и преплитали през вековете, докато накрая са се превърнали в уникални по рода си облакла за различни обреди и празници. Натоварени са с вярвания, надежди, окултност- векове на трупани познания за Вселената. В тях е бил вложен целият творчески потенциал, въображение и майсторство на поколения българи, които смело можем да кажем, че са закодирали информация в тях чрез форми, цветове и композиция. Дори отделни видни фамилии са имали свои собствени шевици. Някога българските шевици показвали и социалния статус на даден човек. В миналото младата жена е била облечена с един тип дрехи, неомъжена българка с различна от омъжената жена, от тази с деца, а съвсем различна е била на възрастната. Има шевици за сватба, за годеж, за сеитба, за жътва, за защита, които са бродирани по специални схеми. Има такива със скрити символи, на богинята Майка, посоките на света, мъжкото и женското начало, стилизирани слънца. Обикновено са във вид на геометрични композиции- в кръг, триъгълник (около врата) квадрат или правоъгълник, ромб, триъгълник, многоъгълник, пречупени линии, звезди и розети. Те са поставяни предимно по краищата на дрехата – покрай ръба на ризата, около деколтето, по долната част на полата или престилката, по чорапите. Най-често използваните везбени орнаменти са растителните.</value>
+  </data>
+</root>
