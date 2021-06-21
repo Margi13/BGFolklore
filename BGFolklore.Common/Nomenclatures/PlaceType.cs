@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace BGFolklore.Common
+namespace BGFolklore.Common.Nomenclatures
 {
-    public enum PlacesType
+    public enum PlaceType
     {
         Open = 1,
         Ensemble = 2,
