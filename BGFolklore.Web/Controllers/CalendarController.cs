@@ -16,7 +16,7 @@ namespace BGFolklore.Web.Controllers
         {
             return View();
         }
-        public IActionResult AllPlaces()
+        public IActionResult RecurringEvents()
         {
             return View();
         }

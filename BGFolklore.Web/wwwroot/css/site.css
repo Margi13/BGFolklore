@@ -462,7 +462,9 @@ img.gallery-item {
 .calendar-header {
     background-image: url("../images/banners/places.jpg");
 }
-
+.callendar-table{
+    margin: 10px auto;
+}
 /* ******************************************************
 	Responsive Grids
 *********************************************************/
