@@ -323,7 +323,7 @@ h2 {
 	Home: Index, History
 *********************************************************/
 .home-header {
-    background-image: url("../images/others/bg-folklore.jpg");
+    background-image: url("../images/banners/bg-folklore.jpg");
 }
 
 .home-section h1, h2, h3 {
@@ -372,9 +372,8 @@ table, th, td {
 }
 
 .gallery-header {
-    background-image: url("../images/banners/nosii-banner.jpg");
+    background-image: url("../images/banners/nosii.jpeg");
 }
-
 
 .gallery-section {
     display: none;
@@ -460,8 +459,8 @@ img.gallery-item {
 /* ******************************************************
 	Calendar: Upcoming events and All places
 *********************************************************/
-.calendar-header{
-
+.calendar-header {
+    background-image: url("../images/banners/places.jpg");
 }
 
 /* ******************************************************
