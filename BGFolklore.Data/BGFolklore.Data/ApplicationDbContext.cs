@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using BGFolklore.Data.Models.Calendar;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,7 @@ namespace BGFolklore.Data
             : base(options)
         {
         }
+
+        public DbSet<PublicEvent> PublicEvents { get; set; }
     }
 }
