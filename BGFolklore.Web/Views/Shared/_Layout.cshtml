@@ -31,6 +31,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Gallery" asp-action="Index">Галерия</a>
                         </li>
+                        @* if(isAuthorized) *@
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Calendar" asp-action="Index">Къде да танцувам?</a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

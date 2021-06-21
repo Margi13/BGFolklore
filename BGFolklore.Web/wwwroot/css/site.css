@@ -108,15 +108,17 @@ i {
 }
 
 .rel {
-    position:relative;
-    left:100px;
+    position: relative;
+    left: 100px;
 }
+
 .sticky {
     position: sticky;
     top: 50px;
     margin-top: 50px;
     width: min-content;
 }
+
     .sticky a {
         display: block;
         font-size: 30px;
@@ -205,7 +207,7 @@ h2 {
     /*background-color: #efe3af;*/
     text-align: center;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .ScriptTop-navbar {
@@ -219,6 +221,7 @@ h2 {
 
     /* To Navigation Style 1*/
     .ScriptTop-navbar ul {
+        padding: 0 20px;
     }
 
         .ScriptTop-navbar ul li {
@@ -307,6 +310,15 @@ h2 {
     margin-top: 5px;
 }
 
+
+.horizontal-top {
+    justify-content: center;
+}
+
+.horizontal-navbar {
+    width: auto;
+}
+
 /* ******************************************************
 	Home: Index, History
 *********************************************************/
@@ -319,26 +331,29 @@ h2 {
     text-align: center;
 }
 
+.home-section .info-card img {
+    width: 80%;
+    max-width: 400px;
+    max-height: 300px;
+}
+
 .history-body {
     width: 70%;
     text-align: justify;
     margin: 5px auto;
 }
 
-    .home-section .info-card img {
-        width: 80%;
-        max-width: 400px;
-        max-height:300px;
+.dl-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: end;
+}
+
+    .dl-images div {
+        flex-basis: 50%
     }
-.dl-images{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    align-items:end;
-}
-.dl-images div{
-    flex-basis:50%
-}
+
 table, th, td {
     border: 2px solid brown;
     padding: 10px;
@@ -360,13 +375,6 @@ table, th, td {
     background-image: url("../images/banners/nosii-banner.jpg");
 }
 
-.gallery-top {
-    justify-content: center;
-}
-
-.gallery-navbar {
-    width: auto;
-}
 
 .gallery-section {
     display: none;
@@ -447,6 +455,15 @@ img.gallery-item {
     .info-card p {
         font-size: 12px;
     }
+
+
+/* ******************************************************
+	Calendar: Upcoming events and All places
+*********************************************************/
+.calendar-header{
+
+}
+
 /* ******************************************************
 	Responsive Grids
 *********************************************************/
@@ -581,6 +598,11 @@ img.gallery-item {
             font-size: 1rem;
             margin-bottom: 0px;
         }
+
+    .ScriptTop {
+        flex-direction: column;
+        /*align-items:flex-end;*/
+    }
 
     .ScriptHeader h1 {
         font-size: 26px;
