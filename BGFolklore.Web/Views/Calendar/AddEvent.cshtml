@@ -1,0 +1,98 @@
+﻿@using BGFolklore.Models.Calendar.ViewModels
+@using BGFolklore.Common.Nomenclatures
+@model AddEventViewModel
+@{
+    ViewData["Title"] = "Add Event";
+}
+<h2>Добави ново събитие</h2>
+<section class="row crud-section1">
+    <div class="col-10 offset-1">
+        <form method="post" asp-controller="Calendar" asp-action="AddEvent">
+            <div class="form-group row">
+                <label asp-for="Town" class="col-4 col-form-label"></label>
+                <div class="col-8">
+                    <input asp-for="Town" class="form-control" />
+                </div>
+                <span asp-validation-for="Town" class="col-8 offset-4 text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Phone" class="col-4 col-form-label"></label>
+                <div class="col-8">
+                    <input asp-for="Phone" class="form-control" />
+                </div>
+                <span asp-validation-for="Phone" class="col-8 offset-4 text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Town" class="col-4 col-form-label"></label>
+                <div class="col-8">
+                    <input asp-for="Town" class="form-control" />
+                </div>
+                <span asp-validation-for="Town" class="col-8 offset-4 text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="PlaceType" class="col-4 col-form-label"></label>
+                <div class="col-8 mt-3">
+                    <select asp-for="PlaceType" class="custom-select" asp-items="@Html.GetEnumSelectList<PlaceType>()">
+                    </select>
+                </div>
+                <span asp-validation-for="PlaceType" class="col-8 offset-4 text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Address" class="col-4 col-form-label"></label>
+                <div class="col-8">
+                    <input asp-for="Address" class="form-control" />
+                </div>
+                <span asp-validation-for="Address" class="col-8 offset-4 text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="EventDateTime" class="col-4 col-form-label"></label>
+                <div class="col-8">
+                    <input asp-for="EventDateTime" class="form-control" id="datepicker" />
+                </div>
+                <span asp-validation-for="EventDateTime" class="col-8 offset-4 text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="IntendedFor" class="col-4 col-form-label"></label>
+                <div class="col-8">
+                    @foreach (var item in Model.IntendedFor)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" name="IntendedFor" id="@item.Text" value="@item.Value" checked="@item.Selected" class="form-check-input" />
+                            <label for="@item.Text" class="form-check-label">@item.Text</label>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="IntendedFor" class="col-8 offset-4 text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Description" class="col-4 col-form-label"></label>
+                <div class="col-8">
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                </div>
+                <span asp-validation-for="Description" class="col-8 offset-4 text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-1 offset-11">
+                    <button type="submit" class="btn btn-danger bg-brown">Създай</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$("#datepicker").datetimepicker();
+        });
+    </script>
+}

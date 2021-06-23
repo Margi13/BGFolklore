@@ -29,38 +29,47 @@
         <div class="area-gallery @area.AreaType" id="@area.AreaType"> @Html.DisplayFor(a => area.Images, new { data = area.AreaType })</div>
     }
 </section>
-<script>
-    $(document).ready(
-        function () {
 
-            $(".area-link").click(function (e) {
+@section CSS{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+}
 
-                $(".area-gallery").hide();
-                $(".gallery-section").show();
-                $("#" + e.target.id.split('-')[1]).show();
-                $('[data-fancybox="' + e.target.id + '"]').fancybox({
-                    helpers:
-                    {
-                        title:
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+                $(".area-link").click(function (e) {
+
+                    $(".area-gallery").hide();
+                    $(".gallery-section").show();
+                    $("#" + e.target.id.split('-')[1]).show();
+                    $('[data-fancybox="' + e.target.id + '"]').fancybox({
+                        helpers:
                         {
-                            type: 'outside',
-                            position: 'top'
-                        }
-                    },
-                    protect: true,
-                    buttons: [
-                        'download',
-                        'zoom',
-                        'close'
-                    ]
+                            title:
+                            {
+                                type: 'outside',
+                                position: 'top'
+                            }
+                        },
+                        protect: true,
+                        buttons: [
+                            'download',
+                            'zoom',
+                            'close'
+                        ]
+                    });
                 });
-            });
-            //$(".area-link").hover(function (e) {
-            //    document.getElementsByClassName("nav-area-image")[0].src = "/images/map/" + e.target.id.split('-')[1]+"_oblast.jpg";
-            //},function () {
-            //        document.getElementsByClassName("nav-area-image")[0].src = "/images/map/wholemap.gif";
-            //});
-        }
-    );
-</script>
+                //$(".area-link").hover(function (e) {
+                //    document.getElementsByClassName("nav-area-image")[0].src = "/images/map/" + e.target.id.split('-')[1]+"_oblast.jpg";
+                //},function () {
+                //        document.getElementsByClassName("nav-area-image")[0].src = "/images/map/wholemap.gif";
+                //});
+            }
+        );
+    </script>
+}
+
 

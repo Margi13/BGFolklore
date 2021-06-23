@@ -1,0 +1,28 @@
+﻿@using BGFolklore.Models.Calendar.ViewModels
+@using BGFolklore.Common.Nomenclatures
+@using System.Linq
+@*@using Microsoft.AspNetCore.Mvc.Localization;
+    @inject IStringLocalizer<CalendarController> historyLocalizer*@
+@model UpcomingEventViewModel
+<tr>
+    <td>@Model.Town</td>
+    <td>@Model.PlaceType</td>
+    <td>@Model.Description</td>
+    <td>@Model.Address</td>
+    <td>@Model.EventDateTime.Date.ToShortDateString()</td>
+    <td>@Model.EventDateTime.TimeOfDay</td>
+    <td>
+        @* В мапер *@
+        @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
+        {
+            @if ((Model.IntendedFor & item) == item)
+            {
+                <div>
+
+                    @(((AttendeeType)item).ToString())
+                </div>
+            }
+        }
+    </td>
+    <td>Няма</td>
+</tr>

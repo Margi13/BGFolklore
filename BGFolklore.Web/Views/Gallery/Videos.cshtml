@@ -38,36 +38,38 @@
         </div>
     </div>
 </section>
+@section Scripts{
 
-<script>
-    $(document).ready(function () {
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-        $('.area-link').click(function (e) {
-            document.getElementById('iframe-container').innerHTML = '';
-            $(".area-videos").hide();
-            $(".gallery-section").show();
-            $("#" + e.target.id.split('-')[1]).show();
+            $('.area-link').click(function (e) {
+                document.getElementById('iframe-container').innerHTML = '';
+                $(".area-videos").hide();
+                $(".gallery-section").show();
+                $("#" + e.target.id.split('-')[1]).show();
+            });
+            $('.card').click(function () {
+                let playerDiv = document.getElementById('iframe-container');
+                playerDiv.innerHTML = '';
+
+                let frame = document.createElement('iframe');
+                frame.src = "https://www.youtube.com/embed/" + $(this).attr('id') + "?enablejsapi=1&autoplay=1";
+                frame.allowFullscreen = true;
+                frame.title = "YouTube video player";
+                frame.frameBorder = "0";
+                frame.width = "650px";
+                frame.height = "500px";
+                frame.classList.add('youtube-video');
+                playerDiv.appendChild(frame);
+
+                $('.nav-item').onfocus = () => {
+                    $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+
+                }
+            });
+
         });
-        $('.card').click(function () {
-            let playerDiv = document.getElementById('iframe-container');
-            playerDiv.innerHTML = '';
 
-            let frame = document.createElement('iframe');
-            frame.src = "https://www.youtube.com/embed/" + $(this).attr('id') + "?enablejsapi=1&autoplay=1";
-            frame.allowFullscreen = true;
-            frame.title = "YouTube video player";
-            frame.frameBorder = "0";
-            frame.width = "650px";
-            frame.height = "500px";
-            frame.classList.add('youtube-video');
-            playerDiv.appendChild(frame);
-
-            $('.nav-item').onfocus = () => {
-                $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
-
-            }
-        });
-
-    });
-
-</script>
+    </script>
+}

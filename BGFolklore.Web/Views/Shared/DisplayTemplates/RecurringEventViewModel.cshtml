@@ -1,0 +1,23 @@
+﻿@*@model RecurringEventViewModel*@
+@*<tr>
+        <td>@Model.Place.Town</td>
+        <td>@Model.Place.Type</td>
+        <td>@Model.NameOfPlace</td>
+        <td>@Model.Address</td>
+        <td>
+            foreach(var day of Model.Days)
+            {
+                <p>day</p>
+            }
+        ИЛИ
+
+            @Model.Days.join(", ")?
+        </td>
+        <td>
+            <p> От @Model.StartTime </p>
+            <p> До @Model.EndTime </p> -> АКО ГО ИМА САМО
+        </td>
+        <td>@Model.Place.IntendedFor</td>
+        <td>@Model.Comment</td>
+        <td>@Model.Rating</td> КАТО Progress Bar ?
+</tr>*@
