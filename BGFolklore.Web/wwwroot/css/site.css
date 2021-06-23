@@ -42,6 +42,8 @@ a {
     padding: 0;
     width: 100%;
 }
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -188,6 +190,17 @@ h2 {
     float: right;
 }
 
+/* ******************************************************
+	Form
+*********************************************************/
+
+.crud-section {
+    width: 70%;
+    margin: 10px auto;
+}
+.crud-section form label{
+    margin: 5px 10px;
+}
 
 /*Opacity*/
 .op-80 {

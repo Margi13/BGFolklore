@@ -100,6 +100,7 @@ namespace BGFolklore.Web
         private void RegisterServiceLayer(IServiceCollection services)
         {
             services.AddScoped<IGalleryService, GalleryService>();
+            services.AddScoped<ICalendarService, CalendarService>();
 
         }
         
