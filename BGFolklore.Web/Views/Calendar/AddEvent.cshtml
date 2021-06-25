@@ -88,11 +88,24 @@
     </div>
 </section>
 
-@section Scripts{
+@section CSS {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
+}
 
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/bg.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            //$("#datepicker").datetimepicker();
+            $("#datepicker").flatpickr({
+                enableTime: true,
+                dateFormat: "d/m/Y H:i",
+                minDate: "today",
+                allowInput: true,
+                minTime: "now",
+                locale: "bg"
+            });
         });
     </script>
 }
