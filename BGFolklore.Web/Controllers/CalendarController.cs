@@ -70,7 +70,16 @@ namespace BGFolklore.Web.Controllers
 
                 addEventViewModel.IntendedFor = new List<SelectListItem>();
                 GetAttendeeType(addEventViewModel);
-                //Как да ги отбележа тези, които са били отбелязани?
+                foreach (var selectedAttendee in addEventBindingModel.IntendedFor)
+                {
+                    foreach (var attendee in addEventViewModel.IntendedFor)
+                    {
+                        if (attendee.Value.CompareTo(selectedAttendee.ToString()) == 0)
+                        {
+                            attendee.Selected = true;
+                        }
+                    }
+                }
                 return View(addEventViewModel);
             }
         }
