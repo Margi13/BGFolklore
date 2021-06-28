@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BGFolklore.Common.Nomenclatures
 {
     [Flags]
-    public enum DayOfWeek
+    public enum DaysOfWeek
     {
         Monday = 1,
         Tuesday = 2,

@@ -12,13 +12,13 @@
     <td>@Model.Description</td>
     <td>@Model.Address</td>
     <td>
-        @foreach (int item in Enum.GetValues(typeof(DayOfWeek)))
+        @foreach (int item in Enum.GetValues(typeof(DaysOfWeek)))
         {
             @if ((Model.OccuringDays & item) == item)
             {
                 <div>
 
-                    @localizer[$"DayOfWeek{(((DayOfWeek)item).ToString())}"]
+                    @localizer[$"DayOfWeek{(((DaysOfWeek)item).ToString())}"]
                 </div>
             }
             <div>
