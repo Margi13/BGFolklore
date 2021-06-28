@@ -12,13 +12,14 @@ namespace BGFolklore.Models.Calendar.ViewModels
     public class AddEventViewModel
     {
         [Required(ErrorMessage = "Не сте посочили дата и час!")]
-        [Display(Name = "Дата и час на провеждане")]
+        [Display(Name = "Дата и час на провеждане?")]
         [DataType(DataType.DateTime, ErrorMessage = "Въведете валидни дата и час [dd/mm/yyyy hh:mm]")]
         [DisplayFormat(ApplyFormatInEditMode =true,DataFormatString ="0:dd/mm/yyyy hh:mm")]
         public DateTime? EventDateTime { get; set; }
 
+        [Required(ErrorMessage = "Моля изберете поне една от опциите!")]
         [Display(Name = "В кои дни ще се провежда?")]
-        public int OccuringDays { get; set; }
+        public List<SelectListItem> OccuringDays { get; set; }
 
         [Required(ErrorMessage = "Моля изберете една от опциите!")]
         [Display(Name = "Какво представлява мястото на събитието?")]

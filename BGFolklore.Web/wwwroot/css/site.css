@@ -43,6 +43,9 @@ a {
     width: 100%;
 }
 
+.recurringEvent{
+    display: none;
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */

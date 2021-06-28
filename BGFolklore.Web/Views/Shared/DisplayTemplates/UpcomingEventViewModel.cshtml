@@ -1,12 +1,15 @@
 ﻿@using BGFolklore.Models.Calendar.ViewModels
 @using BGFolklore.Common.Nomenclatures
+@using BGFolklore.Web.Controllers
 @using System.Linq
-@*@using Microsoft.AspNetCore.Mvc.Localization;
-    @inject IStringLocalizer<CalendarController> historyLocalizer*@
+@using Microsoft.Extensions.Localization;
+
+@inject IStringLocalizer<CalendarController> localizer
+
 @model UpcomingEventViewModel
 <tr>
     <td>@Model.Town</td>
-    <td>@Model.PlaceType</td>
+    <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
     <td>@Model.Description</td>
     <td>@Model.Address</td>
     <td>@Model.EventDateTime.Date.ToShortDateString()</td>
@@ -19,10 +22,10 @@
             {
                 <div>
 
-                    @(((AttendeeType)item).ToString())
+                    @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
                 </div>
             }
         }
     </td>
-    <td>Няма</td>
+    @*<td>Няма</td>*@
 </tr>

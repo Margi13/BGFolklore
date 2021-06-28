@@ -15,12 +15,13 @@ namespace BGFolklore.Models.Calendar.BindingModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "0:dd/mm/yyyy hh:mm")]
         public DateTime EventDateTime { get; set; }
 
-        public int OccuringDays { get; set; }
+        //[Required(ErrorMessage = "Изберете поне една от опциите!")]
+        public int[] OccuringDays { get; set; }
 
         [Required(ErrorMessage = "Моля изберете една от опциите!")]
         public PlaceType PlaceType { get; set; }
 
-        [Required (ErrorMessage = "Изберете поне една от опциите!")]
+        [Required(ErrorMessage = "Изберете поне една от опциите!")]
         public int[] IntendedFor { get; set; }
 
         [Required(ErrorMessage = "Не сте посочили град!")]
@@ -29,7 +30,7 @@ namespace BGFolklore.Models.Calendar.BindingModels
 
         [Required(ErrorMessage = "Не сте посочили адрес!")]
         [MaxLength(250)]
-        [MinLength(6,ErrorMessage = "Адресът не може да е по-малко от 6 символа!")]
+        [MinLength(6, ErrorMessage = "Адресът не може да е по-малко от 6 символа!")]
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
 

@@ -42,9 +42,8 @@ namespace BGFolklore.Web.Controllers
         }
         public IActionResult RecurringEvents()
         {
-            //IList<RecurringEventViewModel> viewModelList = calendarService.GetRecurringEvents();
-            //return View(viewModelList);
-            return View();
+            IList<RecurringEventViewModel> viewModelList = calendarService.GetRecurringEvents();
+            return View(viewModelList);
         }
         [HttpGet]
         public IActionResult AddEvent()

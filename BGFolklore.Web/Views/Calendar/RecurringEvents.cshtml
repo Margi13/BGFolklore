@@ -16,6 +16,9 @@
                 <li>
                     <a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Calendar" asp-action="RecurringEvents">Всички места</a>
                 </li>
+                <li>
+                    <a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Calendar" asp-action="AddEvent">Създай събитие</a>
+                </li>
             </ul>
         </div>
         @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
@@ -40,22 +43,14 @@
             </tr>
         </thead>
         <tbody>
-
-            @*@foreach (var item in @Model)
-                {
-                    @Html.DisplayForModel()
-                }*@
-            <tr>
-                <td>Кюстендил</td>
-                <td>Ансамбъл</td>
-                <td>ФА "Родолюбие</td>
-                <td>Стадион "Осогово"</td>
-                <td>вторник, четвъртък</td>
-                <td>От 18:00 до 20:00</td>
-                <td>За всички</td>
-                <td>Няма</td>
-                <td></td>
-            </tr>
+            @foreach (var item in @Model)
+            {
+                @Html.DisplayForModel()
+            }
         </tbody>
     </table>
+    <div>
+        <button class="btn btn-danger bg-brown">Редактирай мое събитие</button>
+        <button class="btn btn-danger bg-brown" id="recurringEventBtn">Създай събитие</button>
+    </div>
 </section>

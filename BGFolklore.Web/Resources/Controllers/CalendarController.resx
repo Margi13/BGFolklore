@@ -126,4 +126,37 @@
   <data name="AttendeeTypeIntermediate" xml:space="preserve">
     <value>Средно ниво</value>
   </data>
+  <data name="DayAll" xml:space="preserve">
+    <value>Всеки ден</value>
+  </data>
+  <data name="DayFriday" xml:space="preserve">
+    <value>Петък</value>
+  </data>
+  <data name="DayMonday" xml:space="preserve">
+    <value>Понеделник</value>
+  </data>
+  <data name="DaySaturday" xml:space="preserve">
+    <value>Събота</value>
+  </data>
+  <data name="DaySunday" xml:space="preserve">
+    <value>Неделя</value>
+  </data>
+  <data name="DayThursday" xml:space="preserve">
+    <value>Четвъртък</value>
+  </data>
+  <data name="DayTuesday" xml:space="preserve">
+    <value>Вторник</value>
+  </data>
+  <data name="DayWednesday" xml:space="preserve">
+    <value>Сряда</value>
+  </data>
+  <data name="PlaceTypeEnsemble" xml:space="preserve">
+    <value>Танцов състав</value>
+  </data>
+  <data name="PlaceTypeOpen" xml:space="preserve">
+    <value>Отворено събитие</value>
+  </data>
+  <data name="PlaceTypeRestaurant" xml:space="preserve">
+    <value>Заведение</value>
+  </data>
 </root>
