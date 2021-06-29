@@ -28,10 +28,12 @@ namespace BGFolklore.Web.Mapping
 
             this.CreateMap<AddEventBindingModel,PublicEvent>()
                 .ForMember(dest => dest.IntendedFor,opt=>opt.Ignore())
+                .ForMember(dest => dest.OccuringDays, opt=>opt.Ignore())
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             this.CreateMap<AddEventBindingModel, AddEventViewModel>()
-                .ForMember(dest => dest.IntendedFor, opt => opt.Ignore());
+                .ForMember(dest => dest.IntendedFor, opt => opt.Ignore())
+                .ForMember(dest => dest.OccuringDays, opt => opt.Ignore());
         }
     }
 }

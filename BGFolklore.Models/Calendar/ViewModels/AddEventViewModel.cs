@@ -12,9 +12,9 @@ namespace BGFolklore.Models.Calendar.ViewModels
     public class AddEventViewModel
     {
         [Required(ErrorMessage = "Не сте посочили дата и час!")]
-        [Display(Name = "Дата и час на провеждане?")]
+        [Display(Name = "Кога започва събитието?")]
         [DataType(DataType.DateTime, ErrorMessage = "Въведете валидни дата и час [dd/mm/yyyy hh:mm]")]
-        [DisplayFormat(ApplyFormatInEditMode =true,DataFormatString ="0:dd/mm/yyyy hh:mm")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "0:dd/mm/yyyy hh:mm")]
         public DateTime? EventDateTime { get; set; }
 
         [Required(ErrorMessage = "Моля изберете поне една от опциите!")]
@@ -25,16 +25,16 @@ namespace BGFolklore.Models.Calendar.ViewModels
         [Display(Name = "Какво представлява мястото на събитието?")]
         public PlaceType PlaceType { get; set; }
 
-        [Required(ErrorMessage ="Моля изберете поне една от опциите!")]
+        [Required(ErrorMessage = "Моля изберете поне една от опциите!")]
         [Display(Name = "За кого е подходящо?")]
         public List<SelectListItem> IntendedFor { get; set; }
 
-        [Required(ErrorMessage ="Не сте посочили град!")]
+        [Required(ErrorMessage = "Не сте посочили град!")]
         [MaxLength(60)]
         [Display(Name = "Град")]
         public string Town { get; set; }
 
-        [Required(ErrorMessage ="Не сте посочили адрес!")]
+        [Required(ErrorMessage = "Не сте посочили адрес!")]
         [MaxLength(250)]
         [MinLength(6, ErrorMessage = "Адресът не може да е по-малко от 6 символа!")]
         [Display(Name = "Адрес")]

@@ -69,16 +69,12 @@ namespace BGFolklore.Web.Controllers
 
                 addEventViewModel.IntendedFor = new List<SelectListItem>();
                 GetAttendeeType(addEventViewModel);
-                foreach (var selectedAttendee in addEventBindingModel.IntendedFor)
-                {
-                    foreach (var attendee in addEventViewModel.IntendedFor)
-                    {
-                        if (attendee.Value.CompareTo(selectedAttendee.ToString()) == 0)
-                        {
-                            attendee.Selected = true;
-                        }
-                    }
-                }
+                GetSelectedAttendeeType(addEventViewModel, addEventBindingModel);
+
+                addEventViewModel.OccuringDays = new List<SelectListItem>();
+                GetOccuringDays(addEventViewModel);
+                GetSelectedOccuringDays(addEventViewModel, addEventBindingModel);
+
                 return View(addEventViewModel);
             }
         }
@@ -86,10 +82,45 @@ namespace BGFolklore.Web.Controllers
         private AddEventViewModel GetAddEventViewModel()
         {
             var viewModel = new AddEventViewModel();
+
             viewModel.IntendedFor = new List<SelectListItem>();
             GetAttendeeType(viewModel);
 
+            viewModel.OccuringDays = new List<SelectListItem>();
+            GetOccuringDays(viewModel);
+
             return viewModel;
+        }
+        private void GetOccuringDays(AddEventViewModel viewModel)
+        {
+            foreach (var dayName in Enum.GetValues(typeof(DaysOfWeek)))
+            {
+                var selectListItem = new SelectListItem();
+                selectListItem.Value = ((int)dayName).ToString();
+                selectListItem.Text = localizer[$"Day{dayName}"];
+                viewModel.OccuringDays.Add(selectListItem);
+            }
+        }
+
+        private void GetSelectedOccuringDays(AddEventViewModel viewModel, AddEventBindingModel bindingModel)
+        {
+            if (bindingModel.OccuringDays != null)
+            {
+                foreach (var selectedDay in bindingModel.OccuringDays)
+                {
+                    foreach (var dayName in viewModel.OccuringDays)
+                    {
+                        if (dayName.Value.CompareTo(selectedDay.ToString()) == 0)
+                        {
+                            dayName.Selected = true;
+                        }
+                        else
+                        {
+                            dayName.Selected = false;
+                        }
+                    }
+                }
+            }
         }
 
         private void GetAttendeeType(AddEventViewModel viewModel)
@@ -100,6 +131,27 @@ namespace BGFolklore.Web.Controllers
                 selectListItem.Value = ((int)type).ToString();
                 selectListItem.Text = localizer[$"AttendeeType{type}"];
                 viewModel.IntendedFor.Add(selectListItem);
+            }
+        }
+
+        private void GetSelectedAttendeeType(AddEventViewModel viewModel, AddEventBindingModel bindingModel)
+        {
+            if (bindingModel.IntendedFor != null)
+            {
+                foreach (var selectedAttendee in bindingModel.IntendedFor)
+                {
+                    foreach (var attendee in viewModel.IntendedFor)
+                    {
+                        if (attendee.Value.CompareTo(selectedAttendee.ToString()) == 0)
+                        {
+                            attendee.Selected = true;
+                        }
+                        else
+                        {
+                            attendee.Selected = false;
+                        }
+                    }
+                }
             }
         }
     }

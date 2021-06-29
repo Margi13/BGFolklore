@@ -37,9 +37,15 @@ namespace BGFolklore.Services.Public
         {
             var newPublicEvent = this.Mapper.Map<PublicEvent>(newEvent);
             newPublicEvent.InsertDateTime = DateTime.Now;
+
             foreach (int attendeeType in newEvent.IntendedFor)
             {
                 newPublicEvent.IntendedFor = newPublicEvent.IntendedFor | attendeeType;
+            }
+
+            foreach (int dayName in newEvent.OccuringDays)
+            {
+                newPublicEvent.OccuringDays = newPublicEvent.OccuringDays | dayName;
             }
 
             this.Context.PublicEvents.Add(newPublicEvent);
