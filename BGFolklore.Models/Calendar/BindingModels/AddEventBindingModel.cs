@@ -10,10 +10,16 @@ namespace BGFolklore.Models.Calendar.BindingModels
 {
     public class AddEventBindingModel
     {
-        [Required(ErrorMessage = "Не сте посочили дата и час!")]
+        [Required(ErrorMessage = "Не сте посочили дата/час!")]
         [DataType(DataType.DateTime, ErrorMessage = "Въведете валидни дата и час [dd/mm/yyyy hh:mm]")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "0:dd/mm/yyyy hh:mm")]
         public DateTime EventDateTime { get; set; }
+
+        [Required(ErrorMessage = "Не сте посочили име!")]
+        [MaxLength(256)]
+        public string Name { get; set; }
+
+        public bool IsRecurring { get; set; }
 
         //[Required(ErrorMessage = "Изберете поне една от опциите!")]
         public int[] OccuringDays { get; set; }

@@ -11,11 +11,19 @@ namespace BGFolklore.Models.Calendar.ViewModels
 {
     public class AddEventViewModel
     {
-        [Required(ErrorMessage = "Не сте посочили дата и час!")]
+        [Required(ErrorMessage = "Не сте посочили дата/час!")]
         [Display(Name = "Кога започва събитието?")]
         [DataType(DataType.DateTime, ErrorMessage = "Въведете валидни дата и час [dd/mm/yyyy hh:mm]")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "0:dd/mm/yyyy hh:mm")]
         public DateTime? EventDateTime { get; set; }
+
+        [Required(ErrorMessage = "Не сте посочили име!")]
+        [MaxLength(256)]
+        [Display(Name = "Име на събитието")]
+        public string Name { get; set; }
+
+        [Display(Name = "Искате ли събитието да бъде повтарящо?")]
+        public bool IsRecurring { get; set; }
 
         [Required(ErrorMessage = "Моля изберете поне една от опциите!")]
         [Display(Name = "В кои дни ще се провежда?")]
