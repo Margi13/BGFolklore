@@ -352,3 +352,6 @@ MigrationBackup/
 # Archives
 *.rar
 *.zip
+
+#AppSettings JSON
+**/appsettings.Development.json
