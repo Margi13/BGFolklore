@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BGFolklore.Data.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -48,14 +49,14 @@ namespace BGFolklore.Web.Common
         }
         public static async Task AddUsersAsync(IServiceScope scope)
         {
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
             string password = "abc123";
             foreach (var userName in userNames)
             {
                 if (await userManager.FindByNameAsync(userName) == null)
                 {
-                    IdentityUser user = new IdentityUser();
+                    User user = new User();
                     user.UserName = userName;
                     user.Email = userName + "@admin.bg";
                     user.EmailConfirmed = true;

@@ -1,4 +1,5 @@
 using BGFolklore.Data;
+using BGFolklore.Data.Models;
 using BGFolklore.Services.Public;
 using BGFolklore.Services.Public.Interfaces;
 using BGFolklore.Web.Common;
@@ -28,13 +29,15 @@ namespace BGFolklore.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IConfiguration configCredentials = Configuration.GetSection("ConnectionStringsCredentials");
+            string connectionString = string.Format(Configuration.GetConnectionString("DefaultConnection"), configCredentials["User"], configCredentials["Password"]);
+
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySQL(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySQL(connectionString));
             services.AddDatabaseDeveloperPageExceptionFilter();
+            
 
-
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireNonAlphanumeric = false;
