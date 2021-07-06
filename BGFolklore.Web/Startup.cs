@@ -32,6 +32,7 @@ namespace BGFolklore.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+            //services.Add(new ServiceDescriptor(typeof(MusicStoreContext), new MusicStoreContext(Configuration.GetConnectionString("DefaultConnection"))));
 
             //services.AddDefaultIdentity<IdentityUser>(options =>
             //{
