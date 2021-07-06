@@ -29,20 +29,10 @@ namespace BGFolklore.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
+                options.UseMySQL(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-            //services.Add(new ServiceDescriptor(typeof(MusicStoreContext), new MusicStoreContext(Configuration.GetConnectionString("DefaultConnection"))));
 
-            //services.AddDefaultIdentity<IdentityUser>(options =>
-            //{
-            //    options.SignIn.RequireConfirmedAccount = true;
-            //    options.Password.RequireNonAlphanumeric = false;
-            //    options.Password.RequireUppercase = false;
-            //    options.Password.RequireDigit = false;
-            //    options.Password.RequiredLength = 6;
-            //    options.User.RequireUniqueEmail = true;
-            //});
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {

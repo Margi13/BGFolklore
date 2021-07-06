@@ -1,4 +1,5 @@
 ﻿using BGFolklore.Common.Nomenclatures;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,15 @@ namespace BGFolklore.Data.Models.Calendar
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+
+        [Required]
+        public string OwnerId { get; set; }
+
+        public User Owner { get; set; }
+
+        [Required]
+        [MaxLength(256)]
+        public string Name { get; set; }
 
         [Required]
         public DateTime InsertDateTime { get; set; }
@@ -30,8 +40,10 @@ namespace BGFolklore.Data.Models.Calendar
         public int IntendedFor { get; set; }
 
         [Required]
-        [MaxLength(60)]
-        public string Town { get; set; }
+        public int TownId { get; set; }
+
+        public Town Town { get; set; }
+
 
         [Required]
         [MaxLength(250)]

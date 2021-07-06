@@ -3,14 +3,16 @@ using System;
 using BGFolklore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BGFolklore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210706181946_CreatePublicEvents")]
+    partial class CreatePublicEvents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,6 @@ namespace BGFolklore.Data.Migrations
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasMaxLength(36)
                         .HasColumnType("varchar(36)");
 
                     b.Property<string>("Phone")
@@ -66,8 +67,10 @@ namespace BGFolklore.Data.Migrations
                     b.Property<float>("Rating")
                         .HasColumnType("float");
 
-                    b.Property<int>("TownId")
-                        .HasColumnType("int");
+                    b.Property<string>("Town")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
 
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnType("datetime");
@@ -76,30 +79,7 @@ namespace BGFolklore.Data.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.HasIndex("TownId");
-
                     b.ToTable("PublicEvents");
-                });
-
-            modelBuilder.Entity("BGFolklore.Data.Models.Calendar.Town", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("AreaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AreaId");
-
-                    b.ToTable("Towns");
                 });
 
             modelBuilder.Entity("BGFolklore.Data.Models.User", b =>
@@ -316,15 +296,7 @@ namespace BGFolklore.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BGFolklore.Data.Models.Calendar.Town", "Town")
-                        .WithMany("PublicEvents")
-                        .HasForeignKey("TownId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Owner");
-
-                    b.Navigation("Town");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -376,11 +348,6 @@ namespace BGFolklore.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BGFolklore.Data.Models.Calendar.Town", b =>
-                {
-                    b.Navigation("PublicEvents");
                 });
 
             modelBuilder.Entity("BGFolklore.Data.Models.User", b =>

@@ -3,14 +3,16 @@ using System;
 using BGFolklore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BGFolklore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210706183447_CreateTowns")]
+    partial class CreateTowns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,8 +98,6 @@ namespace BGFolklore.Data.Migrations
                         .HasColumnType("varchar(60)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AreaId");
 
                     b.ToTable("Towns");
                 });

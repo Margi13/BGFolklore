@@ -19,6 +19,8 @@ namespace BGFolklore.Data.Models.Calendar
         public string Name { get; set; }
 
         [Required]
-        public int Area_Id { get; set; }
+        public int AreaId { get; set; }
+
+        public ICollection<PublicEvent> PublicEvents { get; set; }
     }
 }
