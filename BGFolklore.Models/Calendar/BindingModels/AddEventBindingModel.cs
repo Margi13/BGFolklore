@@ -21,6 +21,9 @@ namespace BGFolklore.Models.Calendar.BindingModels
 
         public bool IsRecurring { get; set; }
 
+        //[Required]
+        public int DurationInDays { get; set; }
+
         //[Required(ErrorMessage = "Изберете поне една от опциите!")]
         public int[] OccuringDays { get; set; }
 

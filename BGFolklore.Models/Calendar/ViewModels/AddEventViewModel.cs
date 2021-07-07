@@ -25,6 +25,9 @@ namespace BGFolklore.Models.Calendar.ViewModels
         [Display(Name = "Искате ли събитието да бъде повтарящо?")]
         public bool IsRecurring { get; set; }
 
+        [Required]
+        public int DurationInDays { get; set; }
+
         [Required(ErrorMessage = "Моля изберете поне една от опциите!")]
         [Display(Name = "В кои дни ще се провежда?")]
         public List<SelectListItem> OccuringDays { get; set; }

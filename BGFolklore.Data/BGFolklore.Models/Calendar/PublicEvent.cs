@@ -31,6 +31,8 @@ namespace BGFolklore.Data.Models.Calendar
         [Required]
         public DateTime EventDateTime { get; set; }
 
+        public int DurationInDays { get; set; }
+
         public int OccuringDays { get; set; }
 
         [Required]
