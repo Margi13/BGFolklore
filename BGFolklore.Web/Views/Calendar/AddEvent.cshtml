@@ -14,17 +14,12 @@
             <div class="form-group row">
                 <label asp-for="IsRecurring" class="col-4 col-form-label"></label>
                 <div class="col-8">
-                    <div class="form-check">
-                        <input type="radio" name="IsRecurring" id="isRecurring" value="@Model.IsRecurring" class="form-check-input" />
-                        <label for="@Model.IsRecurring" class="form-check-label">Да</label>
-                    </div>
-
-                    <div class="form-check">
-                        <input type="radio" name="IsRecurring" id="isNotRecurring" value="@Model.IsRecurring" class="form-check-input" />
-                        <label for="@Model.IsRecurring" class="form-check-label">Не</label>
-                    </div>
+                    <label class="form-check switch">
+                        <input type="checkbox" name="IsRecurring" id="isRecurring" value="@Model.IsRecurring" class="form-check-input" />
+                        <span class="slider"></span>
+                    </label>
                 </div>
-                <span asp-validation-for="IntendedFor" class="col-8 offset-4 text-danger"></span>
+                <span asp-validation-for="IsRecurring" class="col-8 offset-4 text-danger"></span>
             </div>
 
             <div class="form-group row">
@@ -154,14 +149,16 @@
                 allowInput: true,
                 locale: "bg"
             });
-            $("#recurringEventBtn").click(function (e) {
-                $("#datetimePicker").hide();
-                $(".recurringEvent").show();
-                $("#occuringDays")[0].style.display = "flex";
-            });
-            $("#upcomingEventBtn").click(function (e) {
-                $("#datetimePicker").show();
-                $(".recurringEvent").hide();
+
+            $('#isRecurring').change(function () {
+                if (this.checked) {
+                    $("#datetimePicker").hide();
+                    $(".recurringEvent").show();
+                    $("#occuringDays")[0].style.display = "flex";
+                } else {
+                    $("#datetimePicker").show();
+                    $(".recurringEvent").hide();
+                }
             });
         });
     </script>
