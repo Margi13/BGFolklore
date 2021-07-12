@@ -22,10 +22,12 @@ namespace BGFolklore.Models.Calendar.ViewModels
         [Display(Name = "Име на събитието")]
         public string Name { get; set; }
 
+        [Required]
         [Display(Name = "Искате ли събитието да бъде повтарящо?")]
         public bool IsRecurring { get; set; }
 
         [Required]
+        [Display(Name = "Продължителност в дни")]
         public int DurationInDays { get; set; }
 
         [Required(ErrorMessage = "Моля изберете поне една от опциите!")]

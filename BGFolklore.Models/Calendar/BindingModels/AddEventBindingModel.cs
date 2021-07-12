@@ -18,10 +18,12 @@ namespace BGFolklore.Models.Calendar.BindingModels
         [Required(ErrorMessage = "Не сте посочили име!")]
         [MaxLength(256)]
         public string Name { get; set; }
-
+        
+        [Required]
+        [Display(Name = "Искате ли събитието да бъде повтарящо?")]
         public bool IsRecurring { get; set; }
 
-        //[Required]
+        [Required]
         public int DurationInDays { get; set; }
 
         //[Required(ErrorMessage = "Изберете поне една от опциите!")]
