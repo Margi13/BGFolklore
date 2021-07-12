@@ -15,7 +15,7 @@
                 <label asp-for="IsRecurring" class="col-4 col-form-label"></label>
                 <div class="col-8">
                     <label class="form-check switch">
-                        <input type="checkbox" name="IsRecurring" id="isRecurring" value="@Model.IsRecurring" class="form-check-input" />
+                        <input type="checkbox" asp-for="IsRecurring" id="isRecurring" class="form-check-input" />
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -63,32 +63,35 @@
                 <span asp-validation-for="Address" class="col-8 offset-4 text-danger"></span>
             </div>
 
-            <div class="form-group row">
-                <label asp-for="DurationInDays" class="col-4 col-form-label"></label>
-                <div class="col-8">
-                    <input asp-for="DurationInDays" class="form-control" />
+            <div class="upcomingEvent">
+                <div class="form-group row">
+                    <label asp-for="DurationInDays" class="col-4 col-form-label"></label>
+                    <div class="col-8">
+                        <input asp-for="DurationInDays" class="form-control" />
+                    </div>
+                    <span asp-validation-for="DurationInDays" class="col-8 offset-4 text-danger"></span>
                 </div>
-                <span asp-validation-for="DurationInDays" class="col-8 offset-4 text-danger"></span>
             </div>
-
-            <div class="form-group row recurringEvent" id="occuringDays">
-                <label asp-for="OccuringDays" class="col-4 col-form-label"></label>
-                <div class="col-8">
-                    @foreach (var item in Model.OccuringDays)
-                    {
-                        <div class="form-check">
-                            <input type="checkbox" name="OccuringDays" id="@item.Text" value="@item.Value" checked="@item.Selected" class="form-check-input" />
-                            <label for="@item.Text" class="form-check-label">@item.Text</label>
-                        </div>
-                    }
+            <div class="recurringEvent">
+                <div class="form-group row" id="occuringDays">
+                    <label asp-for="OccuringDays" class="col-4 col-form-label"></label>
+                    <div class="col-8">
+                        @foreach (var item in Model.OccuringDays)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" name="OccuringDays" id="@item.Text" value="@item.Value" checked="@item.Selected" class="form-check-input" />
+                                <label for="@item.Text" class="form-check-label">@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                    <span asp-validation-for="OccuringDays" class="col-8 offset-4 text-danger"></span>
                 </div>
-                <span asp-validation-for="OccuringDays" class="col-8 offset-4 text-danger"></span>
             </div>
 
             <div class="form-group row">
                 <label asp-for="EventDateTime" class="col-4 col-form-label"></label>
                 <div class="col-8">
-                    <input asp-for="EventDateTime" class="form-control" id="datetimePicker" />
+                    <input asp-for="EventDateTime" class="form-control upcomingEvent" id="datetimePicker" />
                     <input asp-for="EventDateTime" class="form-control recurringEvent" id="timePicker" />
                 </div>
                 <span asp-validation-for="EventDateTime" class="col-8 offset-4 text-danger"></span>
@@ -138,6 +141,7 @@
             $("#datetimePicker").flatpickr({
                 enableTime: true,
                 dateFormat: "d/m/Y H:i",
+                defaultDate: "today",
                 minDate: "today",
                 allowInput: true,
                 locale: "bg"
@@ -146,20 +150,43 @@
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: "H:i",
+                defaultDate: "18:00",
                 allowInput: true,
                 locale: "bg"
             });
 
+            toggleEventFields($('#isRecurring')[0]);
+
             $('#isRecurring').change(function () {
-                if (this.checked) {
-                    $("#datetimePicker").hide();
-                    $(".recurringEvent").show();
-                    $("#occuringDays")[0].style.display = "flex";
-                } else {
-                    $("#datetimePicker").show();
-                    $(".recurringEvent").hide();
-                }
+                toggleEventFields(this);
             });
+
+            //Disable attribute helps preventing rewritting the date when isRecurring = true
+            //Also it helps preventing writting data, that must be cleared in the model.
+            //  For example: DurationInDays must be 0 when isRecurring = true and OccuringDays must be empty when isRecurring = false.
+            function toggleEventFields(e) {
+                if (e.checked) {
+                    $(".upcomingEvent").hide();
+                    $(".upcomingEvent input").attr('disabled', true);
+                    
+                    $(".recurringEvent").show();
+                    $(".recurringEvent input").removeAttr('disabled');
+
+                    $("#datetimePicker").attr('disabled', true);
+                    $("#timePicker").removeAttr('disabled');
+
+                } else {
+                    $(".upcomingEvent").show();
+                    $(".upcomingEvent input").removeAttr('disabled');
+
+                    $(".recurringEvent").hide();
+                    $(".recurringEvent input").attr('disabled', true);
+
+                    $("#datetimePicker").removeAttr('disabled');
+                    $("#timePicker").attr('disabled', true);
+
+                }
+            }
         });
     </script>
 }

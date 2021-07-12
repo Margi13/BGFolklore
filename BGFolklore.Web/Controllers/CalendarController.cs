@@ -68,6 +68,7 @@ namespace BGFolklore.Web.Controllers
                 var addEventViewModel = this.mapper.Map<AddEventViewModel>(addEventBindingModel);
 
                 addEventViewModel.IntendedFor = new List<SelectListItem>();
+                //Execute only GetSelectedAttendeeType which calls GetAttendeeType
                 GetAttendeeType(addEventViewModel);
                 GetSelectedAttendeeType(addEventViewModel, addEventBindingModel);
 
@@ -136,6 +137,7 @@ namespace BGFolklore.Web.Controllers
 
         private void GetSelectedAttendeeType(AddEventViewModel viewModel, AddEventBindingModel bindingModel)
         {
+            //Add here GetAttendeeType execution?
             if (bindingModel.IntendedFor != null)
             {
                 foreach (var selectedAttendee in bindingModel.IntendedFor)
