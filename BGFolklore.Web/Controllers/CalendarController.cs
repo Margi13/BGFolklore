@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BGFolklore.Common.Nomenclatures;
+using BGFolklore.Data.Models.Calendar;
 using BGFolklore.Models.Calendar.BindingModels;
 using BGFolklore.Models.Calendar.ViewModels;
 using BGFolklore.Services.Public.Interfaces;
+using BGFolklore.Web.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -20,19 +22,27 @@ namespace BGFolklore.Web.Controllers
         private readonly ICalendarService calendarService;
         private readonly IStringLocalizer<CalendarController> localizer;
         private readonly IMapper mapper;
+        private readonly ITownsService townsService;
 
         public CalendarController(IWebHostEnvironment webHostEnvironment,
             ICalendarService calendarService,
             IStringLocalizer<CalendarController> localizer,
-            IMapper mapper)
+            IMapper mapper,
+            ITownsService townsService)
         {
             this.webHostEnvironment = webHostEnvironment;
             this.calendarService = calendarService;
             this.localizer = localizer;
             this.mapper = mapper;
+            this.townsService = townsService;
         }
         public IActionResult Index()
         {
+            if (Towns.AllTowns is null)
+            {
+                Towns.GetTowns(townsService);
+            }
+
             return View();
         }
         public IActionResult UpcomingEvents()

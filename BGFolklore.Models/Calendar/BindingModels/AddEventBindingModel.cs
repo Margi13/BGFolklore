@@ -1,4 +1,5 @@
 ﻿using BGFolklore.Common.Nomenclatures;
+using BGFolklore.Data.Models.Calendar;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,8 +37,7 @@ namespace BGFolklore.Models.Calendar.BindingModels
         public int[] IntendedFor { get; set; }
 
         [Required(ErrorMessage = "Не сте посочили град!")]
-        [MaxLength(60)]
-        public string Town { get; set; }
+        public int TownId { get; set; }
 
         [Required(ErrorMessage = "Не сте посочили адрес!")]
         [MaxLength(250)]

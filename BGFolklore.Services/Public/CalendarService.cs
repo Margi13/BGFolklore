@@ -33,7 +33,7 @@ namespace BGFolklore.Services.Public
             return upcomingEvents;
         }
 
-        public  void SaveAddEvent(AddEventBindingModel newEvent)
+        public void SaveAddEvent(AddEventBindingModel newEvent)
         {
             var newPublicEvent = this.Mapper.Map<PublicEvent>(newEvent);
             newPublicEvent.InsertDateTime = DateTime.Now;
@@ -43,13 +43,18 @@ namespace BGFolklore.Services.Public
                 newPublicEvent.IntendedFor = newPublicEvent.IntendedFor | attendeeType;
             }
 
-            foreach (int dayName in newEvent.OccuringDays)
+            if (newEvent.IsRecurring == true)
             {
-                newPublicEvent.OccuringDays = newPublicEvent.OccuringDays | dayName;
+                foreach (int dayName in newEvent.OccuringDays)
+                {
+                    newPublicEvent.OccuringDays = newPublicEvent.OccuringDays | dayName;
+                }
             }
 
+            newPublicEvent.Town = (Town)this.Context.Towns.Where(t => t.Id == newEvent.TownId);
+
             this.Context.PublicEvents.Add(newPublicEvent);
-             this.Context.SaveChanges();
+            this.Context.SaveChanges();
         }
     }
 }

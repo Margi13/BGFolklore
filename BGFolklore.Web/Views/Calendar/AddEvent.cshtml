@@ -1,5 +1,6 @@
 ﻿@using BGFolklore.Models.Calendar.ViewModels
 @using BGFolklore.Common.Nomenclatures
+@using BGFolklore.Web.Common;
 @model AddEventViewModel
 @{
     ViewData["Title"] = "Add Event";
@@ -11,6 +12,9 @@
 <section class="row crud-section1">
     <div class="col-10 offset-1">
         <form method="post" asp-controller="Calendar" asp-action="AddEvent">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group row">
                 <label asp-for="IsRecurring" class="col-4 col-form-label"></label>
                 <div class="col-8">
@@ -21,7 +25,7 @@
                 </div>
                 <span asp-validation-for="IsRecurring" class="col-8 offset-4 text-danger"></span>
             </div>
-
+            
             <div class="form-group row">
                 <label asp-for="Name" class="col-4 col-form-label"></label>
                 <div class="col-8">
@@ -39,17 +43,20 @@
             </div>
 
             <div class="form-group row">
-                <label asp-for="Town" class="col-4 col-form-label"></label>
+                <label asp-for="TownId" class="col-4 col-form-label"></label>
                 <div class="col-8">
-                    <input asp-for="Town" class="form-control" />
+                    <select asp-for="TownId" class="custom-select" asp-items="@(Towns.AllTowns).Select(t => new SelectListItem { Text = t.Name, Value = (t.Id).ToString() })">
+                        <option value="">Изберете град</option>
+                    </select>
                 </div>
-                <span asp-validation-for="Town" class="col-8 offset-4 text-danger"></span>
+                <span asp-validation-for="TownId" class="col-8 offset-4 text-danger"></span>
             </div>
 
             <div class="form-group row">
                 <label asp-for="PlaceType" class="col-4 col-form-label"></label>
                 <div class="col-8">
                     <select asp-for="PlaceType" class="custom-select" asp-items="@Html.GetEnumSelectList<PlaceType>()">
+                        <option value="">Изберете място</option>
                     </select>
                 </div>
                 <span asp-validation-for="PlaceType" class="col-8 offset-4 text-danger"></span>
@@ -168,7 +175,7 @@
                 if (e.checked) {
                     $(".upcomingEvent").hide();
                     $(".upcomingEvent input").attr('disabled', true);
-                    
+
                     $(".recurringEvent").show();
                     $(".recurringEvent input").removeAttr('disabled');
 

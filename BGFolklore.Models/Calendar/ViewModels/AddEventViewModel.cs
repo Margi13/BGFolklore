@@ -43,9 +43,8 @@ namespace BGFolklore.Models.Calendar.ViewModels
         public List<SelectListItem> IntendedFor { get; set; }
 
         [Required(ErrorMessage = "Не сте посочили град!")]
-        [MaxLength(60)]
         [Display(Name = "Град")]
-        public string Town { get; set; }
+        public int TownId { get; set; }
 
         [Required(ErrorMessage = "Не сте посочили адрес!")]
         [MaxLength(250)]

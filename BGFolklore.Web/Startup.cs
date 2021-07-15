@@ -76,8 +76,10 @@ namespace BGFolklore.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            //var serviceProvider = app.ApplicationServices;
+            //var townsEnv = serviceProvider.GetService<ITownsService>();
+            
             app.UseRouting();
-
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -95,6 +97,8 @@ namespace BGFolklore.Web
         {
             services.AddScoped<IGalleryService, GalleryService>();
             services.AddScoped<ICalendarService, CalendarService>();
+            //Can return error
+            services.AddScoped<ITownsService, TownsService>();
 
         }
         
