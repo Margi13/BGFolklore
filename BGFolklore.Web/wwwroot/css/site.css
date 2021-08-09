@@ -43,10 +43,13 @@ a {
     width: 100%;
 }
 
-.recurringEvent{
+.recurringEvent {
     display: none;
 }
 
+.hidden {
+    display: none;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -201,9 +204,10 @@ h2 {
     width: 70%;
     margin: 10px auto;
 }
-.crud-section form label{
-    margin: 5px 10px;
-}
+
+    .crud-section form label {
+        margin: 5px 10px;
+    }
 
 /*Opacity*/
 .op-80 {
@@ -478,7 +482,8 @@ img.gallery-item {
 .calendar-header {
     background-image: url("../images/banners/places.jpg");
 }
-.callendar-table{
+
+.callendar-table {
     margin: 10px auto;
 }
 /* ******************************************************

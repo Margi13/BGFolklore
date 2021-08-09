@@ -1,13 +1,14 @@
 ﻿@using BGFolklore.Models.Calendar.ViewModels
 @using BGFolklore.Common.Nomenclatures
-@using Microsoft.Extensions.Localization;
 @using BGFolklore.Web.Controllers
+@using BGFolklore.Web.Common;
+@using Microsoft.Extensions.Localization;
 
 @inject IStringLocalizer<CalendarController> localizer
 
 @model RecurringEventViewModel
 <tr>
-    <td>@Model.Town</td>
+    <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
     <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
     <td>@Model.Description</td>
     <td>@Model.Address</td>
@@ -17,13 +18,9 @@
             @if ((Model.OccuringDays & item) == item)
             {
                 <div>
-
                     @localizer[$"DayOfWeek{(((DaysOfWeek)item).ToString())}"]
                 </div>
             }
-            <div>
-                @item
-            </div>
         }
     </td>
     <td>
@@ -36,7 +33,6 @@
             @if ((Model.IntendedFor & item) == item)
             {
                 <div>
-
                     @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
                 </div>
             }

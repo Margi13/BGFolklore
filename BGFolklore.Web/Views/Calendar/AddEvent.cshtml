@@ -1,19 +1,30 @@
 ﻿@using BGFolklore.Models.Calendar.ViewModels
 @using BGFolklore.Common.Nomenclatures
 @using BGFolklore.Web.Common;
+@using BGFolklore.Data.Models;
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<User> userManager
+
 @model AddEventViewModel
 @{
     ViewData["Title"] = "Add Event";
 }
 
-<button class="btn btn-danger bg-brown" id="recurringEventBtn">Създай повтарящо се събитие</button>
-<button class="btn btn-danger bg-brown" id="upcomingEventBtn">Създай предстоящо събитие се събитие</button>
 <h2>Добави ново събитие</h2>
 <section class="row crud-section1">
     <div class="col-10 offset-1">
         <form method="post" asp-controller="Calendar" asp-action="AddEvent">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group row hidden">
+                <label asp-for="OwnerId" class="col-4 col-form-label"></label>
+                <div class="col-8">
+                    <input asp-for="OwnerId" class="form-control" value="@userManager.GetUserId(User)" />
+                </div>
+                <span asp-validation-for="OwnerId" class="col-8 offset-4 text-danger"></span>
+            </div>
 
             <div class="form-group row">
                 <label asp-for="IsRecurring" class="col-4 col-form-label"></label>
@@ -25,7 +36,7 @@
                 </div>
                 <span asp-validation-for="IsRecurring" class="col-8 offset-4 text-danger"></span>
             </div>
-            
+
             <div class="form-group row">
                 <label asp-for="Name" class="col-4 col-form-label"></label>
                 <div class="col-8">
@@ -98,7 +109,7 @@
             <div class="form-group row">
                 <label asp-for="EventDateTime" class="col-4 col-form-label"></label>
                 <div class="col-8">
-                    <input asp-for="EventDateTime" class="form-control upcomingEvent" id="datetimePicker" />
+                    <input asp-for="EventDateTime" class="form-control upcomingEvent" id="datetimePicker" value="@(Model.EventDateTime.HasValue ? Model.EventDateTime : DateTime.Now.AddHours(5))"/>
                     <input asp-for="EventDateTime" class="form-control recurringEvent" id="timePicker" />
                 </div>
                 <span asp-validation-for="EventDateTime" class="col-8 offset-4 text-danger"></span>
@@ -148,7 +159,6 @@
             $("#datetimePicker").flatpickr({
                 enableTime: true,
                 dateFormat: "d/m/Y H:i",
-                defaultDate: "today",
                 minDate: "today",
                 allowInput: true,
                 locale: "bg"
@@ -157,7 +167,6 @@
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: "H:i",
-                defaultDate: "18:00",
                 allowInput: true,
                 locale: "bg"
             });
