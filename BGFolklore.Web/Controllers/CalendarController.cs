@@ -35,26 +35,31 @@ namespace BGFolklore.Web.Controllers
             this.localizer = localizer;
             this.mapper = mapper;
             this.townsService = townsService;
-        }
-        public IActionResult Index()
-        {
+
             if (Towns.AllTowns is null)
             {
                 Towns.GetTowns(townsService);
             }
+        }
 
+        public IActionResult Index()
+        {
             return View();
         }
+
         public IActionResult UpcomingEvents()
         {
             IList<UpcomingEventViewModel> viewModelList = calendarService.GetUpcomingEvents();
-            return View(viewModelList);
+           
+            return View(viewModelList.OrderBy(ue => ue.EventDateTime).ToList());
         }
+
         public IActionResult RecurringEvents()
         {
             IList<RecurringEventViewModel> viewModelList = calendarService.GetRecurringEvents();
-            return View(viewModelList);
+            return View(viewModelList.OrderBy(re => re.Rating).ToList());
         }
+
         [HttpGet]
         public IActionResult AddEvent()
         {
@@ -62,8 +67,6 @@ namespace BGFolklore.Web.Controllers
 
             return View(viewModel);
         }
-
-
 
         [HttpPost]
         public IActionResult AddEvent(AddEventBindingModel addEventBindingModel)
@@ -78,13 +81,20 @@ namespace BGFolklore.Web.Controllers
                 var addEventViewModel = this.mapper.Map<AddEventViewModel>(addEventBindingModel);
 
                 addEventViewModel.IntendedFor = new List<SelectListItem>();
-                //Execute only GetSelectedAttendeeType which calls GetAttendeeType
-                GetAttendeeType(addEventViewModel);
                 GetSelectedAttendeeType(addEventViewModel, addEventBindingModel);
 
                 addEventViewModel.OccuringDays = new List<SelectListItem>();
-                GetOccuringDays(addEventViewModel);
                 GetSelectedOccuringDays(addEventViewModel, addEventBindingModel);
+
+                //if(addEventBindingModel.EventDateTime.CompareTo(DateTime.Now) < 0)
+                //{
+
+                //    addEventViewModel.EventDateTime = new DateTime();
+                //    DateTime dt = DateTime.Now;
+                //    dt = dt.AddHours(5);
+                //    addEventViewModel.EventDateTime = dt;
+                //}
+                
 
                 return View(addEventViewModel);
             }
@@ -102,6 +112,7 @@ namespace BGFolklore.Web.Controllers
 
             return viewModel;
         }
+
         private void GetOccuringDays(AddEventViewModel viewModel)
         {
             foreach (var dayName in Enum.GetValues(typeof(DaysOfWeek)))
@@ -115,6 +126,8 @@ namespace BGFolklore.Web.Controllers
 
         private void GetSelectedOccuringDays(AddEventViewModel viewModel, AddEventBindingModel bindingModel)
         {
+            GetOccuringDays(viewModel);
+
             if (bindingModel.OccuringDays != null)
             {
                 foreach (var selectedDay in bindingModel.OccuringDays)
@@ -147,7 +160,8 @@ namespace BGFolklore.Web.Controllers
 
         private void GetSelectedAttendeeType(AddEventViewModel viewModel, AddEventBindingModel bindingModel)
         {
-            //Add here GetAttendeeType execution?
+            GetAttendeeType(viewModel);
+
             if (bindingModel.IntendedFor != null)
             {
                 foreach (var selectedAttendee in bindingModel.IntendedFor)
