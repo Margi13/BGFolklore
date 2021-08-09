@@ -11,6 +11,9 @@ namespace BGFolklore.Models.Calendar.BindingModels
 {
     public class AddEventBindingModel
     {
+        [Required]
+        public string OwnerId { get; set; }
+
         [Required(ErrorMessage = "Не сте посочили дата/час!")]
         [DataType(DataType.DateTime, ErrorMessage = "Въведете валидни дата и час [dd/mm/yyyy hh:mm]")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "0:dd/mm/yyyy hh:mm")]

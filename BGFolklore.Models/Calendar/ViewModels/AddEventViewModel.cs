@@ -11,6 +11,9 @@ namespace BGFolklore.Models.Calendar.ViewModels
 {
     public class AddEventViewModel
     {
+        [Required]
+        public string OwnerId { get; set; }
+
         [Required(ErrorMessage = "Не сте посочили дата/час!")]
         [Display(Name = "Кога започва събитието?")]
         [DataType(DataType.DateTime, ErrorMessage = "Въведете валидни дата и час [dd/mm/yyyy hh:mm]")]

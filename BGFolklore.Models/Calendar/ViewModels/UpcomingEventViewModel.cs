@@ -16,6 +16,9 @@ namespace BGFolklore.Models.Calendar.ViewModels
         public Guid Id { get; set; }
 
         [Required]
+        public string OwnerId { get; set; }
+
+        [Required]
         public DateTime InsertDateTime { get; set; }
 
         public DateTime? UpdateDateTime { get; set; }
@@ -30,8 +33,7 @@ namespace BGFolklore.Models.Calendar.ViewModels
         public int IntendedFor { get; set; }
 
         [Required]
-        [MaxLength(60)]
-        public string Town { get; set; }
+        public int TownId { get; set; }
 
         [Required]
         [MaxLength(250)]
