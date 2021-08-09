@@ -23,17 +23,23 @@ namespace BGFolklore.Services.Public
             return townsList;
         }
 
-        public IList<Town> GetAllTownsFromGivenAreaId(int areaId)
+        public Town GetTownByGivenId(int id)
+        {
+            var towns = this.Context.Towns.Where(t => t.Id.Equals(id));
+            Town townInfo = this.Mapper.Map<Town>(towns.First());
+            return townInfo;
+        }
+        public IList<Town> GetAllTownsByGivenAreaId(int areaId)
         {
             throw new NotImplementedException();
         }
 
-        public IList<Town> GetAllEventsFromGivenTownId(int townId)
+        public IList<Town> GetAllEventsByGivenTownId(int townId)
         {
             throw new NotImplementedException();
         }
 
-        public IList<Town> GetAllEventsFromGivenAreaId(int areaId)
+        public IList<Town> GetAllEventsByGivenAreaId(int areaId)
         {
             throw new NotImplementedException();
         }

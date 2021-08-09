@@ -10,8 +10,9 @@ namespace BGFolklore.Services.Public.Interfaces
     public interface ITownsService
     {
         IList<Town> GetAllTowns();
-        IList<Town> GetAllTownsFromGivenAreaId(int areaId);
-        IList<Town> GetAllEventsFromGivenTownId(int townId);
-        IList<Town> GetAllEventsFromGivenAreaId(int areaId);
+        Town GetTownByGivenId(int id);
+        IList<Town> GetAllTownsByGivenAreaId(int areaId);
+        IList<Town> GetAllEventsByGivenTownId(int townId);
+        IList<Town> GetAllEventsByGivenAreaId(int areaId);
     }
 }
