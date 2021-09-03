@@ -25,6 +25,9 @@ namespace BGFolklore.Models.Calendar.ViewModels
         [Required]
         public DateTime EventDateTime { get; set; }
 
+        [Required]
+        public string Name { get; set; }
+
         public int OccuringDays { get; set; }
 
         [Required]

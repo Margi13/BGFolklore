@@ -27,6 +27,9 @@ namespace BGFolklore.Models.Calendar.ViewModels
         public DateTime EventDateTime { get; set; }
 
         [Required]
+        public string Name { get; set; }
+
+        [Required]
         public PlaceType PlaceType { get; set; }
 
         [Required]
