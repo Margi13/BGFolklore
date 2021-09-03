@@ -3,14 +3,19 @@
 @using BGFolklore.Web.Controllers
 @using BGFolklore.Web.Common;
 @using Microsoft.Extensions.Localization;
+@using BGFolklore.Data.Models;
+@using Microsoft.AspNetCore.Identity;
+
+@inject UserManager<User> userManager
 
 @inject IStringLocalizer<CalendarController> localizer
 
 @model RecurringEventViewModel
-<tr>
+
+<tr class="eventRow" onclick="eventRowOnClick(@Json.Serialize(Model).ToString(), @Json.Serialize(userManager.GetUserId(User)).ToString())">
     <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
     <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
-    <td>@Model.Description</td>
+    <td>@Model.Name</td>
     <td>@Model.Address</td>
     <td>
         @foreach (int item in Enum.GetValues(typeof(DaysOfWeek)))
@@ -18,7 +23,7 @@
             @if ((Model.OccuringDays & item) == item)
             {
                 <div>
-                    @localizer[$"DayOfWeek{(((DaysOfWeek)item).ToString())}"]
+                    @localizer[$"Day{(((DaysOfWeek)item).ToString())}"]
                 </div>
             }
         }

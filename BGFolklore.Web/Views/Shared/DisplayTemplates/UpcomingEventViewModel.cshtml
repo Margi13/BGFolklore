@@ -4,14 +4,18 @@
 @using BGFolklore.Web.Common;
 @using System.Linq
 @using Microsoft.Extensions.Localization;
+@using BGFolklore.Data.Models;
+@using Microsoft.AspNetCore.Identity;
+
+@inject UserManager<User> userManager
 
 @inject IStringLocalizer<CalendarController> localizer
 
 @model UpcomingEventViewModel
-<tr>
-    <td>@Towns.AllTowns.OrderBy(t=>t.Id).ToArray()[Model.TownId-1].Name</td>
+<tr class="eventRow" onclick="eventRowOnClick(@Json.Serialize(Model).ToString(), @Json.Serialize(userManager.GetUserId(User)).ToString())">
+    <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
     <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
-    <td>@Model.Description</td>
+    <td>@Model.Name</td>
     <td>@Model.Address</td>
     <td>@Model.EventDateTime.Date.ToShortDateString()</td>
     <td>@Model.EventDateTime.TimeOfDay</td>
@@ -22,7 +26,6 @@
             @if ((Model.IntendedFor & item) == item)
             {
                 <div>
-
                     @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
                 </div>
             }
