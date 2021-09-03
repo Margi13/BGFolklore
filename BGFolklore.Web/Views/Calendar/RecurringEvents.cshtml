@@ -1,11 +1,12 @@
-﻿
+﻿@using BGFolklore.Models.Calendar.ViewModels
+@model IList<RecurringEventViewModel>
 @{
     ViewData["Title"] = "Calendar";
 }
 <header class="ScriptHeader calendar-header">
     <div class="rt-container op-80 bg-brown">
         <h1>Къде да танцувам?</h1>
-        <p>Какво по-хубаво от това всички места за танцувани събрани на едно място?</p>
+        <p>Какво по-хубаво от това всички места за танцуванe събрани на едно място?</p>
     </div>
     <div class="ScriptTop horizontal-top">
         <div class="ScriptTop-navbar horizontal-navbar">
@@ -17,13 +18,14 @@
                     <a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Calendar" asp-action="RecurringEvents">Всички места</a>
                 </li>
                 <li>
-                    <a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Calendar" asp-action="AddEvent">Създай събитие</a>
+                    <a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Calendar" asp-action="AddEvent">Създай ново събитие</a>
                 </li>
             </ul>
         </div>
         @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
     </div>
 </header>
+
 <section class="callendar-section">
     @*<div>
             Търсачка
@@ -43,13 +45,37 @@
             </tr>
         </thead>
         <tbody>
-
             @Html.DisplayForModel()
-
         </tbody>
     </table>
     <div>
         <button class="btn btn-danger bg-brown">Редактирай мое събитие</button>
-        <button class="btn btn-danger bg-brown" id="recurringEventBtn">Създай събитие</button>
     </div>
 </section>
+
+<partial name="_ModalBoxPartial"/>
+
+@*<script>
+        function eventRowOnClick(arg) {
+            console.log(arg.name);
+
+            // Get the modal
+            var modal = $('#myModal')[0];
+
+            modal.style.display = "block";
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+    </script>*@
