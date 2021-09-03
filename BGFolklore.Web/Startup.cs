@@ -52,7 +52,15 @@ namespace BGFolklore.Web
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddMvc()
                 .AddViewLocalization();
-            
+
+            //Makes custom default error message, when value is null. It's used when default value is empty string.
+            services.AddRazorPages()
+                .AddMvcOptions(options =>
+                {
+                    options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+                        _ => "Полето е задължително.");
+                });
+
             RegisterServiceLayer(services);
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddControllersWithViews();
