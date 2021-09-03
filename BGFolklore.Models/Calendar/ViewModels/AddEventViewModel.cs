@@ -21,15 +21,15 @@ namespace BGFolklore.Models.Calendar.ViewModels
         public DateTime? EventDateTime { get; set; }
 
         [Required(ErrorMessage = "Не сте посочили име!")]
-        [MaxLength(256)]
+        [MaxLength(256, ErrorMessage = "Името не може да е повече от 256 символа!")]
         [Display(Name = "Име на събитието")]
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Искате ли събитието да бъде повтарящо?")]
+        [Display(Name = "Ще се повтаря ли всяка седмица?")]
         public bool IsRecurring { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Продължителност в дни")]
         public int DurationInDays { get; set; }
 
@@ -50,21 +50,21 @@ namespace BGFolklore.Models.Calendar.ViewModels
         public int TownId { get; set; }
 
         [Required(ErrorMessage = "Не сте посочили адрес!")]
-        [MaxLength(250)]
+        [MaxLength(250, ErrorMessage = "Адресът не може да е повече от 250 символа!")]
         [MinLength(6, ErrorMessage = "Адресът не може да е по-малко от 6 символа!")]
         [Display(Name = "Адрес")]
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
 
         [Required(ErrorMessage = "Не сте посочили телефон за връзка!")]
-        [MaxLength(20)]
+        [MaxLength(20, ErrorMessage = "Телефонът не може да е повече от 20 символа!")]
         [Display(Name = "Телефон за връзка")]
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 
         [Required(ErrorMessage = "Не сте посочили описание на събитието!")]
-        [MaxLength(250)]
-        [MinLength(10, ErrorMessage = "Адресът не може да е по-малко от 10 символа!")]
+        [MaxLength(250, ErrorMessage = "Описанието не може да е повече от 250 символа!")]
+        [MinLength(10, ErrorMessage = "Описанието не може да е по-малко от 10 символа!")]
         [Display(Name = "Описание на събитието")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }

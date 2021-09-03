@@ -24,10 +24,10 @@ namespace BGFolklore.Models.Calendar.BindingModels
         public string Name { get; set; }
         
         [Required]
-        [Display(Name = "Искате ли събитието да бъде повтарящо?")]
+        [Display(Name = "Ще се повтаря ли всяка седмица?")]
         public bool IsRecurring { get; set; }
 
-        [Required]
+        //[Required]
         public int DurationInDays { get; set; }
 
         //[Required(ErrorMessage = "Изберете поне една от опциите!")]
