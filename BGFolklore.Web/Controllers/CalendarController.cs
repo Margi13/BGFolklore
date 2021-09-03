@@ -50,7 +50,7 @@ namespace BGFolklore.Web.Controllers
         public IActionResult UpcomingEvents()
         {
             IList<UpcomingEventViewModel> viewModelList = calendarService.GetUpcomingEvents();
-           
+
             return View(viewModelList.OrderBy(ue => ue.EventDateTime).ToList());
         }
 
@@ -94,7 +94,7 @@ namespace BGFolklore.Web.Controllers
                 //    dt = dt.AddHours(5);
                 //    addEventViewModel.EventDateTime = dt;
                 //}
-                
+
 
                 return View(addEventViewModel);
             }
@@ -130,17 +130,16 @@ namespace BGFolklore.Web.Controllers
 
             if (bindingModel.OccuringDays != null)
             {
-                foreach (var selectedDay in bindingModel.OccuringDays)
+
+                foreach (var dayName in viewModel.OccuringDays)
                 {
-                    foreach (var dayName in viewModel.OccuringDays)
+                    dayName.Selected = false;
+
+                    foreach (var selectedDay in bindingModel.OccuringDays)
                     {
                         if (dayName.Value.CompareTo(selectedDay.ToString()) == 0)
                         {
                             dayName.Selected = true;
-                        }
-                        else
-                        {
-                            dayName.Selected = false;
                         }
                     }
                 }
@@ -164,17 +163,15 @@ namespace BGFolklore.Web.Controllers
 
             if (bindingModel.IntendedFor != null)
             {
-                foreach (var selectedAttendee in bindingModel.IntendedFor)
+                foreach (var attendee in viewModel.IntendedFor)
                 {
-                    foreach (var attendee in viewModel.IntendedFor)
+                    attendee.Selected = false;
+
+                    foreach (var selectedAttendee in bindingModel.IntendedFor)
                     {
                         if (attendee.Value.CompareTo(selectedAttendee.ToString()) == 0)
                         {
                             attendee.Selected = true;
-                        }
-                        else
-                        {
-                            attendee.Selected = false;
                         }
                     }
                 }
