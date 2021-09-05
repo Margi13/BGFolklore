@@ -20,12 +20,15 @@ namespace BGFolklore.Data
 
         public DbSet<PublicEvent> PublicEvents { get; set; }
         public DbSet<Town> Towns { get; set; }
+        public DbSet<Status> Status { get; set; }
+        public DbSet<Feedback> Feedback { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             OnIdentityCreating(builder);
             OnUserCreating(builder);
             OnPublicEventCreating(builder);
+            OnFeedbackCreating(builder);
 
             builder.Entity<Town>().HasIndex(t => t.AreaId);
 
@@ -65,12 +68,43 @@ namespace BGFolklore.Data
             builder.Entity<PublicEvent>().Property(pe => pe.OwnerId).HasMaxLength(GuidMaxLength);
 
             builder.Entity<PublicEvent>()
+                .HasOne(pe => pe.Owner)
+                .WithMany(u => u.PublicEvents)
+                .HasForeignKey(pe => pe.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PublicEvent>()
                 .HasOne(pe => pe.Town)
                 .WithMany(t => t.PublicEvents)
                 .HasForeignKey(pe => pe.TownId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PublicEvent>()
+                .HasOne(pe => pe.Status)
+                .WithMany()
+                .HasForeignKey(pe => pe.StatusId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
-        
+        private void OnFeedbackCreating(ModelBuilder builder)
+        {
+            builder.Entity<Feedback>()
+                .HasOne(f => f.Owner)
+                .WithMany()
+                .HasForeignKey(f => f.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Feedback>()
+                .HasOne(f=>f.Status)
+                .WithMany()
+                .HasForeignKey(f => f.StatusId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Feedback>()
+                .HasOne(f => f.Event)
+                .WithMany(pe => pe.Feedbacks)
+                .HasForeignKey(f => f.EventId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

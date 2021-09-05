@@ -46,7 +46,6 @@ namespace BGFolklore.Data.Models.Calendar
 
         public Town Town { get; set; }
 
-
         [Required]
         [MaxLength(250)]
         public string Address { get; set; }
@@ -60,5 +59,11 @@ namespace BGFolklore.Data.Models.Calendar
         public string Description { get; set; }
 
         public float Rating { get; set; }
+
+        public int StatusId { get; set; }
+
+        public Status Status { get; set; }
+
+        public IList<Feedback> Feedbacks { get; set; }
     }
 }

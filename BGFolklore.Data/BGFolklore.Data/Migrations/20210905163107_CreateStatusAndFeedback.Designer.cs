@@ -3,14 +3,16 @@ using System;
 using BGFolklore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BGFolklore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210905163107_CreateStatusAndFeedback")]
+    partial class CreateStatusAndFeedback
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,9 +107,6 @@ namespace BGFolklore.Data.Migrations
                     b.Property<float>("Rating")
                         .HasColumnType("float");
 
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TownId")
                         .HasColumnType("int");
 
@@ -117,8 +116,6 @@ namespace BGFolklore.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
-
-                    b.HasIndex("StatusId");
 
                     b.HasIndex("TownId");
 
@@ -403,12 +400,6 @@ namespace BGFolklore.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BGFolklore.Data.Models.Calendar.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("BGFolklore.Data.Models.Calendar.Town", "Town")
                         .WithMany("PublicEvents")
                         .HasForeignKey("TownId")
@@ -416,8 +407,6 @@ namespace BGFolklore.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Owner");
-
-                    b.Navigation("Status");
 
                     b.Navigation("Town");
                 });
