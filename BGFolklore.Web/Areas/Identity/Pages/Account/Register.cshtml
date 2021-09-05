@@ -12,6 +12,17 @@
             <h4>Създаване на нов акаунт</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group d-flex flex-column justify-content-start">
+                <label asp-for="Input.IsOrganization"></label>
+                <div class="d-flex flex-row align-items-center">
+                    <input asp-for="Input.IsOrganization" class="form-control w-auto m-2" type="radio" value="false" />
+                    <label class="m-0">Обикновен потребител</label>
+                </div>
+                <div class="d-flex flex-row align-items-center">
+                    <input asp-for="Input.IsOrganization" class="form-control w-auto m-2" type="radio" value="true" />
+                    <label class="m-0">Танцова формация</label>
+                </div>
+            </div>
             <div class="form-group">
                 <label asp-for="Input.UserName">Потребителско име</label>
                 <input asp-for="Input.UserName" class="form-control" />
