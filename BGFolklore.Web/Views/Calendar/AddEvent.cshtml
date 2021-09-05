@@ -12,7 +12,7 @@
 }
 
 <h2>Добави ново събитие</h2>
-<section class="row crud-section1">
+<section class="row">
     <div class="col-10 offset-1">
         <form method="post" asp-controller="Calendar" asp-action="AddEvent">
 
@@ -109,7 +109,7 @@
             <div class="form-group row">
                 <label asp-for="EventDateTime" class="col-4 col-form-label"></label>
                 <div class="col-8">
-                    <input asp-for="EventDateTime" class="form-control upcomingEvent" id="datetimePicker"/>
+                    <input asp-for="EventDateTime" class="form-control upcomingEvent" id="datetimePicker" />
                     <input asp-for="EventDateTime" class="form-control recurringEvent" id="timePicker" />
                 </div>
                 <span asp-validation-for="EventDateTime" class="col-8 offset-4 text-danger"></span>
@@ -152,6 +152,8 @@
 }
 
 @section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/bg.js"></script>
     <script type="text/javascript">
