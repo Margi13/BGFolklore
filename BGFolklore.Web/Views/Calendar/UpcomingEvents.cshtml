@@ -1,5 +1,6 @@
 ﻿@using BGFolklore.Models.Calendar.ViewModels
-@model IList<UpcomingEventViewModel>
+@using BGFolklore.Web.Common
+@model PaginatedList<UpcomingEventViewModel>
 @{
     ViewData["Title"] = "Calendar";
 }
@@ -44,11 +45,45 @@
             </tr>
         </thead>
         <tbody>
-
-            @Html.DisplayForModel()
-
+            @Html.DisplayFor(m => m.PaginatedItems)
         </tbody>
     </table>
+
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+    <a asp-action="UpcomingEvents"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       class="btn btn-danger bg-brown op-80 @prevDisabled">
+        Предишна страница
+    </a>
+    @{
+        for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            if (i == Model.PageIndex)
+            {
+                <a asp-action="UpcomingEvents"
+                   asp-route-pageNumber="@i"
+                   class="pageNumber activePage">
+                    @i
+                </a>
+            }
+            else
+            {
+                <a asp-action="UpcomingEvents"
+                   asp-route-pageNumber="@i"
+                   class="pageNumber">
+                    @i
+                </a>
+            }
+        }
+    }
+    <a asp-action="UpcomingEvents"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       class="btn btn-danger bg-brown op-80 @nextDisabled">
+        Следваща страница
+    </a>
 </section>
 
 <partial name="_ModalBoxPartial" />

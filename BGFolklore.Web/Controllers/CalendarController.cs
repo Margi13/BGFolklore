@@ -47,17 +47,20 @@ namespace BGFolklore.Web.Controllers
             return View();
         }
 
-        public IActionResult UpcomingEvents()
+        public IActionResult UpcomingEvents(int pageNumber = 1)
         {
             IList<UpcomingEventViewModel> viewModelList = calendarService.GetUpcomingEvents();
-
-            return View(viewModelList.OrderBy(ue => ue.EventDateTime).ToList());
+            var orderedList = viewModelList.OrderBy(ue => ue.EventDateTime);
+            PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, pageNumber, 5);
+            return View(paginatedList);
         }
 
-        public IActionResult RecurringEvents()
+        public IActionResult RecurringEvents(int pageNumber = 1)
         {
             IList<RecurringEventViewModel> viewModelList = calendarService.GetRecurringEvents();
-            return View(viewModelList.OrderBy(re => re.Rating).ToList());
+            var orderedList = viewModelList.OrderBy(re => re.Rating);
+            PaginatedList<RecurringEventViewModel> paginatedList = new PaginatedList<RecurringEventViewModel>(orderedList, pageNumber, 5);
+            return View(paginatedList);
         }
 
         [HttpGet]

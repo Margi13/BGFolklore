@@ -1,5 +1,6 @@
 ﻿@using BGFolklore.Models.Calendar.ViewModels
-@model IList<RecurringEventViewModel>
+@using BGFolklore.Web.Common
+@model PaginatedList<RecurringEventViewModel>
 @{
     ViewData["Title"] = "Calendar";
 }
@@ -45,15 +46,27 @@
             </tr>
         </thead>
         <tbody>
-            @Html.DisplayForModel()
+            @Html.DisplayFor(m => m.PaginatedItems)
         </tbody>
     </table>
-    <div>
-        <button class="btn btn-danger bg-brown">Редактирай мое събитие</button>
-    </div>
+
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+    <a asp-action="RecurringEvents"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       class="btn btn-danger bg-brown op-80 @prevDisabled">
+        Предишна страница
+    </a>
+    <a asp-action="RecurringEvents"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       class="btn btn-danger bg-brown op-80 @nextDisabled">
+        Следваща страница
+    </a>
 </section>
 
-<partial name="_ModalBoxPartial"/>
+<partial name="_ModalBoxPartial" />
 
 @*<script>
         function eventRowOnClick(arg) {

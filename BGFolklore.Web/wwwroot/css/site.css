@@ -586,7 +586,7 @@ input:checked + .slider:before {
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
+    overflow: no-display;
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
@@ -594,7 +594,7 @@ input:checked + .slider:before {
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 5% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
@@ -629,6 +629,24 @@ input:checked + .slider:before {
 #eventInfo div {
     margin: 10px;
 }
+
+.pageNumber {
+    margin: 2px;
+    padding: 1px 1px 4px 4px;
+}
+
+    .pageNumber:hover {
+        opacity: 100%;
+        background: brown;
+        color: white;
+    }
+
+.activePage {
+    opacity: 80%;
+    background: brown !important;
+    color: white !important;
+}
+
 /* ******************************************************
 	Responsive CSS
 *********************************************************/
