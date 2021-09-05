@@ -77,7 +77,14 @@ namespace BGFolklore.Web.Controllers
             if (ModelState.IsValid)
             {
                 calendarService.SaveAddEvent(addEventBindingModel);
-                return RedirectToAction("UpcomingEvents");
+                if (addEventBindingModel.IsRecurring)
+                {
+                    return RedirectToAction("RecurringEvents");
+                }
+                else
+                {
+                    return RedirectToAction("UpcomingEvents");
+                }
             }
             else
             {
