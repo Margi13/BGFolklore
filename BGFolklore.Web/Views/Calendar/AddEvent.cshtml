@@ -109,7 +109,7 @@
             <div class="form-group row">
                 <label asp-for="EventDateTime" class="col-4 col-form-label"></label>
                 <div class="col-8">
-                    <input asp-for="EventDateTime" class="form-control upcomingEvent" id="datetimePicker" value="@(Model.EventDateTime.HasValue ? Model.EventDateTime : DateTime.Now.AddHours(5))"/>
+                    <input asp-for="EventDateTime" class="form-control upcomingEvent" id="datetimePicker"/>
                     <input asp-for="EventDateTime" class="form-control recurringEvent" id="timePicker" />
                 </div>
                 <span asp-validation-for="EventDateTime" class="col-8 offset-4 text-danger"></span>

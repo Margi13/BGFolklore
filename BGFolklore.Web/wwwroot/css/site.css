@@ -630,9 +630,13 @@ input:checked + .slider:before {
     margin: 10px;
 }
 
+/* ******************************************************
+	Pagination
+*********************************************************/
+
 .pageNumber {
     margin: 2px;
-    padding: 1px 1px 4px 4px;
+    padding: 2px 8px;
 }
 
     .pageNumber:hover {
