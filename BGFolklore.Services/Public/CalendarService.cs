@@ -16,10 +16,12 @@ namespace BGFolklore.Services.Public
     public class CalendarService : BaseService, ICalendarService
     {
         private readonly ITownsService townsService;
+        private readonly IFeedbackService feedbackService;
 
-        public CalendarService(ApplicationDbContext context, IMapper mapper, ITownsService townsService) : base(context, mapper)
+        public CalendarService(ApplicationDbContext context, IMapper mapper, ITownsService townsService, IFeedbackService feedbackService) : base(context, mapper)
         {
             this.townsService = townsService;
+            this.feedbackService = feedbackService;
         }
 
         public IList<RecurringEventViewModel> GetRecurringEvents()
@@ -56,10 +58,18 @@ namespace BGFolklore.Services.Public
             
             newPublicEvent.Town = townsService.GetTownByGivenId(newEvent.TownId);
 
-            
+            var status = Context.Status.Where(s => s.Id == 1);
+            Status newStatus = this.Mapper.Map<Status>(status.First());
+            newPublicEvent.Status = newStatus;
+
+            newPublicEvent.Feedbacks = new List<Feedback>();
 
             this.Context.PublicEvents.Add(newPublicEvent);
             this.Context.SaveChanges();
+        }
+        public void UpdatePublicEvent(Guid eventId, PublicEvent updatedPublicEvent)
+        {
+
         }
     }
 }

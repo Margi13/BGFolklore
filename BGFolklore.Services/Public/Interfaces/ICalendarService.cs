@@ -1,4 +1,5 @@
-﻿using BGFolklore.Models.Calendar.BindingModels;
+﻿using BGFolklore.Data.Models.Calendar;
+using BGFolklore.Models.Calendar.BindingModels;
 using BGFolklore.Models.Calendar.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,6 @@ namespace BGFolklore.Services.Public.Interfaces
         IList<RecurringEventViewModel> GetRecurringEvents();
 
         void SaveAddEvent(AddEventBindingModel newEvent);
+        void UpdatePublicEvent(Guid eventId, PublicEvent updatedPublicEvent);
     }
 }

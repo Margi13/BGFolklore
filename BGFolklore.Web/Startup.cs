@@ -107,6 +107,7 @@ namespace BGFolklore.Web
             services.AddScoped<ICalendarService, CalendarService>();
             //Can return error
             services.AddScoped<ITownsService, TownsService>();
+            services.AddScoped<IFeedbackService, FeedbackService>();
 
         }
         
