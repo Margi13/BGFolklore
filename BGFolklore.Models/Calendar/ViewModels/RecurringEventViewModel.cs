@@ -1,4 +1,5 @@
 ﻿using BGFolklore.Common.Nomenclatures;
+using BGFolklore.Data.Models.Calendar;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -52,5 +53,7 @@ namespace BGFolklore.Models.Calendar.ViewModels
         public string Description { get; set; }
 
         public float Rating { get; set; }
+
+        public IList<Feedback> Feedbacks { get; set; }
     }
 }
