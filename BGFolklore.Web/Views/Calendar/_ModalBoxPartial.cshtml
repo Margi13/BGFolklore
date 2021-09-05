@@ -1,6 +1,6 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using BGFolklore.Models.Calendar.ViewModels
+
+@model FeedbackViewModel
 
 <div id="myModal" class="modal">
 
@@ -18,17 +18,52 @@
         </div>
 
         <div id="ownerButtons">
-            <button class="btn btn-danger bg-brown op-80" title="Редактиране на информацията за събитието.">
+            <button class="btn btn-danger bg-brown op-80"
+                    title="Редактиране на информацията за събитието.">
                 Редактирай събитие <i class="fas fa-edit"></i>
             </button>
-            <button class="btn btn-danger bg-brown op-80" title="Изтриване на събитието.">
+            <button class="btn btn-danger bg-brown op-80"
+                    title="Изтриване на събитието.">
                 Изтрий събитие <i class="fas fa-trash-alt"></i>
             </button>
         </div>
-        <div id="readerButton">
-            <button class="btn btn-danger bg-brown op-80" title="Докладване за грешна или неточна информация.">
+        <div id="readerButtons">
+            <button class="btn btn-danger bg-brown op-80"
+                    title="Докладване за грешна или неточна информация.">
                 Докладвай за грешка <i class="fas fa-bug"></i>
             </button>
+        </div>
+        <div>
+            <form id="reportForm" method="post" asp-controller="Calendar" asp-action="Report">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group row hidden">
+                    <label asp-for="OwnerId" class="col-form-label"></label>
+                    <div>
+                        <input asp-for="OwnerId" id="ownerId" class="form-control" value="" />
+                    </div>
+                    <span asp-validation-for="OwnerId" class="text-danger"></span>
+                </div>
+                <div class="form-group row hidden">
+                    <label asp-for="EventId" class="col-form-label"></label>
+                    <div>
+                        <input asp-for="EventId" id="eventId" class="form-control" value="" />
+                    </div>
+                    <span asp-validation-for="EventId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="col-form-label"></label>
+                    <div>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                    </div>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <div class="m-auto">
+                        <button type="submit" class="btn btn-danger bg-brown op-80">Изпрати <i class="fas fa-bug"></i></button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

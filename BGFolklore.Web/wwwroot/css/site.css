@@ -196,19 +196,6 @@ h2 {
     float: right;
 }
 
-/* ******************************************************
-	Form
-*********************************************************/
-
-.crud-section {
-    width: 70%;
-    margin: 10px auto;
-}
-
-    .crud-section form label {
-        margin: 5px 10px;
-    }
-
 /*Opacity*/
 .op-80 {
     opacity: 80%
@@ -594,7 +581,7 @@ input:checked + .slider:before {
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
-    margin: 5% auto; /* 15% from the top and centered */
+    margin: 3% auto; /* 3% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
@@ -622,12 +609,16 @@ input:checked + .slider:before {
 }
 
 #ownerButtons,
-#readerButton {
+#readerButtons {
     align-self: center;
 }
 
 #eventInfo div {
     margin: 10px;
+}
+#reportForm {
+    display: none;
+    align-items:center;
 }
 
 /* ******************************************************

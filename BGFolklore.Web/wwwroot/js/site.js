@@ -37,23 +37,36 @@
     }
     function showOwnerOrReaderElements(userId, modelData) {
         let readerSpan = document.getElementById('readerSpan');
-        let readerButton = document.getElementById('readerButton');
+        let readerButtons = document.getElementById('readerButtons');
+
+        readerButtons.children[0].addEventListener('click', e => reportButtonOnClick(e, modelData.id, userId));
 
         let ownerSpan = document.getElementById('ownerSpan');
         let ownerButtons = document.getElementById('ownerButtons');
         if (userId == modelData.ownerId) {
             readerSpan.style.display = 'none';
-            readerButton.style.display = 'none';
+            readerButtons.style.display = 'none';
 
             ownerSpan.style.display = 'block';
             ownerButtons.style.display = 'block';
         } else {
             readerSpan.style.display = 'block';
-            readerButton.style.display = 'block';
+            readerButtons.style.display = 'block';
 
             ownerSpan.style.display = 'none';
             ownerButtons.style.display = 'none';
         }
+    }
+}
+function reportButtonOnClick(e, eventId, ownerId) {
+    let reportForm = document.getElementById('reportForm');
+    if (reportForm.style.display == 'none') {
+        reportForm.style.display = 'flex';
+        reportForm.style.flexDirection = "column";
+        document.getElementById('eventId').value = eventId;
+        document.getElementById('ownerId').value = ownerId;
+    } else {
+        reportForm.style.display = 'none';
     }
 }
 function e(type, attributes, ...content) {
@@ -85,29 +98,3 @@ function appendElements(sourceArray, destinationElement) {
         destinationElement.appendChild(element);
     });
 }
-
-//function createPager(page, pages, header) {
-//    const type = header ? 'header' : 'footer';
-//    const result = e(type, { className: 'section-title' }, `Page ${page} of ${pages}`);
-//    if (page > 1) {
-//        result.appendChild(e('a', {
-//            href: '/catalog',
-//            className: 'pager',
-//            onClick: (e) => {
-//                e.preventDefault();
-//                nav.goTo('catalog', page - 1);
-//            }
-//        }, '< Prev'));
-//    }
-//    if (page < pages) {
-//        result.appendChild(e('a', {
-//            href: '/catalog',
-//            className: 'pager',
-//            onClick: (e) => {
-//                e.preventDefault();
-//                nav.goTo('catalog', page + 1);
-//            }
-//        }, 'Next >'));
-//    }
-//    return result;
-//}
