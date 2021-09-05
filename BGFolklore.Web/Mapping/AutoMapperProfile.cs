@@ -35,6 +35,13 @@ namespace BGFolklore.Web.Mapping
             this.CreateMap<AddEventBindingModel, AddEventViewModel>()
                 .ForMember(dest => dest.IntendedFor, opt => opt.Ignore())
                 .ForMember(dest => dest.OccuringDays, opt => opt.Ignore());
+
+            this.CreateMap<FeedbackBindingModel,Feedback>()
+                .ForMember(dest => dest.Event, opt => opt.Ignore())
+                .ForMember(dest => dest.Status, opt => opt.Ignore())
+                .ForMember(dest => dest.Owner, opt => opt.Ignore());
+
+            this.CreateMap<FeedbackBindingModel, FeedbackViewModel>();
         }
     }
 }

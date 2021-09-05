@@ -23,18 +23,21 @@ namespace BGFolklore.Web.Controllers
         private readonly IStringLocalizer<CalendarController> localizer;
         private readonly IMapper mapper;
         private readonly ITownsService townsService;
+        private readonly IFeedbackService feedbackService;
 
         public CalendarController(IWebHostEnvironment webHostEnvironment,
             ICalendarService calendarService,
             IStringLocalizer<CalendarController> localizer,
             IMapper mapper,
-            ITownsService townsService)
+            ITownsService townsService,
+            IFeedbackService feedbackService)
         {
             this.webHostEnvironment = webHostEnvironment;
             this.calendarService = calendarService;
             this.localizer = localizer;
             this.mapper = mapper;
             this.townsService = townsService;
+            this.feedbackService = feedbackService;
 
             if (Towns.AllTowns is null)
             {
@@ -63,6 +66,25 @@ namespace BGFolklore.Web.Controllers
             return View(paginatedList);
         }
 
+        [HttpPost]
+        public IActionResult Report(FeedbackBindingModel feedbackBindingModel)
+        {
+            if (ModelState.IsValid)
+            {
+                feedbackService.SaveFeedback(feedbackBindingModel);
+                var pathParts = Request.Headers["Referer"].ToString().Split("/");
+                string lastAction = pathParts[pathParts.Length - 1];
+                return RedirectToAction(lastAction);
+            }
+            else
+            {
+                var feedbackViewModel = this.mapper.Map<FeedbackViewModel>(feedbackBindingModel);
+
+                var pathParts = Request.Headers["Referer"].ToString().Split("/");
+                string lastAction = pathParts[pathParts.Length - 1];
+                return RedirectToAction(lastAction, feedbackViewModel);
+            }
+        }
         [HttpGet]
         public IActionResult AddEvent()
         {
