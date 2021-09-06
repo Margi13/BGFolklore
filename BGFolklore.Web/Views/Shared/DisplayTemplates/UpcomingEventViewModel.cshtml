@@ -12,24 +12,26 @@
 @inject IStringLocalizer<CalendarController> localizer
 
 @model UpcomingEventViewModel
-<tr class="eventRow" onclick="eventRowOnClick(@Json.Serialize(Model).ToString(), @Json.Serialize(userManager.GetUserId(User)).ToString())">
-    <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
-    <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
-    <td>@Model.Name</td>
-    <td>@Model.Address</td>
-    <td>@Model.EventDateTime.Date.ToShortDateString()</td>
-    <td>@Model.EventDateTime.TimeOfDay</td>
-    <td>
-        @* В мапер *@
-        @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
-        {
-            @if ((Model.IntendedFor & item) == item)
+<a asp-action="ModalPartial">
+    <tr class="eventRow" onclick="eventRowOnClick(@Json.Serialize(Model).ToString(), @Json.Serialize(userManager.GetUserId(User)).ToString())">
+        <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
+        <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
+        <td>@Model.Name</td>
+        <td>@Model.Address</td>
+        <td>@Model.EventDateTime.Date.ToShortDateString()</td>
+        <td>@Model.EventDateTime.TimeOfDay</td>
+        <td>
+            @* В мапер *@
+            @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
             {
-                <div>
-                    @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
-                </div>
+                @if ((Model.IntendedFor & item) == item)
+                {
+                    <div>
+                        @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
+                    </div>
+                }
             }
-        }
-    </td>
-    @*<td>Няма</td>*@
-</tr>
+        </td>
+        @*<td>Няма</td>*@
+    </tr>
+</a>
