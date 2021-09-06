@@ -12,36 +12,38 @@
 
 @model RecurringEventViewModel
 
-<tr class="eventRow" onclick="eventRowOnClick(@Json.Serialize(Model).ToString(), @Json.Serialize(userManager.GetUserId(User)).ToString())">
-    <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
-    <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
-    <td>@Model.Name</td>
-    <td>@Model.Address</td>
-    <td>
-        @foreach (int item in Enum.GetValues(typeof(DaysOfWeek)))
-        {
-            @if ((Model.OccuringDays & item) == item)
+<a asp-action="ModalPartial">
+    <tr class="eventRow" onclick="eventRowOnClick(@Json.Serialize(Model).ToString(), @Json.Serialize(userManager.GetUserId(User)).ToString())">
+        <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
+        <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
+        <td>@Model.Name</td>
+        <td>@Model.Address</td>
+        <td>
+            @foreach (int item in Enum.GetValues(typeof(DaysOfWeek)))
             {
-                <div>
-                    @localizer[$"Day{(((DaysOfWeek)item).ToString())}"]
-                </div>
+                @if ((Model.OccuringDays & item) == item)
+                {
+                    <div>
+                        @localizer[$"Day{(((DaysOfWeek)item).ToString())}"]
+                    </div>
+                }
             }
-        }
-    </td>
-    <td>
-        @Model.EventDateTime.TimeOfDay
-    </td>
-    <td>
-        @* В мапер *@
-        @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
-        {
-            @if ((Model.IntendedFor & item) == item)
+        </td>
+        <td>
+            @Model.EventDateTime.TimeOfDay
+        </td>
+        <td>
+            @* В мапер *@
+            @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
             {
-                <div>
-                    @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
-                </div>
+                @if ((Model.IntendedFor & item) == item)
+                {
+                    <div>
+                        @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
+                    </div>
+                }
             }
-        }
-    </td>
-    <td>@Model.Rating</td>
-</tr>
+        </td>
+        <td>@Model.Rating</td>
+    </tr>
+</a>

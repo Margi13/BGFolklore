@@ -18,14 +18,16 @@
         </div>
 
         <div id="ownerButtons">
-            <button class="btn btn-danger bg-brown op-80"
-                    title="Редактиране на информацията за събитието.">
+            <a asp-action="EditEvent" id="editEventBtn"
+               class="btn btn-danger bg-brown op-80"
+               title="Редактиране на информацията за събитието.">
                 Редактирай събитие <i class="fas fa-edit"></i>
-            </button>
-            <button class="btn btn-danger bg-brown op-80"
-                    title="Изтриване на събитието.">
+            </a>
+            <a asp-action="DeleteEvent" id="deleteEventBtn"
+               class="btn btn-danger bg-brown op-80"
+               title="Изтриване на събитието.">
                 Изтрий събитие <i class="fas fa-trash-alt"></i>
-            </button>
+            </a>
         </div>
         <div id="readerButtons">
             <button class="btn btn-danger bg-brown op-80"

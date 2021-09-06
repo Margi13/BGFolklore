@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using BGFolklore.Common.Nomenclatures;
+using BGFolklore.Data.Models;
 using BGFolklore.Data.Models.Calendar;
 using BGFolklore.Models.Calendar.BindingModels;
 using BGFolklore.Models.Calendar.ViewModels;
 using BGFolklore.Services.Public.Interfaces;
 using BGFolklore.Web.Common;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
@@ -13,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace BGFolklore.Web.Controllers
 {
@@ -24,13 +27,15 @@ namespace BGFolklore.Web.Controllers
         private readonly IMapper mapper;
         private readonly ITownsService townsService;
         private readonly IFeedbackService feedbackService;
+        private readonly UserManager<User> userManager;
 
         public CalendarController(IWebHostEnvironment webHostEnvironment,
             ICalendarService calendarService,
             IStringLocalizer<CalendarController> localizer,
             IMapper mapper,
             ITownsService townsService,
-            IFeedbackService feedbackService)
+            IFeedbackService feedbackService,
+            UserManager<User> userManager)
         {
             this.webHostEnvironment = webHostEnvironment;
             this.calendarService = calendarService;
@@ -38,7 +43,7 @@ namespace BGFolklore.Web.Controllers
             this.mapper = mapper;
             this.townsService = townsService;
             this.feedbackService = feedbackService;
-
+            this.userManager = userManager;
             if (Towns.AllTowns is null)
             {
                 Towns.GetTowns(townsService);
@@ -66,6 +71,13 @@ namespace BGFolklore.Web.Controllers
             return View(paginatedList);
         }
 
+        public IActionResult ModalPartial(EventViewModel eventViewModel)
+        {
+            
+            return PartialView("_ModalBoxPartial", new FeedbackViewModel());
+        }
+
+
         [HttpPost]
         public IActionResult Report(FeedbackBindingModel feedbackBindingModel)
         {
@@ -85,6 +97,13 @@ namespace BGFolklore.Web.Controllers
                 return RedirectToAction(lastAction, feedbackViewModel);
             }
         }
+
+        public IActionResult DeleteEvent(EventViewModel eventViewModel)
+        {
+            calendarService.DeletePublicEvent(eventViewModel);
+            return Ok();
+        }
+
         [HttpGet]
         public IActionResult AddEvent()
         {
@@ -117,16 +136,6 @@ namespace BGFolklore.Web.Controllers
 
                 addEventViewModel.OccuringDays = new List<SelectListItem>();
                 GetSelectedOccuringDays(addEventViewModel, addEventBindingModel);
-
-                //if(addEventBindingModel.EventDateTime.CompareTo(DateTime.Now) < 0)
-                //{
-
-                //    addEventViewModel.EventDateTime = new DateTime();
-                //    DateTime dt = DateTime.Now;
-                //    dt = dt.AddHours(5);
-                //    addEventViewModel.EventDateTime = dt;
-                //}
-
 
                 return View(addEventViewModel);
             }

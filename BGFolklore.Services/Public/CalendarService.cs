@@ -26,14 +26,14 @@ namespace BGFolklore.Services.Public
 
         public IList<RecurringEventViewModel> GetRecurringEvents()
         {
-            var publicEvents = this.Context.PublicEvents.Where(e => e.OccuringDays != 0);
+            var publicEvents = this.Context.PublicEvents.Where(e => e.OccuringDays != 0).Where(e => e.StatusId != 3);
             IList<RecurringEventViewModel> recurringEvents = this.Mapper.Map<IList<RecurringEventViewModel>>(publicEvents);
             return recurringEvents;
         }
 
         public IList<UpcomingEventViewModel> GetUpcomingEvents()
         {
-            var publicEvents = this.Context.PublicEvents.Where(e => e.OccuringDays == 0);
+            var publicEvents = this.Context.PublicEvents.Where(e => e.OccuringDays == 0).Where(e => e.StatusId != 3);
             IList<UpcomingEventViewModel> upcomingEvents = this.Mapper.Map<IList<UpcomingEventViewModel>>(publicEvents);
             return upcomingEvents;
         }
@@ -55,7 +55,7 @@ namespace BGFolklore.Services.Public
                     newPublicEvent.OccuringDays = newPublicEvent.OccuringDays | dayName;
                 }
             }
-            
+
             newPublicEvent.Town = townsService.GetTownByGivenId(newEvent.TownId);
 
             var status = Context.Status.Where(s => s.Id == 1);
@@ -67,9 +67,32 @@ namespace BGFolklore.Services.Public
             this.Context.PublicEvents.Add(newPublicEvent);
             this.Context.SaveChanges();
         }
-        public void UpdatePublicEvent(Guid eventId, PublicEvent updatedPublicEvent)
+        public PublicEvent GetPublicEvent(Guid eventId)
         {
+            var publicEvent = this.Context.PublicEvents.Where(pe => pe.Id == eventId).First();
+            PublicEvent findedPublicEvent = this.Mapper.Map<PublicEvent>(publicEvent);
+            return findedPublicEvent;
+        }
 
+
+        public void UpdatePublicEvent(EventViewModel eventViewModel, PublicEvent updatedPublicEvent)
+        {
+            PublicEvent publicEvent = GetPublicEvent(eventViewModel.Id);
+
+        }
+
+        public void DeletePublicEvent(EventViewModel eventViewModel)
+        {
+            PublicEvent publicEvent = GetPublicEvent(eventViewModel.Id);
+
+            publicEvent.StatusId = 3;
+
+            var status = Context.Status.Where(s => s.Id == 3);
+            Status newStatus = this.Mapper.Map<Status>(status.First());
+
+            publicEvent.Status = newStatus;
+
+            this.Context.SaveChanges();
         }
     }
 }

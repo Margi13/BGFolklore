@@ -15,6 +15,7 @@ namespace BGFolklore.Services.Public.Interfaces
         IList<RecurringEventViewModel> GetRecurringEvents();
 
         void SaveAddEvent(AddEventBindingModel newEvent);
-        void UpdatePublicEvent(Guid eventId, PublicEvent updatedPublicEvent);
+        void UpdatePublicEvent(EventViewModel eventViewModel, PublicEvent updatedPublicEvent);
+        public void DeletePublicEvent(EventViewModel eventViewModel);
     }
 }

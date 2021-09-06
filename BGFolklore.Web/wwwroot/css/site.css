@@ -616,9 +616,15 @@ input:checked + .slider:before {
 #eventInfo div {
     margin: 10px;
 }
+
 #reportForm {
     display: none;
-    align-items:center;
+    align-items: center;
+}
+
+.eventRow:hover {
+    background: antiquewhite;
+    cursor: pointer;
 }
 
 /* ******************************************************
