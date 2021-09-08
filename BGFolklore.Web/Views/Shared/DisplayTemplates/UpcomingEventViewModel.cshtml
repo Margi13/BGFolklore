@@ -12,7 +12,6 @@
 @inject IStringLocalizer<CalendarController> localizer
 
 @model UpcomingEventViewModel
-<a asp-action="ModalPartial">
     <tr class="eventRow" onclick="eventRowOnClick(@Json.Serialize(Model).ToString(), @Json.Serialize(userManager.GetUserId(User)).ToString())">
         <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
         <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
@@ -32,6 +31,26 @@
                 }
             }
         </td>
-        @*<td>Няма</td>*@
+        <td>
+            @if (Model.Feedbacks.Count != 0)
+            {
+                <а href="#" title="Сигнали за грешка"><i class="fas fa-info text-danger"></i></а>
+            }
+            @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
+            {
+                @*<div id="ownerButtons">*@
+                <button type="button" onclick="location.href='@Url.Action("EditEvent", "Calendar", Model)'"
+                        id="editEventBtn" class="btn btn-danger bg-brown op-80"
+                        title="Редактиране на информацията за събитието.">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" onclick="location.href='@Url.Action("DeleteEvent", "Calendar", Model)'"
+                        id="deleteEventBtn" class="btn btn-danger bg-brown op-80"
+                        title="Изтриване на събитието.">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+
+                @*</div>*@
+            }
+        </td>
     </tr>
-</a>

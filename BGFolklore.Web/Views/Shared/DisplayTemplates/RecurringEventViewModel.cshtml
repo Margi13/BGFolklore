@@ -12,38 +12,56 @@
 
 @model RecurringEventViewModel
 
-<a asp-action="ModalPartial">
-    <tr class="eventRow" onclick="eventRowOnClick(@Json.Serialize(Model).ToString(), @Json.Serialize(userManager.GetUserId(User)).ToString())">
-        <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
-        <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
-        <td>@Model.Name</td>
-        <td>@Model.Address</td>
-        <td>
-            @foreach (int item in Enum.GetValues(typeof(DaysOfWeek)))
+<tr class="eventRow" title="Виж допълнителна информация от реда..." onclick="eventRowOnClick(@Json.Serialize(Model).ToString(), @Json.Serialize(userManager.GetUserId(User)).ToString())">
+    <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
+    <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
+    <td>@Model.Name</td>
+    <td>@Model.Address</td>
+    <td>
+        @foreach (int item in Enum.GetValues(typeof(DaysOfWeek)))
+        {
+            @if ((Model.OccuringDays & item) == item)
             {
-                @if ((Model.OccuringDays & item) == item)
-                {
-                    <div>
-                        @localizer[$"Day{(((DaysOfWeek)item).ToString())}"]
-                    </div>
-                }
+                <div>
+                    @localizer[$"Day{(((DaysOfWeek)item).ToString())}"]
+                </div>
             }
-        </td>
-        <td>
-            @Model.EventDateTime.TimeOfDay
-        </td>
-        <td>
-            @* В мапер *@
-            @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
+        }
+    </td>
+    <td>@Model.EventDateTime.TimeOfDay</td>
+    <td>
+        @* В мапер *@
+        @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
+        {
+            @if ((Model.IntendedFor & item) == item)
             {
-                @if ((Model.IntendedFor & item) == item)
-                {
-                    <div>
-                        @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
-                    </div>
-                }
+                <div>
+                    @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
+                </div>
             }
-        </td>
-        <td>@Model.Rating</td>
-    </tr>
-</a>
+        }
+    </td>
+    <td>@Model.Rating</td>
+    <td>
+        @if (Model.Feedbacks.Count != 0)
+        {
+            <а href="#" title="Сигнали за грешка"><i class="fas fa-info text-danger"></i></а>
+        }
+        @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
+        {
+            @*<div id="ownerButtons">*@
+            <button type="button" onclick="location.href='@Url.Action("EditEvent", "Calendar", Model)'"
+                    id="editEventBtn" class="btn btn-danger bg-brown op-80"
+                    title="Редактиране на информацията за събитието.">
+                <i class="fas fa-edit"></i>
+            </button>
+            <button type="button" onclick="location.href='@Url.Action("DeleteEvent", "Calendar", Model)'"
+                    id="deleteEventBtn" class="btn btn-danger bg-brown op-80"
+                    title="Изтриване на събитието.">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+
+            @*</div>*@
+        }
+    </td>
+</tr>

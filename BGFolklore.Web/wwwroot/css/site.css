@@ -601,14 +601,12 @@ input:checked + .slider:before {
         cursor: pointer;
     }
 
-#ownerButtons,
 #ownerSpan,
 #readerSpan,
 #readerButton {
     display: none;
 }
 
-#ownerButtons,
 #readerButtons {
     align-self: center;
 }

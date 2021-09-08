@@ -17,20 +17,8 @@
 
         </div>
 
-        <div id="ownerButtons">
-            <a asp-action="EditEvent" id="editEventBtn"
-               class="btn btn-danger bg-brown op-80"
-               title="Редактиране на информацията за събитието.">
-                Редактирай събитие <i class="fas fa-edit"></i>
-            </a>
-            <a asp-action="DeleteEvent" id="deleteEventBtn"
-               class="btn btn-danger bg-brown op-80"
-               title="Изтриване на събитието.">
-                Изтрий събитие <i class="fas fa-trash-alt"></i>
-            </a>
-        </div>
         <div id="readerButtons">
-            <button class="btn btn-danger bg-brown op-80"
+            <button class="btn btn-danger bg-brown op-80" id="reportBtn"
                     title="Докладване за грешна или неточна информация.">
                 Докладвай за грешка <i class="fas fa-bug"></i>
             </button>
@@ -52,12 +40,12 @@
                     </div>
                     <span asp-validation-for="EventId" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group w-50">
                     <label asp-for="Description" class="col-form-label"></label>
                     <div>
                         <textarea asp-for="Description" class="form-control"></textarea>
                     </div>
-                    <span asp-validation-for="Description" class="text-danger"></span>
+                    <span asp-validation-for="Description" class="text-danger text-center"></span>
                 </div>
 
                 <div>
@@ -69,3 +57,6 @@
         </div>
     </div>
 </div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
