@@ -41,7 +41,7 @@
                 <th>Дата</th>
                 <th>Час</th>
                 <th>За кого е предназначено</th>
-                @*<th>Коментар</th>*@
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -89,7 +89,7 @@
 </section>
 
 <div id="modal-container">
-
+    <partial name="_ModalBoxPartial" model="@(new FeedbackViewModel())" />
 </div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

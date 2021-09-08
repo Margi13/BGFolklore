@@ -73,7 +73,7 @@ namespace BGFolklore.Web.Controllers
 
         public IActionResult ModalPartial(EventViewModel eventViewModel)
         {
-            
+
             return PartialView("_ModalBoxPartial", new FeedbackViewModel());
         }
 
@@ -85,30 +85,45 @@ namespace BGFolklore.Web.Controllers
             {
                 feedbackService.SaveFeedback(feedbackBindingModel);
                 var pathParts = Request.Headers["Referer"].ToString().Split("/");
-                string lastAction = pathParts[pathParts.Length - 1];
+                string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
                 return RedirectToAction(lastAction);
             }
             else
             {
                 var feedbackViewModel = this.mapper.Map<FeedbackViewModel>(feedbackBindingModel);
-
+                //Трябва да прави нещо, ако не е валидно?
                 var pathParts = Request.Headers["Referer"].ToString().Split("/");
-                string lastAction = pathParts[pathParts.Length - 1];
-                return RedirectToAction(lastAction, feedbackViewModel);
+                var lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
+                return RedirectToAction(lastAction);
             }
         }
+
+        public IActionResult EditEvent(EventViewModel eventViewModel)
+        {
+            AddEventBindingModel addEventBindingModel = calendarService.GetBindingModelFromData(eventViewModel);
+
+            AddEventViewModel viewModel = CreateAddEventViewModel(addEventBindingModel);
+            ViewData["CRUD"] = "Update";
+            TempData["EventId"] = eventViewModel.Id;
+            TempData["Operation"] = "Update";
+            return View("AddEvent", viewModel);
+        }
+
 
         public IActionResult DeleteEvent(EventViewModel eventViewModel)
         {
             calendarService.DeletePublicEvent(eventViewModel);
-            return Ok();
+            var pathParts = Request.Headers["Referer"].ToString().Split("/");
+            string lastAction = pathParts[pathParts.Length - 1];
+            return RedirectToAction(lastAction);
         }
 
         [HttpGet]
         public IActionResult AddEvent()
         {
-            AddEventViewModel viewModel = GetAddEventViewModel();
-
+            AddEventViewModel viewModel = CreateAddEventViewModel();
+            ViewData["CRUD"] = "Create";
+            TempData["Operation"] = "Create";
             return View(viewModel);
         }
 
@@ -117,7 +132,15 @@ namespace BGFolklore.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (TempData["Operation"].Equals("Create"))
+                {
                 calendarService.SaveAddEvent(addEventBindingModel);
+                }else if (TempData["Operation"].Equals("Update"))
+                {
+                    Guid eventId = (Guid)TempData["EventId"];
+                    calendarService.UpdatePublicEvent(eventId, addEventBindingModel);
+                }
+
                 if (addEventBindingModel.IsRecurring)
                 {
                     return RedirectToAction("RecurringEvents");
@@ -129,19 +152,13 @@ namespace BGFolklore.Web.Controllers
             }
             else
             {
-                var addEventViewModel = this.mapper.Map<AddEventViewModel>(addEventBindingModel);
-
-                addEventViewModel.IntendedFor = new List<SelectListItem>();
-                GetSelectedAttendeeType(addEventViewModel, addEventBindingModel);
-
-                addEventViewModel.OccuringDays = new List<SelectListItem>();
-                GetSelectedOccuringDays(addEventViewModel, addEventBindingModel);
+                var addEventViewModel = CreateAddEventViewModel(addEventBindingModel);
 
                 return View(addEventViewModel);
             }
         }
 
-        private AddEventViewModel GetAddEventViewModel()
+        private AddEventViewModel CreateAddEventViewModel()
         {
             var viewModel = new AddEventViewModel();
 
@@ -150,6 +167,18 @@ namespace BGFolklore.Web.Controllers
 
             viewModel.OccuringDays = new List<SelectListItem>();
             GetOccuringDays(viewModel);
+
+            return viewModel;
+        }
+        private AddEventViewModel CreateAddEventViewModel(AddEventBindingModel addEventBindingModel)
+        {
+            var viewModel = this.mapper.Map<AddEventViewModel>(addEventBindingModel);
+
+            viewModel.IntendedFor = new List<SelectListItem>();
+            GetSelectedAttendeeType(viewModel, addEventBindingModel);
+
+            viewModel.OccuringDays = new List<SelectListItem>();
+            GetSelectedOccuringDays(viewModel, addEventBindingModel);
 
             return viewModel;
         }

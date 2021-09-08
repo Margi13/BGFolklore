@@ -1,4 +1,5 @@
 ﻿using BGFolklore.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace BGFolklore.Web.Controllers
 {
+    //[Authorize]
     public class HomeController : Controller
     {
 

@@ -41,8 +41,9 @@
                 <th>Ден</th>
                 <th>Час</th>
                 <th>За кого е предназначено</th>
-                <th>Коментар</th>
+                @*<th>Коментар</th>*@
                 <th>Рейтинг</th>
+                <th class="feedback-col"></th>
             </tr>
         </thead>
         <tbody>
@@ -69,6 +70,9 @@
 </section>
 
 <div id="modal-container">
+    <partial name="_ModalBoxPartial" model="@(new FeedbackViewModel())" />
+</div>
+<div id="feedbacks-container">
 
 </div>
 
