@@ -13,5 +13,8 @@ namespace BGFolklore.Services.Public.Interfaces
         void SaveFeedback(FeedbackBindingModel feedbackBindingModel);
         IList<Feedback> GetAllEventFeedbacks(Guid id);
         void ChangeFeedbackStatus(Guid feedbackId, int statusId);
+        void DeleteAllEventFeedbacks(Guid eventId);
+        Feedback GetFeedbackById(Guid feedbackId);
+
     }
 }

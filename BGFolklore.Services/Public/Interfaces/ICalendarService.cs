@@ -16,7 +16,7 @@ namespace BGFolklore.Services.Public.Interfaces
 
         void SaveAddEvent(AddEventBindingModel newEvent);
         void UpdatePublicEvent(Guid eventId, AddEventBindingModel updatedViewModel);
-        void DeletePublicEvent(EventViewModel eventViewModel);
+        void DeletePublicEvent(Guid eventId);
 
         AddEventBindingModel GetBindingModelFromData(EventViewModel eventViewModel);
     }

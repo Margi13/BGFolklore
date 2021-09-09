@@ -22,47 +22,65 @@ namespace BGFolklore.Services.Public
         {
             feedbackBindingModel.StatusId = 1;
             feedbackBindingModel.CreateDateTime = DateTime.Now;
+
             var newFeedback = this.Mapper.Map<Feedback>(feedbackBindingModel);
 
-            var status = this.Context.Status.Where(s => s.Id == feedbackBindingModel.StatusId);
-            newFeedback.Status = this.Mapper.Map<Status>(status.First());
-
             var pe = this.Context.PublicEvents.Where(pe => pe.Id == feedbackBindingModel.EventId);
-            var publicEvent = this.Mapper.Map<PublicEvent>(pe.First());
+            PublicEvent publicEvent = this.Mapper.Map<PublicEvent>(pe.First());
             newFeedback.Event = publicEvent;
-            
-            var feedback = this.Mapper.Map<Feedback>(feedbackBindingModel);
-            if(publicEvent.Feedbacks == null)
-            {
-                publicEvent.Feedbacks = new List<Feedback>();
-            }
-            publicEvent.Feedbacks.Add(feedback);
 
             var owner = this.Context.Users.Where(u => u.Id == feedbackBindingModel.OwnerId);
             newFeedback.Owner = this.Mapper.Map<User>(owner.First());
 
+            Status status = GetStatus(feedbackBindingModel.StatusId);
+            newFeedback.Status = status;
+
             this.Context.Feedback.Add(newFeedback);
             this.Context.SaveChanges();
         }
+
         public IList<Feedback> GetAllEventFeedbacks(Guid eventId)
         {
-            var feedbacks = this.Context.Feedback.Where(f => f.EventId == eventId);
+            var feedbacks = this.Context.Feedback.Where(f => f.EventId == eventId && f.StatusId != 3);
             IList<Feedback> feedsList = this.Mapper.Map<IList<Feedback>>(feedbacks);
             return feedsList;
         }
+        public void DeleteAllEventFeedbacks(Guid eventId)
+        {
+            var feedbacks = GetAllEventFeedbacks(eventId);
 
+            foreach (var feed in feedbacks)
+            {
+                Status newStatus = GetStatus(3);
+
+                feed.StatusId = 3;
+                feed.Status = newStatus;
+            }
+            Context.SaveChanges();
+        }
         public void ChangeFeedbackStatus(Guid feedbackId, int statusId)
         {
-            var feedback = this.Context.Feedback.Where(f => f.Id == feedbackId);
-            Feedback feedbackToChange = this.Mapper.Map<Feedback>(feedback);
+            Feedback feedbackToChange = GetFeedbackById(feedbackId);
+            Status newStatus = GetStatus(statusId);
             
-            var newStatus = this.Context.Status.Where(s => s.Id == statusId);
-            Status statusToChange = this.Mapper.Map<Status>(newStatus);
-            
-            feedbackToChange.Status = statusToChange;
+            feedbackToChange.StatusId = statusId;
+            feedbackToChange.Status = newStatus;
 
             Context.SaveChanges();
         }
+        public Feedback GetFeedbackById(Guid feedbackId) 
+        {
+            var feedback = this.Context.Feedback.Where(f => f.Id == feedbackId);
+            Feedback feedbackToReturn = this.Mapper.Map<Feedback>(feedback.First());
+            return feedbackToReturn;
+        }
 
+        private Status GetStatus(int statusId)
+        {
+            var newStatus = this.Context.Status.Where(s => s.Id == statusId);
+            Status status = this.Mapper.Map<Status>(newStatus.First());
+
+            return status;
+        }
     }
 }

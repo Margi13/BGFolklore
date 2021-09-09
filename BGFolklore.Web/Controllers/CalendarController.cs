@@ -91,10 +91,7 @@ namespace BGFolklore.Web.Controllers
             else
             {
                 var feedbackViewModel = this.mapper.Map<FeedbackViewModel>(feedbackBindingModel);
-                //Трябва да прави нещо, ако не е валидно?
-                var pathParts = Request.Headers["Referer"].ToString().Split("/");
-                var lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
-                return RedirectToAction(lastAction);
+                return PartialView("_ModalBoxPartial", feedbackViewModel);
             }
         }
 
@@ -112,9 +109,9 @@ namespace BGFolklore.Web.Controllers
 
         public IActionResult DeleteEvent(EventViewModel eventViewModel)
         {
-            calendarService.DeletePublicEvent(eventViewModel);
+            calendarService.DeletePublicEvent(eventViewModel.Id);
             var pathParts = Request.Headers["Referer"].ToString().Split("/");
-            string lastAction = pathParts[pathParts.Length - 1];
+            string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
             return RedirectToAction(lastAction);
         }
 
@@ -134,8 +131,9 @@ namespace BGFolklore.Web.Controllers
             {
                 if (TempData["Operation"].Equals("Create"))
                 {
-                calendarService.SaveAddEvent(addEventBindingModel);
-                }else if (TempData["Operation"].Equals("Update"))
+                    calendarService.SaveAddEvent(addEventBindingModel);
+                }
+                else if (TempData["Operation"].Equals("Update"))
                 {
                     Guid eventId = (Guid)TempData["EventId"];
                     calendarService.UpdatePublicEvent(eventId, addEventBindingModel);
