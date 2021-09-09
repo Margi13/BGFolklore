@@ -12,45 +12,49 @@
 @inject IStringLocalizer<CalendarController> localizer
 
 @model UpcomingEventViewModel
-    <tr class="eventRow" onclick="eventRowOnClick(@Json.Serialize(Model).ToString(), @Json.Serialize(userManager.GetUserId(User)).ToString())">
-        <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
-        <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
-        <td>@Model.Name</td>
-        <td>@Model.Address</td>
-        <td>@Model.EventDateTime.Date.ToShortDateString()</td>
-        <td>@Model.EventDateTime.TimeOfDay</td>
-        <td>
-            @* В мапер *@
-            @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
+<tr class="eventRow" onclick="eventRowOnClick(@Json.Serialize(Model).ToString(), @Json.Serialize(userManager.GetUserId(User)).ToString())">
+    <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
+    <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
+    <td>@Model.Name</td>
+    <td>@Model.EventDateTime.Date.ToShortDateString()</td>
+    <td>@Model.EventDateTime.TimeOfDay</td>
+    <td>
+        @* В мапер *@
+        @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
+        {
+            @if ((Model.IntendedFor & item) == item)
             {
-                @if ((Model.IntendedFor & item) == item)
-                {
-                    <div>
-                        @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
-                    </div>
-                }
+                <div>
+                    @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
+                </div>
             }
-        </td>
-        <td>
-            @if (Model.Feedbacks.Count != 0)
-            {
-                <а href="#" title="Сигнали за грешка"><i class="fas fa-info text-danger"></i></а>
-            }
-            @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
-            {
-                @*<div id="ownerButtons">*@
-                <button type="button" onclick="location.href='@Url.Action("EditEvent", "Calendar", Model)'"
-                        id="editEventBtn" class="btn btn-danger bg-brown op-80"
-                        title="Редактиране на информацията за събитието.">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button type="button" onclick="location.href='@Url.Action("DeleteEvent", "Calendar", Model)'"
-                        id="deleteEventBtn" class="btn btn-danger bg-brown op-80"
-                        title="Изтриване на събитието.">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
+        }
+    </td>
+    <td>
+        @if (Model.Feedbacks.Count != 0)
+        {
+            <button type="button" onclick="location.href='@Url.Action("FeedbackList", "Calendar", Model)'"
+                    id="editEventBtn" class="btn btn-danger bg-brown op-80"
+                    title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
+                <i class="fas fa-exclamation pulseIcon"></i>
+            </button>
 
-                @*</div>*@
-            }
-        </td>
-    </tr>
+        }
+        @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
+        {
+            @*<div id="ownerButtons">*@
+            <button type="button" onclick="location.href='@Url.Action("EditEvent", "Calendar", Model)'"
+                    id="editEventBtn" class="btn btn-danger bg-brown op-80"
+                    title="Редактиране на информацията за събитието.">
+                <i class="fas fa-edit"></i>
+            </button>
+            <button type="button" onclick="location.href='@Url.Action("DeleteEvent", "Calendar", Model)'"
+                    id="deleteEventBtn" class="btn btn-danger bg-brown op-80"
+                    title="Изтриване на събитието.">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+
+            @*</div>*@
+        }
+    </td>
+</tr>

@@ -5,6 +5,7 @@
 @using Microsoft.Extensions.Localization;
 @using BGFolklore.Data.Models;
 @using Microsoft.AspNetCore.Identity;
+@using System.Text.Json;
 
 @inject UserManager<User> userManager
 
@@ -16,7 +17,6 @@
     <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
     <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
     <td>@Model.Name</td>
-    <td>@Model.Address</td>
     <td>
         @foreach (int item in Enum.GetValues(typeof(DaysOfWeek)))
         {
@@ -45,7 +45,11 @@
     <td>
         @if (Model.Feedbacks.Count != 0)
         {
-            <а href="#" title="Сигнали за грешка"><i class="fas fa-info text-danger"></i></а>
+        <button type="button" onclick="location.href='@Url.Action("FeedbackList", "Calendar", Model)'"
+                id="editEventBtn" class="btn btn-danger bg-brown op-80"
+                    title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
+            <i class="fas fa-exclamation pulseIcon"></i>
+        </button>
         }
         @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
         {

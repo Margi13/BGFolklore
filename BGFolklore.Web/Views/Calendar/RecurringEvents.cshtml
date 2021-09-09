@@ -37,7 +37,6 @@
                 <th>Град</th>
                 <th>Тип</th>
                 <th>Име</th>
-                <th>Къде</th>
                 <th>Ден</th>
                 <th>Час</th>
                 <th>За кого е предназначено</th>
@@ -76,32 +75,6 @@
 
 </div>
 
-@*<partial name="_ModalBoxPartial" model="@(new FeedbackViewModel())"/>*@
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-@*<script>
-        function eventRowOnClick(arg) {
-            console.log(arg.name);
-
-            // Get the modal
-            var modal = $('#myModal')[0];
-
-            modal.style.display = "block";
-
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        }
-    </script>*@
