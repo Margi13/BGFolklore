@@ -3,21 +3,21 @@
 @{
     ViewData["Title"] = "Embroidery";
 }
-<header class="ScriptHeader home-header">
+<header class="page-header home-header">
     <div class="rt-container op-80 bg-brown">
         <h1>Български шевици</h1>
     </div>
-    <div class="ScriptTop">
-        <div class="ScriptTop-navbar">
+    <div class="nav-container">
+        <div class="page-navbar">
             <ul class="my-4">
-                <li><a class="nav-link op-80 bg-brown" href="#emb-info">Шевиците в българската история</a></li>
-                <li><a class="nav-link op-80 bg-brown" href="#emb-symbols">Какви символи се срещат в тях?</a></li>
-                <li><a class="nav-link op-80 bg-brown" href="#emb-colors">Какво символизират различните цветове?</a></li>
+                <li><a class="nav-link op-80 bg-brown" href="#embInfo">Шевиците в българската история</a></li>
+                <li><a class="nav-link op-80 bg-brown" href="#embSymbols">Какви символи се срещат в тях?</a></li>
+                <li><a class="nav-link op-80 bg-brown" href="#embColors">Какво символизират различните цветове?</a></li>
                 @*<li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="History">История на българските хора</a></li>
                     <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="EthnoAreas">Етнографски области</a></li>*@
             </ul>
         </div>
-        <div class="ScriptTop-navbar">
+        <div class="page-navbar">
             <ul class="my-4">
                 @*<li><a class="nav-link op-80 bg-brown" href="#emb-info">Шевиците в българската история</a></li>
                     <li><a class="nav-link op-80 bg-brown" href="#emb-symbols">Какви символи се срещат в тях?</a></li>
@@ -33,13 +33,13 @@
 
 <section class="home-section">
     <h1>Българските носии и шевици</h1>
-    <h2 id="emb-info">Шевиците в българската история</h2>
+    <h2 id="embInfo">Шевиците в българската история</h2>
     <div class="history-body">
-
         <div class="info-card text-center float-right">
             <img src="~/images/history/folk-costume.jpg" alt="costume" />
             <p>Снимка на българска носия</p>
         </div>
+
         <p>@embroideryLocalizer["Еmbroidery"]</p>
     </div>
     <span class="rel">
@@ -49,7 +49,7 @@
             </a>
         </span>
     </span>
-    <h2 id="emb-symbols">Какви символи се срещат в тях?</h2>
+    <h2 id="embSymbols">Какви символи се срещат в тях?</h2>
     <div class="history-body">
         <h3>Флорални символи</h3>
         <dl>
@@ -63,38 +63,32 @@
                         <img src="~/images/embroidery/treeOfLife.jpg" alt="embroidery" />
                         <p>Дърво на живота</p>
                     </div>
-
                     <div class="info-card text-center">
                         <img src="~/images/embroidery/treeOfLife_2.jpg" alt="embroidery" />
                         <p>Дърво на живота</p>
                     </div>
                 </div>
             </dd>
-
             <dt>Лозата</dt>
             <dd>
                 @embroideryLocalizer["Lozata"]
                 <br />
                 <div class="dl-images">
-
                     <div class="info-card text-center">
                         <img src="~/images/embroidery/lozata.jpg" alt="embroidery" />
                         <p>Лозата</p>
                     </div>
-
                     <div class="info-card text-center">
                         <img src="~/images/embroidery/lozata_2.jpg" alt="embroidery" />
                         <p>Лозата</p>
                     </div>
                 </div>
             </dd>
-
             <dt>Небесна костенурка</dt>
             <dd>
                 @embroideryLocalizer["Sky Turtle"]
                 <br />
                 <div class="dl-images">
-
                     <div class="info-card text-center">
                         <img src="~/images/embroidery/skyTurtle.jpg" alt="embroidery" />
                         <p>Небесна костенурка</p>
@@ -102,7 +96,6 @@
                 </div>
             </dd>
         </dl>
-
         <h3>Слънчеви символи</h3>
         <dl>
             <dt>Елбетица (двоен кръст)</dt>
@@ -132,7 +125,6 @@
                 </div>
             </dd>
         </dl>
-
         <h3>Родови символи</h3>
         <dl>
             <dt>Маказ</dt>
@@ -144,12 +136,10 @@
                 @embroideryLocalizer["Katanitsa"]
                 <br />
                 <div class="dl-images">
-
                     <div class="info-card text-center">
                         <img src="~/images/embroidery/makaz_katanitsa.jpg" alt="embroidery" />
                         <p>Маказ и Катаница</p>
                     </div>
-
                     <div class="info-card text-center">
                         <img src="~/images/embroidery/katanitsa.jpg" alt="embroidery" />
                         <p>Катаница</p>
@@ -159,7 +149,7 @@
         </dl>
     </div>
 
-    <h2 id="emb-colors">Какво символизират различните цветове?</h2>
+    <h2 id="embColors">Какво символизират различните цветове?</h2>
     <div class="history-body">
         <p>@embroideryLocalizer["Colors"]</p>
         <table border="1" border-color="brown">

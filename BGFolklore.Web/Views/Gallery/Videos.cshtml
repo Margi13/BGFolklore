@@ -4,13 +4,13 @@
     ViewData["Title"] = "Videos";
 }
 
-<header class="ScriptHeader gallery-header">
+<header class="page-header gallery-header">
     <div class="rt-container op-80 bg-brown">
         <h1>Български народни хора</h1>
         <p>Галерия с различните български народни хора и танци от всяка област.</p>
     </div>
-    <div class="ScriptTop">
-        <div class="ScriptTop-navbar" id="area-nav-bar">
+    <div class="nav-container">
+        <div class="page-navbar" id="area-nav-bar">
             @*<partial name="_AreasNavBar" />*@
             <ul class="my-4 tags-bar nav">
                 @foreach (var area in Model)
@@ -24,13 +24,12 @@
 </header>
 
 
-<section class="gallery-section" id="gallery">
+<section class="gallery-section hidden" id="gallery">
     <div class="videos-container">
         <div id="iframe-container">
 
         </div>
-        <div id="area-container">
-
+        <div id="areaContainer">
             @foreach (var area in Model)
             {
                 <div class="area-videos @area.AreaType" id="@area.AreaType">@Html.DisplayFor(a => area.Videos, new { data = area.AreaType })</div>

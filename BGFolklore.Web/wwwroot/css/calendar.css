@@ -12,6 +12,10 @@
     margin: 10px auto;
 }
 
+.recurring-event {
+    display: none;
+}
+
 .hovered {
     background: rgb(250 235 215);
     cursor: pointer;
@@ -33,18 +37,18 @@
 	Pagination
 *********************************************************/
 
-.pageNumber {
+.page-number {
     margin: 2px;
     padding: 2px 8px;
 }
 
-    .pageNumber:hover {
+    .page-number:hover {
         opacity: 100%;
         background: brown;
         color: white;
     }
 
-.activePage {
+.active-page {
     opacity: 80%;
     background: brown !important;
     color: white !important;
@@ -76,7 +80,7 @@
     width: 80%; /* Could be more or less, depending on screen size */
 }
 
-#ownerSpan,
+/*#ownerSpan,
 #readerSpan,
 #readerButton {
     display: none;
@@ -84,16 +88,16 @@
 
 #readerButtons {
     align-self: center;
-}
+}*/
 
 #eventInfo div {
     margin: 10px;
 }
 
-#reportForm {
+/*#reportForm {
     display: none;
     align-items: center;
-}
+}*/
 
 /* The Close Button */
 .close {

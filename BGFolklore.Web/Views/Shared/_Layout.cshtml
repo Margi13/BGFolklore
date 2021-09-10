@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/responsive.css" />
 
     @await RenderSectionAsync("CSS", required: false)
 </head>
@@ -46,22 +47,22 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <section class="footer-container">
-            <article class="footer-container-left">
+    <footer class="border-top text-muted">
+        <section class="footer-container d-flex justify-content-around m-0 bg-white">
+            <article class="d-flex flex-column footer-left">
                 <h4>Друго, което може да прочетете:</h4>
-                <article class="other-to-read-container">
-                    <ul type="none">
+                <article class="d-flex flex-row flex-wrap">
+                    <ul class="footer-list" type="none">
                         <li><a href="#" class="footer-link">HTTP</a></li>
                         <li><a href="#" class="footer-link">SSL / TLS</a></li>
                         <li><a href="#" class="footer-link">HTTPS</a></li>
                     </ul>
                 </article>
             </article>
-            <article class="footer-container-right">
+            <article class="footer-right">
                 <h4>За контакти:</h4>
-                <article class="contact-info-container">
-                    <ul type="none">
+                <article>
+                    <ul class="footer-list" type="none">
                         <li>
                             <a href="https://github.com/Margi13" class="github-link" title="GitHub" target="_blanck">
                                 <i class="fab fa-github"></i>

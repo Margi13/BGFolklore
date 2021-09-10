@@ -81,7 +81,7 @@
                 <span asp-validation-for="Address" class="col-8 offset-4 text-danger"></span>
             </div>
 
-            <div class="upcomingEvent">
+            <div class="upcoming-event">
                 <div class="form-group row">
                     <label asp-for="DurationInDays" class="col-4 col-form-label"></label>
                     <div class="col-8">
@@ -90,7 +90,7 @@
                     <span asp-validation-for="DurationInDays" class="col-8 offset-4 text-danger"></span>
                 </div>
             </div>
-            <div class="recurringEvent">
+            <div class="recurring-event">
                 <div class="form-group row" id="occuringDays">
                     <label asp-for="OccuringDays" class="col-4 col-form-label"></label>
                     <div class="col-8">
@@ -109,8 +109,8 @@
             <div class="form-group row">
                 <label asp-for="EventDateTime" class="col-4 col-form-label"></label>
                 <div class="col-8">
-                    <input asp-for="EventDateTime" class="form-control upcomingEvent" id="datetimePicker" />
-                    <input asp-for="EventDateTime" class="form-control recurringEvent" id="timePicker" />
+                    <input asp-for="EventDateTime" class="form-control upcoming-event" id="datetimePicker" />
+                    <input asp-for="EventDateTime" class="form-control recurring-event" id="timePicker" />
                 </div>
                 <span asp-validation-for="EventDateTime" class="col-8 offset-4 text-danger"></span>
             </div>
@@ -192,21 +192,21 @@
             //  For example: DurationInDays must be 0 when isRecurring = true and OccuringDays must be empty when isRecurring = false.
             function toggleEventFields(e) {
                 if (e.checked) {
-                    $(".upcomingEvent").hide();
-                    $(".upcomingEvent input").attr('disabled', true);
+                    $(".upcoming-event").hide();
+                    $(".upcoming-event input").attr('disabled', true);
 
-                    $(".recurringEvent").show();
-                    $(".recurringEvent input").removeAttr('disabled');
+                    $(".recurring-event").show();
+                    $(".recurring-event input").removeAttr('disabled');
 
                     $("#datetimePicker").attr('disabled', true);
                     $("#timePicker").removeAttr('disabled');
 
                 } else {
-                    $(".upcomingEvent").show();
-                    $(".upcomingEvent input").removeAttr('disabled');
+                    $(".upcoming-event").show();
+                    $(".upcoming-event input").removeAttr('disabled');
 
-                    $(".recurringEvent").hide();
-                    $(".recurringEvent input").attr('disabled', true);
+                    $(".recurring-event").hide();
+                    $(".recurring-event input").attr('disabled', true);
 
                     $("#datetimePicker").removeAttr('disabled');
                     $("#timePicker").attr('disabled', true);

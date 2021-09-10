@@ -7,24 +7,28 @@
     <!-- Modal content -->
     <div class="modal-content">
         <div class="d-flex flex-row justify-content-between align-content-center flex-nowrap">
-            <span id="ownerSpan" title="Разглеждане на мое събитие."><i class="fas fa-user"></i></span>
-            <span id="readerSpan" title="Разглеждане на допълнителна информация за избрано събитие."><i class="fas fa-info"></i></span>
+            <span id="ownerSpan" class="hidden" title="Разглеждане на мое събитие."><i class="fas fa-user"></i></span>
+            <span id="readerSpan" class="hidden" title="Разглеждане на допълнителна информация за избрано събитие."><i class="fas fa-info"></i></span>
             <h3>Допълнителна информация</h3>
             <span class="close" title="Затвори">&times;</span>
         </div>
 
         <div id="eventInfo" class="d-flex flex-column align-items-center m-5">
-
+            @*<div>name</div>
+        <div>description</div>
+        <div>phone</div>
+        <div>address</div>*@
         </div>
 
-        <div id="readerButtons">
+        <div id="readerButtons" class="align-self-center hidden">
             <button class="btn btn-danger bg-brown op-80" id="reportBtn" type="button"
                     title="Докладване за грешна или неточна информация.">
                 Докладвай за грешка <i class="fas fa-bug"></i>
             </button>
         </div>
         <div>
-            <form id="reportForm" method="post" asp-controller="Calendar" asp-action="Report">
+            <form id="reportForm" method="post" asp-controller="Calendar" asp-action="Report"
+                  class="hidden align-items-center">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group row hidden">
                     <label asp-for="OwnerId" class="col-form-label"></label>

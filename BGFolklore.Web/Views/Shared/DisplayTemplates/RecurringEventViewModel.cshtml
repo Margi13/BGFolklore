@@ -16,7 +16,7 @@
     var modelJson = Json.Serialize(Model).ToString();
     var userIdJson = Json.Serialize(userManager.GetUserId(User)).ToString();
 }
-<tr class="eventRow" title="Виж допълнителна информация за това събитие" onclick="eventRowOnClick(@modelJson, @userIdJson)">
+<tr class="event-row" title="Виж допълнителна информация за това събитие" onclick="eventRowOnClick(@modelJson, @userIdJson)">
     <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
     <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
     <td>@Model.Name</td>
@@ -50,7 +50,7 @@
             @if (Model.Feedbacks.Count != 0)
             {
                 <button type="button" onclick="location.href='@Url.Action("FeedbackList", "Calendar", Model)'"
-                        id="signalsBtn" class="btn bg-light rounded-circle"
+                        class="btn bg-light rounded-circle btn-signals"
                         title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
                     <i class="fas fa-exclamation pulseIcon"></i>
                 </button>
@@ -65,12 +65,12 @@
             {
                 <div class="d-flex flex-column justify-content-center">
                     <button type="button" onclick="location.href='@Url.Action("EditEvent", "Calendar", Model)'"
-                            class="btn btn-danger bg-brown op-80 editEventBtn"
+                            class="btn btn-danger bg-brown op-80 btn-edit-event"
                             title="Редактиране на информацията за събитието.">
                         <i class="fas fa-edit font"></i>
                     </button>
                     <button type="button" onclick="location.href='@Url.Action("DeleteEvent", "Calendar", Model)'"
-                            class="btn btn-danger bg-brown op-80 deleteEventBtn"
+                            class="btn btn-danger bg-brown op-80 btn-delete-event"
                             title="Изтриване на събитието.">
                         <i class="fas fa-trash-alt"></i>
                     </button>
