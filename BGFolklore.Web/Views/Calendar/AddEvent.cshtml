@@ -11,7 +11,7 @@
     ViewData["Title"] = "Add Event";
 }
 
-<h2>Добави ново събитие</h2>
+<h2 class="text-center">Добави ново събитие</h2>
 <section class="row">
     <div class="col-10 offset-1">
         <form method="post" asp-controller="Calendar" asp-action="AddEvent">
@@ -142,7 +142,8 @@
                     @if (ViewData["CRUD"].Equals("Create"))
                     {
                         <button type="submit" class="btn btn-danger bg-brown">Създай</button>
-                    }else if (ViewData["CRUD"].Equals("Update"))
+                    }
+                    else if (ViewData["CRUD"].Equals("Update"))
                     {
                         <button type="submit" class="btn btn-danger bg-brown">Запиши промените</button>
                     }
@@ -155,6 +156,7 @@
 @section CSS {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
+    <link rel="stylesheet" href="~/css/calendar.css" />
 }
 
 @section Scripts{

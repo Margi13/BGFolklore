@@ -60,6 +60,27 @@
            class="btn btn-danger bg-brown op-80 @prevDisabled">
             Предишна страница
         </a>
+        @{
+            for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                if (i == Model.PageIndex)
+                {
+                    <a asp-action="UpcomingEvents"
+                       asp-route-pageNumber="@i"
+                       class="pageNumber activePage">
+                        @i
+                    </a>
+                }
+                else
+                {
+                    <a asp-action="UpcomingEvents"
+                       asp-route-pageNumber="@i"
+                       class="pageNumber">
+                        @i
+                    </a>
+                }
+            }
+        }
         <a asp-action="RecurringEvents"
            asp-route-pageNumber="@(Model.PageIndex + 1)"
            class="btn btn-danger bg-brown op-80 @nextDisabled">
@@ -69,12 +90,37 @@
 </section>
 
 <div id="modal-container">
-    <partial name="_ModalBoxPartial" model="@(new FeedbackViewModel())" />
+    <partial name="_MoreInfoBoxPartial" model="@(new FeedbackViewModel())" />
 </div>
 <div id="feedbacks-container">
 
 </div>
 
+@section CSS {
+    <link rel="stylesheet" href="~/css/calendar.css" />
+}
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+        <script type="text/javascript">
+        $(".eventRow td").hover(
+            function (e) {
+                if (!e.target.classList.contains("no-stilization")) {
+                    $(this.parentNode.children).addClass("hovered");
+                    $(".no-stilization").removeClass("hovered");
+                } else {
+                    $(this.parentNode.children).removeClass("hovered");
+                }
+            },
+            function () {
+
+                $(this.parentNode.children).removeClass("hovered");
+            }
+        );
+        $(".no-stilization")
+            .click(function (event) {
+                event.stopPropagation();
+            })
+            .attr('title', '');
+        </script>
 }

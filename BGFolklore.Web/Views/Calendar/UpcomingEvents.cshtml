@@ -40,7 +40,7 @@
                 <th>Дата</th>
                 <th>Час</th>
                 <th>За кого е предназначено</th>
-                <th></th>
+                <th class="no-stilization"></th>
             </tr>
         </thead>
         <tbody>
@@ -88,8 +88,33 @@
 </section>
 
 <div id="modal-container">
-    <partial name="_ModalBoxPartial" model="@(new FeedbackViewModel())" />
+    <partial name="_MoreInfoBoxPartial" model="@(new FeedbackViewModel())" />
 </div>
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/calendar.css" />
+}
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+        $(".eventRow td").hover(
+            function (e) {
+                if (!e.target.classList.contains("no-stilization")) {
+                    $(this.parentNode.children).addClass("hovered");
+                    $(".no-stilization").removeClass("hovered");
+                } else {
+                    $(this.parentNode.children).removeClass("hovered");
+                }
+            },
+            function () {
+
+                $(this.parentNode.children).removeClass("hovered");
+            }
+        );
+        $(".no-stilization")
+            .click(function (event) {
+                event.stopPropagation();
+            })
+            .attr('title', '');
+    </script>
 }

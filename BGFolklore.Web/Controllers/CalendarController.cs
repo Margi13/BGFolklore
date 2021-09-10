@@ -71,12 +71,11 @@ namespace BGFolklore.Web.Controllers
             return View(paginatedList);
         }
 
-        public IActionResult ModalPartial(EventViewModel eventViewModel)
+        public IActionResult MoreInfoBoxPartial(EventViewModel eventViewModel)
         {
 
-            return PartialView("_ModalBoxPartial", new FeedbackViewModel());
+            return PartialView("_MoreInfoBoxPartial", new FeedbackViewModel());
         }
-
 
         [HttpPost]
         public IActionResult Report(FeedbackBindingModel feedbackBindingModel)
@@ -91,7 +90,10 @@ namespace BGFolklore.Web.Controllers
             else
             {
                 var feedbackViewModel = this.mapper.Map<FeedbackViewModel>(feedbackBindingModel);
-                return PartialView("_ModalBoxPartial", feedbackViewModel);
+                //return PartialView("_MoreInfoBoxPartial", feedbackViewModel);
+                var pathParts = Request.Headers["Referer"].ToString().Split("/");
+                string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
+                return RedirectToAction(lastAction);
             }
         }
 
@@ -105,16 +107,6 @@ namespace BGFolklore.Web.Controllers
             TempData["Operation"] = "Update";
             return View("AddEvent", viewModel);
         }
-
-
-        public IActionResult DeleteEvent(EventViewModel eventViewModel)
-        {
-            calendarService.DeletePublicEvent(eventViewModel.Id);
-            var pathParts = Request.Headers["Referer"].ToString().Split("/");
-            string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
-            return RedirectToAction(lastAction);
-        }
-
         [HttpGet]
         public IActionResult AddEvent()
         {
@@ -154,6 +146,14 @@ namespace BGFolklore.Web.Controllers
 
                 return View(addEventViewModel);
             }
+        }
+
+        public IActionResult DeleteEvent(EventViewModel eventViewModel)
+        {
+            calendarService.DeletePublicEvent(eventViewModel.Id);
+            var pathParts = Request.Headers["Referer"].ToString().Split("/");
+            string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
+            return RedirectToAction(lastAction);
         }
 
         private AddEventViewModel CreateAddEventViewModel()

@@ -1,0 +1,135 @@
+﻿/* ******************************************************
+	Responsive CSS
+*********************************************************/
+
+@media (min-width: 768px) {
+    .rt-container {
+        width: 750px;
+    }
+
+    html {
+        font-size: 16px;
+    }
+
+    [class^="col-rt-"] {
+        float: left;
+        width: 49.9999999999%;
+    }
+
+    .col-rt-6, .col-rt-12 {
+        width: 100%;
+    }
+}
+
+@media (min-width: 1200px) {
+    /*.rt-container {
+        width: 1170px;
+    }*/
+
+    /*.col-rt-1 {
+        width: 16.6%;
+    }
+
+    .col-rt-2 {
+        width: 30.33%;
+    }
+
+    .col-rt-3 {
+        width: 50%;
+    }
+
+    .col-rt-4 {
+        width: 67.664%;
+    }
+
+    .col-rt-5 {
+        width: 83.33%;
+    }*/
+    div.image-card {
+        width: 24%;
+        margin: 15px 5px
+    }
+}
+
+@media all and (max-width: 991px) {
+    div.image-card {
+        width: 50%;
+    }
+
+    #iframe-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+        height: 0;
+    }
+
+        #iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+    .videos-container {
+        flex-wrap: wrap;
+    }
+
+    #area-container {
+        width: 80%;
+        margin-top: 20px;
+        margin-left: 0;
+        overflow: no-display;
+        height: auto;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer-container-left {
+        display: none;
+    }
+
+    .footer-container-right {
+        margin-left: 15%;
+        align-self: flex-start;
+    }
+
+    div.image-card p,
+    .nav-area-image {
+        display: none;
+    }
+
+    div.image-card {
+        width: 50%;
+    }
+
+        div.image-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0px;
+        }
+
+    .ScriptTop {
+        flex-direction: column;
+        /*align-items:flex-end;*/
+    }
+
+    .ScriptHeader h1 {
+        font-size: 26px;
+    }
+
+    #area-container {
+        width: 100%;
+    }
+}
+
+@media all and (max-width: 580px) {
+    /*TO DO: Smaller images*/
+    div.image-card {
+        width: 100%;
+    }
+}
