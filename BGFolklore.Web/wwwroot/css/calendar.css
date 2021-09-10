@@ -25,7 +25,7 @@
     font-size: 20px;
 }
 
-.no-stilization{
+.no-stilization {
     border: none;
     background: white;
     color: #222;
@@ -59,7 +59,6 @@
 *********************************************************/
 
 .modal {
-    display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
@@ -112,3 +111,11 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+.newFeedback {
+    color: brown;
+}
+
+.oldFeedback {
+    color: #222;
+}

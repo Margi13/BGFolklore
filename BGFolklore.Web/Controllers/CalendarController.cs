@@ -71,10 +71,33 @@ namespace BGFolklore.Web.Controllers
             return View(paginatedList);
         }
 
-        public IActionResult MoreInfoBoxPartial(EventViewModel eventViewModel)
+        public PartialViewResult MoreInfoBoxPartial(EventViewModel eventViewModel)
         {
 
             return PartialView("_MoreInfoBoxPartial", new FeedbackViewModel());
+        }
+
+        public IActionResult EventFeedbacksPartial(EventViewModel eventViewModel)
+        {
+            IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(eventViewModel.Id);
+            return View(feedbacks);
+        }
+
+        public IActionResult DeleteFeedback(FeedbackViewModel feedbackViewModel)
+        {
+            feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Deleted);
+
+            IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(feedbackViewModel.EventId);
+
+            return View("EventFeedbacksPartial", feedbacks);
+        }
+        public IActionResult ReadFeedback(FeedbackViewModel feedbackViewModel)
+        {
+            feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Readed);
+
+            IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(feedbackViewModel.EventId);
+
+            return View("EventFeedbacksPartial", feedbacks);
         }
 
         [HttpPost]
@@ -97,9 +120,11 @@ namespace BGFolklore.Web.Controllers
             }
         }
 
+        //Да го направя да взима само ID, а не целия евент, за да мога да го ползвам и в feedbacksPartial
+        //Да направя метод за взимане на event по Id
         public IActionResult EditEvent(EventViewModel eventViewModel)
         {
-            AddEventBindingModel addEventBindingModel = calendarService.GetBindingModelFromData(eventViewModel);
+            AddEventBindingModel addEventBindingModel = calendarService.GetBindingModelFromData(eventViewModel.Id);
 
             AddEventViewModel viewModel = CreateAddEventViewModel(addEventBindingModel);
             ViewData["CRUD"] = "Update";

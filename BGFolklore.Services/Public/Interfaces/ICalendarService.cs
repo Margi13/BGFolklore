@@ -13,11 +13,11 @@ namespace BGFolklore.Services.Public.Interfaces
     {
         IList<UpcomingEventViewModel> GetUpcomingEvents();
         IList<RecurringEventViewModel> GetRecurringEvents();
-
+        public EventViewModel GetEventViewModel(Guid eventId);
         void SaveAddEvent(AddEventBindingModel newEvent);
         void UpdatePublicEvent(Guid eventId, AddEventBindingModel updatedViewModel);
         void DeletePublicEvent(Guid eventId);
 
-        AddEventBindingModel GetBindingModelFromData(EventViewModel eventViewModel);
+        AddEventBindingModel GetBindingModelFromData(Guid eventId);
     }
 }

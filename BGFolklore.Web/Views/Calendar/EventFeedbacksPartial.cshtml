@@ -1,0 +1,68 @@
+﻿@using BGFolklore.Models.Calendar.ViewModels
+
+@model IList<FeedbackViewModel>
+@*
+    Да визуализирам списък с всички събития (DisplayFor) и като клас да сложа "StatusId == 1 ? "new-feedback" : "old-feedback"", чрез който цвета става червен или черен на текста.
+    Списъкът предварително трябва да е подреден по статус - първо новите, после прочетените.
+
+    Всеки сигнал трябва да бъде един ред с многоточие.
+    При клик върху ред да се разгъва целия и да се маркира като прочетен
+    При загуба на фокус да се прибира.
+    Трябва да има бутон за изтриване (Х).
+    Трябва да има бутон за редактиране на събите
+    Трябва да има предупреждение, че неизтритите сигнали остават видими за останалите потребители.
+*@
+<div id="feeedbacksModal">
+    @*<div class="d-flex flex-row justify-content-between align-content-center flex-nowrap">
+            <span id="ownerSpan" class="hidden" title="Разглеждане на мое събитие."><i class="fas fa-user"></i></span>
+            <span id="readerSpan" class="hidden" title="Разглеждане на допълнителна информация за избрано събитие."><i class="fas fa-info"></i></span>
+            <span class="close" title="Затвори">&times;</span>
+        </div>*@
+    <div class="text-center m-auto w-75">
+
+        <h3>Сигнали за събитието</h3>
+        <h5 class="text-danger bg-light">Моля имайте в предвид, че за останалите потребители се показва известие за наличие на сигнали за грешна информация, докато не изтриете всички сигнали!</h5>
+    </div>
+    <div id="feedbacks" class="d-flex flex-column align-items-center m-5">
+        <table>
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Сигнал</th>
+                    <th class="no-stilization"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @Html.DisplayForModel()
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/calendar.css" />
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+        $(".can-hover td").hover(
+            function (e) {
+                if (!e.target.classList.contains("no-stilization")) {
+                    $(this.parentNode.children).addClass("hovered");
+                    $(".no-stilization").removeClass("hovered");
+                } else {
+                    $(this.parentNode.children).removeClass("hovered");
+                }
+            },
+            function () {
+
+                $(this.parentNode.children).removeClass("hovered");
+            }
+        );
+        $(".no-stilization")
+            .click(function (event) {
+                event.stopPropagation();
+            })
+            .attr('title', '');
+    </script>
+}

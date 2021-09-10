@@ -51,6 +51,6 @@ namespace BGFolklore.Models.Calendar.ViewModels
         public string Description { get; set; }
 
         [JsonIgnore]
-        public IList<Feedback> Feedbacks { get; set; }
+        public IList<FeedbackViewModel> Feedbacks { get; set; }
     }
 }

@@ -39,15 +39,21 @@ namespace BGFolklore.Services.Public
             this.Context.SaveChanges();
         }
 
-        public IList<Feedback> GetAllEventFeedbacks(Guid eventId)
+        public IList<Feedback> GetFeedbacksFromData(Guid eventId)
         {
             var feedbacks = this.Context.Feedback.Where(f => f.EventId == eventId && f.StatusId != 3);
             IList<Feedback> feedsList = this.Mapper.Map<IList<Feedback>>(feedbacks);
             return feedsList;
         }
+        public IList<FeedbackViewModel> GetFeedbackViewModels(Guid eventId)
+        {
+            IList<Feedback> feedsFromData = GetFeedbacksFromData(eventId);
+            IList<FeedbackViewModel> feedbacks = this.Mapper.Map<IList<FeedbackViewModel>>(feedsFromData);
+            return feedbacks;
+        }
         public void DeleteAllEventFeedbacks(Guid eventId)
         {
-            var feedbacks = GetAllEventFeedbacks(eventId);
+            var feedbacks = GetFeedbacksFromData(eventId);
 
             foreach (var feed in feedbacks)
             {

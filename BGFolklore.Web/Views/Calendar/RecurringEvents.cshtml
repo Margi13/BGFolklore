@@ -102,8 +102,8 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-        <script type="text/javascript">
-        $(".eventRow td").hover(
+    <script type="text/javascript">
+        $(".can-hover td").hover(
             function (e) {
                 if (!e.target.classList.contains("no-stilization")) {
                     $(this.parentNode.children).addClass("hovered");
@@ -122,5 +122,5 @@
                 event.stopPropagation();
             })
             .attr('title', '');
-        </script>
+    </script>
 }

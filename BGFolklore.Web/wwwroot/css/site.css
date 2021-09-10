@@ -164,6 +164,10 @@ h2 {
         text-transform: uppercase;
     }
 
+table {
+    margin: auto;
+}
+
 th, td {
     border: 2px solid brown;
     padding: 10px;

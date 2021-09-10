@@ -30,7 +30,8 @@ namespace BGFolklore.Services.Public
             IList<RecurringEventViewModel> recurringEvents = this.Mapper.Map<IList<RecurringEventViewModel>>(publicEvents);
             foreach (var recurringEvent in recurringEvents)
             {
-                recurringEvent.Feedbacks = feedbackService.GetAllEventFeedbacks(recurringEvent.Id);
+                IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(recurringEvent.Id);
+                recurringEvent.Feedbacks = feedbacks;
             }
             return recurringEvents;
         }
@@ -41,9 +42,17 @@ namespace BGFolklore.Services.Public
             IList<UpcomingEventViewModel> upcomingEvents = this.Mapper.Map<IList<UpcomingEventViewModel>>(publicEvents);
             foreach (var upcomingEvent in upcomingEvents)
             {
-                upcomingEvent.Feedbacks = feedbackService.GetAllEventFeedbacks(upcomingEvent.Id);
+                IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(upcomingEvent.Id);
+                upcomingEvent.Feedbacks = feedbacks;
             }
             return upcomingEvents;
+        }
+
+        public EventViewModel GetEventViewModel(Guid eventId)
+        {
+            PublicEvent publicEvent = GetPublicEvent(eventId);
+            EventViewModel eventViewModel = this.Mapper.Map<EventViewModel>(publicEvent);
+            return eventViewModel;
         }
 
         public void SaveAddEvent(AddEventBindingModel newEvent)
@@ -61,26 +70,6 @@ namespace BGFolklore.Services.Public
 
             this.Context.PublicEvents.Add(newPublicEvent);
             this.Context.SaveChanges();
-        }
-
-        private PublicEvent CopyEventInfo(PublicEvent destination, AddEventBindingModel source)
-        {
-            foreach (int attendeeType in source.IntendedFor)
-            {
-                destination.IntendedFor = destination.IntendedFor | attendeeType;
-            }
-
-            if (source.IsRecurring == true)
-            {
-                foreach (int dayName in source.OccuringDays)
-                {
-                    destination.OccuringDays = destination.OccuringDays | dayName;
-                }
-            }
-
-            destination.Town = townsService.GetTownByGivenId(source.TownId);
-
-            return destination;
         }
 
         public void UpdatePublicEvent(Guid eventId, AddEventBindingModel updatedViewModel)
@@ -117,17 +106,9 @@ namespace BGFolklore.Services.Public
 
             this.Context.SaveChanges();
         }
-        private PublicEvent GetPublicEvent(Guid eventId)
+        public AddEventBindingModel GetBindingModelFromData(Guid eventId)
         {
-            var publicEvent = this.Context.PublicEvents.Where(pe => pe.Id == eventId).First();
-            PublicEvent findedPublicEvent = this.Mapper.Map<PublicEvent>(publicEvent);
-            findedPublicEvent.Feedbacks = feedbackService.GetAllEventFeedbacks(findedPublicEvent.Id);
-
-            return findedPublicEvent;
-        }
-        public AddEventBindingModel GetBindingModelFromData(EventViewModel eventViewModel)
-        {
-            PublicEvent publicEvent = GetPublicEvent(eventViewModel.Id);
+            PublicEvent publicEvent = GetPublicEvent(eventId);
             AddEventBindingModel bindingModel = this.Mapper.Map<AddEventBindingModel>(publicEvent);
 
             var helper = new List<int>();
@@ -157,6 +138,35 @@ namespace BGFolklore.Services.Public
             }
 
             return bindingModel;
+        }
+
+        private PublicEvent GetPublicEvent(Guid eventId)
+        {
+            var publicEvent = this.Context.PublicEvents.Where(pe => pe.Id == eventId).First();
+            PublicEvent findedPublicEvent = this.Mapper.Map<PublicEvent>(publicEvent);
+            findedPublicEvent.Feedbacks = feedbackService.GetFeedbacksFromData(findedPublicEvent.Id);
+
+            return findedPublicEvent;
+        }
+
+        private PublicEvent CopyEventInfo(PublicEvent destination, AddEventBindingModel source)
+        {
+            foreach (int attendeeType in source.IntendedFor)
+            {
+                destination.IntendedFor = destination.IntendedFor | attendeeType;
+            }
+
+            if (source.IsRecurring == true)
+            {
+                foreach (int dayName in source.OccuringDays)
+                {
+                    destination.OccuringDays = destination.OccuringDays | dayName;
+                }
+            }
+
+            destination.Town = townsService.GetTownByGivenId(source.TownId);
+
+            return destination;
         }
     }
 }

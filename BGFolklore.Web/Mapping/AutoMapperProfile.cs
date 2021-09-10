@@ -24,7 +24,9 @@ namespace BGFolklore.Web.Mapping
 
             this.CreateMap<PublicEvent, UpcomingEventViewModel>();
 
-            this.CreateMap<PublicEvent, RecurringEventViewModel > ();
+            this.CreateMap<PublicEvent, RecurringEventViewModel>();
+
+            this.CreateMap<PublicEvent, EventViewModel>();
 
             this.CreateMap<AddEventBindingModel, PublicEvent>()
                 .ForMember(dest => dest.IntendedFor, opt => opt.Ignore())
@@ -32,7 +34,7 @@ namespace BGFolklore.Web.Mapping
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Town, opt => opt.Ignore());
 
-            this.CreateMap<PublicEvent,AddEventBindingModel>()
+            this.CreateMap<PublicEvent, AddEventBindingModel>()
                 .ForMember(dest => dest.IntendedFor, opt => opt.Ignore())
                 .ForMember(dest => dest.OccuringDays, opt => opt.Ignore());
 
@@ -44,12 +46,14 @@ namespace BGFolklore.Web.Mapping
                 .ForMember(dest => dest.IntendedFor, opt => opt.Ignore())
                 .ForMember(dest => dest.OccuringDays, opt => opt.Ignore());
 
-            this.CreateMap<FeedbackBindingModel,Feedback>()
+            this.CreateMap<FeedbackBindingModel, Feedback>()
                 .ForMember(dest => dest.Event, opt => opt.Ignore())
                 .ForMember(dest => dest.Status, opt => opt.Ignore())
                 .ForMember(dest => dest.Owner, opt => opt.Ignore());
 
             this.CreateMap<FeedbackBindingModel, FeedbackViewModel>();
+
+            this.CreateMap<Feedback, FeedbackViewModel>();
         }
     }
 }

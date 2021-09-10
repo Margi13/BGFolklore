@@ -16,7 +16,7 @@
     var modelJson = Json.Serialize(Model).ToString();
     var userIdJson = Json.Serialize(userManager.GetUserId(User)).ToString();
 }
-<tr class="event-row" title="Виж допълнителна информация за това събитие" onclick="eventRowOnClick(@modelJson, @userIdJson)">
+<tr class="event-row can-hover" title="Виж допълнителна информация за това събитие" onclick="eventRowOnClick(@modelJson, @userIdJson)">
     <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
     <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
     <td>@Model.Name</td>
@@ -49,7 +49,7 @@
         <div class="d-flex justify-content-center align-items-center">
             @if (Model.Feedbacks.Count != 0)
             {
-                <button type="button" onclick="location.href='@Url.Action("FeedbackList", "Calendar", Model)'"
+                <button type="button" onclick="location.href='@Url.Action("EventFeedbacksPartial", "Calendar", Model.Id)'"
                         class="btn bg-light rounded-circle btn-signals"
                         title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
                     <i class="fas fa-exclamation pulseIcon"></i>
