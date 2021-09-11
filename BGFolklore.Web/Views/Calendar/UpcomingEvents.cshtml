@@ -34,13 +34,14 @@
     <table class="calendar-table">
         <thead>
             <tr>
+                <th class="no-stilization"></th>
                 <th>Град</th>
                 <th>Тип</th>
                 <th>Събитие</th>
                 <th>Дата</th>
                 <th>Час</th>
                 <th>За кого е предназначено</th>
-                <th class="no-stilization"></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -52,11 +53,11 @@
         var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
         var nextDisabled = !Model.HasNextPage ? "disabled" : "";
     }
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-3">
         <a asp-action="UpcomingEvents"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
-           class="btn btn-danger bg-brown op-80 @prevDisabled">
-            Предишна страница
+           class="btn bg-light rounded-circle @prevDisabled">
+            <i class="fas fa-chevron-left"></i>
         </a>
         @{
             for (int i = 1; i <= Model.TotalPages; i++)
@@ -81,8 +82,8 @@
         }
         <a asp-action="UpcomingEvents"
            asp-route-pageNumber="@(Model.PageIndex + 1)"
-           class="btn btn-danger bg-brown op-80 @nextDisabled">
-            Следваща страница
+           class="btn bg-light rounded-circle @nextDisabled">
+            <i class="fas fa-chevron-right"></i>
         </a>
     </div>
 </section>
@@ -97,21 +98,7 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script type="text/javascript">
-        $(".can-hover td").hover(
-            function (e) {
-                if (!e.target.classList.contains("no-stilization")) {
-                    $(this.parentNode.children).addClass("hovered");
-                    $(".no-stilization").removeClass("hovered");
-                } else {
-                    $(this.parentNode.children).removeClass("hovered");
-                }
-            },
-            function () {
-
-                $(this.parentNode.children).removeClass("hovered");
-            }
-        );
-        $(".no-stilization")
+        $(".stop-parent-onclick")
             .click(function (event) {
                 event.stopPropagation();
             })

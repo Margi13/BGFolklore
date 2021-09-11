@@ -16,12 +16,12 @@
     display: none;
 }
 
-.hovered {
+.event-row:hover {
     background: rgb(250 235 215);
     cursor: pointer;
 }
 
-#signalsBtn {
+.btn-signals {
     font-size: 20px;
 }
 
@@ -74,11 +74,7 @@
     margin: 3% auto; /* 3% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 60%; /* Could be more or less, depending on screen size */
-}
-
-#eventInfo div {
-    margin: 10px;
+    width: 50%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
@@ -97,10 +93,12 @@
 
 .newFeedback {
     color: brown;
+    font-weight: bold;
 }
 
 .oldFeedback {
     color: #222;
+    font-weight: normal;
 }
 
     .newFeedback:hover,

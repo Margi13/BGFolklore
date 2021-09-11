@@ -80,7 +80,7 @@ namespace BGFolklore.Web.Controllers
         public IActionResult EventFeedbacksPartial(EventViewModel eventViewModel)
         {
             IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(eventViewModel.Id);
-            
+           
             return View(feedbacks);
         }
 

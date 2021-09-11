@@ -15,8 +15,27 @@
 @{
     var modelJson = Json.Serialize(Model).ToString();
     var userIdJson = Json.Serialize(userManager.GetUserId(User)).ToString();
+    var hasNewFeeds = false;
+    foreach (var feed in Model.Feedbacks)
+    {
+        if (feed.StatusId == (int)StatusName.New)
+        {
+            hasNewFeeds = true;
+            break;
+        }
+    }
 }
-<tr class="event-row can-hover" title="Виж допълнителна информация за това събитие" onclick="eventRowOnClick(@modelJson, @userIdJson)">
+<tr class="event-row" title="Виж допълнителна информация за това събитие" onclick="eventRowOnClick(@modelJson, @userIdJson)">
+    <td class="no-stilization stop-parent-onclick pr-1">
+        @if (Model.Feedbacks.Count != 0)
+        {
+            <button type="button" onclick="location.href='@Url.Action("EventFeedbacksPartial", "Calendar", Model)'"
+                    class="btn bg-light rounded-circle btn-signals @(hasNewFeeds ? "text-danger" : "")"
+                    title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
+                <i class="fas fa-exclamation pulseIcon"></i>
+            </button>
+        }
+    </td>
     <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
     <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
     <td>@Model.Name</td>
@@ -45,37 +64,21 @@
         }
     </td>
     <td>@Model.Rating</td>
-    <td class="d-table-cell no-stilization">
-        <div class="d-flex justify-content-center align-items-center">
-            @if (Model.Feedbacks.Count != 0)
-            {
-                <button type="button" onclick="location.href='@Url.Action("EventFeedbacksPartial", "Calendar", Model.Id)'"
+    <td class="stop-parent-onclick table-col-w-15">
+        @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
+        {
+            <div class="d-flex justify-content-start">
+                <button type="button" onclick="location.href='@Url.Action("EditEvent", "Calendar", Model)'"
                         class="btn bg-light rounded-circle btn-signals"
-                        title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
-                    <i class="fas fa-exclamation pulseIcon"></i>
+                        title="Редактиране на информацията за събитието.">
+                    <i class="fas fa-edit font"></i>
                 </button>
-            }
-            else
-            {
-                <div class="btn bg-light rounded-circle" title="Няма сигнали за грешна информация!">
-                    <i class="fas fa-check text-info"></i>
-                </div>
-            }
-            @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
-            {
-                <div class="d-flex flex-column justify-content-center">
-                    <button type="button" onclick="location.href='@Url.Action("EditEvent", "Calendar", Model)'"
-                            class="btn btn-danger bg-brown op-80 btn-edit-event"
-                            title="Редактиране на информацията за събитието.">
-                        <i class="fas fa-edit font"></i>
-                    </button>
-                    <button type="button" onclick="location.href='@Url.Action("DeleteEvent", "Calendar", Model)'"
-                            class="btn btn-danger bg-brown op-80 btn-delete-event"
-                            title="Изтриване на събитието.">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-            }
-        </div>
+                <button type="button" onclick="location.href='@Url.Action("DeleteEvent", "Calendar", Model)'"
+                        class="btn bg-light rounded-circle btn-signals"
+                        title="Изтриване на събитието.">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        }
     </td>
 </tr>
