@@ -17,11 +17,16 @@ namespace BGFolklore.Services.Public
     {
         private readonly ITownsService townsService;
         private readonly IFeedbackService feedbackService;
+        private readonly IRatingService ratingService;
 
-        public CalendarService(ApplicationDbContext context, IMapper mapper, ITownsService townsService, IFeedbackService feedbackService) : base(context, mapper)
+        public CalendarService(ApplicationDbContext context, IMapper mapper,
+            ITownsService townsService,
+            IFeedbackService feedbackService,
+            IRatingService ratingService) : base(context, mapper)
         {
             this.townsService = townsService;
             this.feedbackService = feedbackService;
+            this.ratingService = ratingService;
         }
 
         public IList<RecurringEventViewModel> GetRecurringEvents()
@@ -32,15 +37,23 @@ namespace BGFolklore.Services.Public
                 throw new Exception();
             }
             IList<RecurringEventViewModel> recurringEvents = this.Mapper.Map<IList<RecurringEventViewModel>>(publicEvents);
-            foreach (var recurringEvent in recurringEvents)
+            try
             {
-                IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(recurringEvent.Id);
-                if (feedbacks == null)
+                foreach (var recurringEvent in recurringEvents)
                 {
-                    throw new Exception();
-                }
+                    IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(recurringEvent.Id);
+                    if (feedbacks == null)
+                    {
+                        throw new Exception();
+                    }
+                    recurringEvent.Feedbacks = feedbacks;
 
-                recurringEvent.Feedbacks = feedbacks;
+                    recurringEvent.Rating = ratingService.GetEventRatingsAverage(recurringEvent.Id);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
             return recurringEvents;
         }
