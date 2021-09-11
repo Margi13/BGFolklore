@@ -26,7 +26,7 @@ namespace BGFolklore.Services.Public
 
         public IList<RecurringEventViewModel> GetRecurringEvents()
         {
-            var publicEvents = this.Context.PublicEvents.Where(e => e.OccuringDays != 0 && e.StatusId != 3);
+            var publicEvents = this.Context.PublicEvents.Where(e => e.OccuringDays != 0 && e.StatusId != (int)StatusName.Deleted);
             IList<RecurringEventViewModel> recurringEvents = this.Mapper.Map<IList<RecurringEventViewModel>>(publicEvents);
             foreach (var recurringEvent in recurringEvents)
             {
@@ -38,7 +38,12 @@ namespace BGFolklore.Services.Public
 
         public IList<UpcomingEventViewModel> GetUpcomingEvents()
         {
-            var publicEvents = this.Context.PublicEvents.Where(e => e.OccuringDays == 0 && e.StatusId != 3);
+            var publicEvents = this.Context.PublicEvents.Where(e => e.OccuringDays == 0);
+
+            //Looks if there are old events and delete them. If there are no events to delete - do nothing
+            DeleteOldEvents(publicEvents);
+            publicEvents = publicEvents.Where(e => e.StatusId != (int)StatusName.Deleted);
+
             IList<UpcomingEventViewModel> upcomingEvents = this.Mapper.Map<IList<UpcomingEventViewModel>>(publicEvents);
             foreach (var upcomingEvent in upcomingEvents)
             {
@@ -47,7 +52,7 @@ namespace BGFolklore.Services.Public
             }
             return upcomingEvents;
         }
-
+        
         public EventViewModel GetEventViewModel(Guid eventId)
         {
             PublicEvent publicEvent = GetPublicEvent(eventId);
@@ -95,15 +100,15 @@ namespace BGFolklore.Services.Public
         {
             PublicEvent publicEvent = GetPublicEvent(eventId);
 
-
-            var status = Context.Status.Where(s => s.Id == 3);
+            var status = Context.Status.Where(s => s.Id == (int)StatusName.Deleted);
             Status newStatus = this.Mapper.Map<Status>(status.First());
 
-            publicEvent.StatusId = newStatus.Id;
+            publicEvent.StatusId = (int)StatusName.Deleted;
             publicEvent.Status = newStatus;
 
             feedbackService.DeleteAllEventFeedbacks(eventId);
 
+            this.Context.PublicEvents.Update(publicEvent);
             this.Context.SaveChanges();
         }
         public AddEventBindingModel GetBindingModelFromData(Guid eventId)
@@ -167,6 +172,19 @@ namespace BGFolklore.Services.Public
             destination.Town = townsService.GetTownByGivenId(source.TownId);
 
             return destination;
+        }
+
+        private void DeleteOldEvents(IQueryable<PublicEvent> publicEvents)
+        {
+            var oldEvents = publicEvents.Where(e => e.EventDateTime.CompareTo(DateTime.Now) < 0);
+            if (oldEvents != null)
+            {
+                var eventsToDelete = this.Mapper.Map<IList<PublicEvent>>(oldEvents);
+                foreach (var oldEvent in eventsToDelete)
+                {
+                    DeletePublicEvent(oldEvent.Id);
+                }
+            }
         }
     }
 }
