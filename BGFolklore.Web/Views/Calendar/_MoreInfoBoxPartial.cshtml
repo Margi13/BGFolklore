@@ -6,18 +6,29 @@
 
     <!-- Modal content -->
     <div class="modal-content">
-        <div class="d-flex flex-row justify-content-between align-content-center flex-nowrap">
-            <span id="ownerSpan" class="hidden" title="Разглеждане на мое събитие."><i class="fas fa-user"></i></span>
-            <span id="readerSpan" class="hidden" title="Разглеждане на допълнителна информация за избрано събитие."><i class="fas fa-info"></i></span>
-            <h3>Допълнителна информация</h3>
-            <span class="close" title="Затвори">&times;</span>
+        <div class="d-flex flex-row justify-content-between align-items-start flex-nowrap">
+            <span id="ownerSpan" class="hidden mr-2" title="Разглеждане на мое събитие."><i class="fas fa-user"></i></span>
+            <span id="readerSpan" class="hidden mr-2" title="Разглеждане на допълнителна информация за избрано събитие."><i class="fas fa-info"></i></span>
+            <h3 class="text-center">Допълнителна информация</h3>
+            <span class="span-close ml-2" title="Затвори">&times;</span>
         </div>
 
-        <div id="eventInfo" class="d-flex flex-column align-items-center m-5">
-            @*<div>name</div>
-        <div>description</div>
-        <div>phone</div>
-        <div>address</div>*@
+        <div id="eventInfo" class="d-flex flex-column align-items-start m-5">
+            <h5 id="eventName" class="border-bottom"></h5>
+            <p id="eventDescription" class="text-break"></p>
+
+            <div class="border-top mt-4">
+                <span class="font-weight-bold">Телефон за контакт: </span>
+                <div id="eventPhone">
+
+                </div>
+            </div>
+            <div>
+                <span class="font-weight-bold">Адрес: </span>
+                <div id="eventAddress">
+
+                </div>
+            </div>
         </div>
 
         <div id="readerButtons" class="align-self-center hidden">

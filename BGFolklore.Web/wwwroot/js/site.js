@@ -1,19 +1,16 @@
 ﻿function eventRowOnClick(modelData, userId) {
 
-    let eventInfoDiv = document.getElementById('eventInfo');
-    eventInfoDiv.innerHTML = '';
-    let divsToAppend = createInfoDivs(modelData);
-    appendElements(divsToAppend, eventInfoDiv);
+    addInfoToModal(modelData);
 
     displayModal();
     showOwnerOrReaderElements(userId, modelData);
     closeModal();
 
-    function createInfoDivs(modelData) {
-        return [e('div', {}, modelData.name),
-        e('div', {}, modelData.description),
-        e('div', {}, 'Телефон за контакт: ' + modelData.phone),
-        e('div', {}, 'Адрес: ' + modelData.address)];
+    function addInfoToModal(modelData) {
+        appendTextNode('eventName', modelData.name);
+        appendTextNode('eventDescription', modelData.description);
+        appendTextNode('eventPhone', modelData.phone);
+        appendTextNode('eventAddress', modelData.address);
     }
 
     function showOwnerOrReaderElements(userId, modelData) {
@@ -36,30 +33,30 @@
 }
 
 function displayModal() {
-    // Get the modal
-    var modal = $('#myModal')[0];
-    modal.style.display = "block";
-    $("#reportForm")[0].style.display = "none";
+    let modal = $('#myModal')[0];
+    modal.style.display = 'block';
+    $('#reportForm')[0].style.display = 'none';
+    document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
-    var modal = $('#myModal')[0];
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    let modal = $('#myModal')[0];
+    let span = document.getElementsByClassName('span-close')[0];
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
-        modal.style.display = "none";
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
     }
-
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
         if (event.target == modal) {
-            modal.style.display = "none";
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
         }
     }
 }
 
-function reportButtonOnClick(e,eventId, ownerId) {
+function reportButtonOnClick(e, eventId, ownerId) {
     let reportForm = document.getElementById('reportForm');
 
     if (reportForm.style.display == 'none') {
@@ -72,33 +69,8 @@ function reportButtonOnClick(e,eventId, ownerId) {
         reportForm.style.display = 'none';
     }
 }
-
-function e(type, attributes, ...content) {
-    const result = document.createElement(type);
-
-    for (let [attr, value] of Object.entries(attributes || {})) {
-        if (attr.substring(0, 2) == 'on') {
-            result.addEventListener(attr.substring(2).toLocaleLowerCase(), value);
-        } else {
-            result[attr] = value;
-        }
-    }
-
-    content = content.reduce((a, c) => a.concat(Array.isArray(c) ? c : [c]), []);
-
-    content.forEach(e => {
-        if (typeof e == 'string' || typeof e == 'number') {
-            const node = document.createTextNode(e);
-            result.appendChild(node);
-        } else {
-            result.appendChild(e);
-        }
-    });
-
-    return result;
-}
-function appendElements(sourceArray, destinationElement) {
-    sourceArray.forEach(element => {
-        destinationElement.appendChild(element);
-    });
+function appendTextNode(elementId, text) {
+    let element = document.getElementById(elementId);
+    element.textContent = '';
+    element.appendChild(document.createTextNode(text));
 }

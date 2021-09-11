@@ -32,11 +32,9 @@
     height: 100%;
 }
 
-
 /* ******************************************************
 	Pagination
 *********************************************************/
-
 .page-number {
     margin: 2px;
     padding: 2px 8px;
@@ -65,7 +63,7 @@
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    overflow: no-display;
+    overflow: auto;
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
@@ -76,37 +74,22 @@
     margin: 3% auto; /* 3% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 60%; /* Could be more or less, depending on screen size */
 }
-
-/*#ownerSpan,
-#readerSpan,
-#readerButton {
-    display: none;
-}
-
-#readerButtons {
-    align-self: center;
-}*/
 
 #eventInfo div {
     margin: 10px;
 }
 
-/*#reportForm {
-    display: none;
-    align-items: center;
-}*/
-
 /* The Close Button */
-.close {
-    color: #aaa;
-    font-size: 28px;
+.span-close {
+    color: #222;
+    font-size: 40px;
     font-weight: bold;
 }
 
-    .close:hover,
-    .close:focus {
+    .span-close:hover,
+    .span-close:focus {
         color: black;
         text-decoration: none;
         cursor: pointer;
@@ -119,3 +102,8 @@
 .oldFeedback {
     color: #222;
 }
+
+    .newFeedback:hover,
+    .oldFeedback:hover {
+        background: rgb(250 235 215);
+    }
