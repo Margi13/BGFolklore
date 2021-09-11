@@ -22,6 +22,7 @@ namespace BGFolklore.Data
         public DbSet<Town> Towns { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<Feedback> Feedback { get; set; }
+        public DbSet<Rating> Rating { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,6 +30,7 @@ namespace BGFolklore.Data
             OnUserCreating(builder);
             OnPublicEventCreating(builder);
             OnFeedbackCreating(builder);
+            OnRatingCreating(builder);
 
             builder.Entity<Town>().HasIndex(t => t.AreaId);
 
@@ -104,6 +106,20 @@ namespace BGFolklore.Data
                 .HasOne(f => f.Event)
                 .WithMany(pe => pe.Feedbacks)
                 .HasForeignKey(f => f.EventId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+        private void OnRatingCreating(ModelBuilder builder)
+        {
+            builder.Entity<Rating>()
+                .HasOne(r => r.Owner)
+                .WithMany()
+                .HasForeignKey(r => r.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Rating>()
+                .HasOne(r => r.Event)
+                .WithMany()
+                .HasForeignKey(r => r.EventId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
