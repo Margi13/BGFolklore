@@ -108,6 +108,7 @@ namespace BGFolklore.Web
             //Can return error
             services.AddScoped<ITownsService, TownsService>();
             services.AddScoped<IFeedbackService, FeedbackService>();
+            services.AddScoped<IRatingService, RatingService>();
 
         }
         
