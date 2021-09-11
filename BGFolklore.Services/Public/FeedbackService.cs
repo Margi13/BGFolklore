@@ -21,7 +21,7 @@ namespace BGFolklore.Services.Public
         }
         public void SaveFeedback(FeedbackBindingModel feedbackBindingModel)
         {
-            feedbackBindingModel.StatusId = 1;
+            feedbackBindingModel.StatusId = (int)StatusName.New;
             feedbackBindingModel.CreateDateTime = DateTime.Now;
 
             var newFeedback = this.Mapper.Map<Feedback>(feedbackBindingModel);
