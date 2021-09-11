@@ -1,26 +1,34 @@
 ﻿@using BGFolklore.Models.Calendar.ViewModels
 @using BGFolklore.Common.Nomenclatures
+@using BGFolklore.Data.Models;
+@using Microsoft.AspNetCore.Identity;
+
+@inject UserManager<User> userManager
+
 @model FeedbackViewModel
 
 <tr class="@(Model.StatusId == 1 ? "new" : "old")Feedback">
     <td class="table-col-w-15">@Model.CreateDateTime</td>
     <td class="text-break">@Model.Description</td>
     <td class="table-col-w-10">
-        <div class="d-flex justify-content-end">
-            @if (Model.StatusId == (int)StatusName.New)
-            {
-                <button type="button" onclick="location.href='@Url.Action("ReadFeedback", "Calendar", Model)'"
+        @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
+        {
+            <div class="d-flex justify-content-end">
+                @if (Model.StatusId == (int)StatusName.New)
+                {
+                    <button type="button" onclick="location.href='@Url.Action("ReadFeedback", "Calendar", Model)'"
+                            class="btn bg-light rounded-circle btn-signals"
+                            title="Отбележи като прочетено.">
+                        <i class="fas fa-check"></i>
+                    </button>
+                }
+                <button type="button" onclick="location.href='@Url.Action("DeleteFeedback", "Calendar", Model)'"
                         class="btn bg-light rounded-circle btn-signals"
-                        title="Отбележи като прочетено.">
-                    <i class="fas fa-check"></i>
+                        title="Изтриване на сигнал.">
+                    <i class="fas fa-trash-alt"></i>
                 </button>
-            }
-            <button type="button" onclick="location.href='@Url.Action("DeleteFeedback", "Calendar", Model)'"
-                    class="btn bg-light rounded-circle btn-signals"
-                    title="Изтриване на сигнал.">
-                <i class="fas fa-trash-alt"></i>
-            </button>
-        </div>
+            </div>
+        }
     </td>
 </tr>
 
