@@ -57,18 +57,40 @@ namespace BGFolklore.Web.Controllers
 
         public IActionResult UpcomingEvents(int pageNumber = 1)
         {
-            IList<UpcomingEventViewModel> viewModelList = calendarService.GetUpcomingEvents();
-            var orderedList = viewModelList.OrderBy(ue => ue.EventDateTime);
-            PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, pageNumber, 5);
-            return View(paginatedList);
+            try
+            {
+                IList<UpcomingEventViewModel> viewModelList = calendarService.GetUpcomingEvents();
+                var orderedList = viewModelList.OrderBy(ue => ue.EventDateTime);
+                if (orderedList == null)
+                {
+                    throw new Exception();
+                }
+                PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, pageNumber, 5);
+                return View(paginatedList);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public IActionResult RecurringEvents(int pageNumber = 1)
         {
-            IList<RecurringEventViewModel> viewModelList = calendarService.GetRecurringEvents();
-            var orderedList = viewModelList.OrderBy(re => re.Rating);
-            PaginatedList<RecurringEventViewModel> paginatedList = new PaginatedList<RecurringEventViewModel>(orderedList, pageNumber, 5);
-            return View(paginatedList);
+            try
+            {
+                IList<RecurringEventViewModel> viewModelList = calendarService.GetRecurringEvents();
+                var orderedList = viewModelList.OrderBy(re => re.Rating);
+                if (orderedList == null)
+                {
+                    throw new Exception();
+                }
+                PaginatedList<RecurringEventViewModel> paginatedList = new PaginatedList<RecurringEventViewModel>(orderedList, pageNumber, 5);
+                return View(paginatedList);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public PartialViewResult MoreInfoBoxPartial(EventViewModel eventViewModel)
@@ -79,30 +101,54 @@ namespace BGFolklore.Web.Controllers
 
         public IActionResult EventFeedbacksPartial(EventViewModel eventViewModel)
         {
-            IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(eventViewModel.Id);
-           
-            return View(feedbacks);
+            try
+            {
+                IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(eventViewModel.Id);
+                return View(feedbacks);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public IActionResult DeleteFeedback(FeedbackViewModel feedbackViewModel)
         {
-            feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Deleted);
-            EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
+            try
+            {
+                feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Deleted);
+                EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
+                return RedirectToAction("EventFeedbacksPartial", eventViewModel);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
-            return RedirectToAction("EventFeedbacksPartial", eventViewModel);
         }
         public IActionResult DeleteAllFeedbacks(FeedbackViewModel feedbackViewModel)
         {
-            feedbackService.DeleteAllEventFeedbacks(feedbackViewModel.EventId);
-            return RedirectToAction("UpcomingEvents");
+            try
+            {
+                feedbackService.DeleteAllEventFeedbacks(feedbackViewModel.EventId);
+                return RedirectToAction("UpcomingEvents");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public IActionResult ReadFeedback(FeedbackViewModel feedbackViewModel)
         {
-            feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Readed);
-
-            EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
-
-            return RedirectToAction("EventFeedbacksPartial", eventViewModel);
+            try
+            {
+                feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Readed);
+                EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
+                return RedirectToAction("EventFeedbacksPartial", eventViewModel);
+            }
+            catch (Exception) { throw; }
         }
 
         [HttpPost]
@@ -110,7 +156,16 @@ namespace BGFolklore.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                feedbackService.SaveFeedback(feedbackBindingModel);
+                try
+                {
+                    feedbackService.SaveFeedback(feedbackBindingModel);
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
                 var pathParts = Request.Headers["Referer"].ToString().Split("/");
                 string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
                 return RedirectToAction(lastAction);
@@ -129,21 +184,36 @@ namespace BGFolklore.Web.Controllers
         //Да направя метод за взимане на event по Id
         public IActionResult EditEvent(EventViewModel eventViewModel)
         {
-            AddEventBindingModel addEventBindingModel = calendarService.GetBindingModelFromData(eventViewModel.Id);
-
-            AddEventViewModel viewModel = CreateAddEventViewModel(addEventBindingModel);
             ViewData["CRUD"] = "Update";
-            TempData["EventId"] = eventViewModel.Id;
             TempData["Operation"] = "Update";
-            return View("AddEvent", viewModel);
+            try
+            {
+                AddEventBindingModel addEventBindingModel = calendarService.GetBindingModelFromData(eventViewModel.Id);
+
+                AddEventViewModel viewModel = CreateAddEventViewModel(addEventBindingModel);
+                TempData["EventId"] = eventViewModel.Id;
+                return View("AddEvent", viewModel);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
         [HttpGet]
         public IActionResult AddEvent()
         {
-            AddEventViewModel viewModel = CreateAddEventViewModel();
             ViewData["CRUD"] = "Create";
             TempData["Operation"] = "Create";
-            return View(viewModel);
+            try
+            {
+                AddEventViewModel viewModel = CreateAddEventViewModel();
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         [HttpPost]
@@ -151,16 +221,22 @@ namespace BGFolklore.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (TempData["Operation"].Equals("Create"))
+                try
                 {
-                    calendarService.SaveAddEvent(addEventBindingModel);
+                    if (TempData["Operation"].Equals("Create"))
+                    {
+                        calendarService.SaveAddEvent(addEventBindingModel);
+                    }
+                    else if (TempData["Operation"].Equals("Update"))
+                    {
+                        Guid eventId = (Guid)TempData["EventId"];
+                        calendarService.UpdatePublicEvent(eventId, addEventBindingModel);
+                    }
                 }
-                else if (TempData["Operation"].Equals("Update"))
+                catch (Exception)
                 {
-                    Guid eventId = (Guid)TempData["EventId"];
-                    calendarService.UpdatePublicEvent(eventId, addEventBindingModel);
+                    throw;
                 }
-
                 if (addEventBindingModel.IsRecurring)
                 {
                     return RedirectToAction("RecurringEvents");
@@ -180,7 +256,14 @@ namespace BGFolklore.Web.Controllers
 
         public IActionResult DeleteEvent(EventViewModel eventViewModel)
         {
-            calendarService.DeletePublicEvent(eventViewModel.Id);
+            try
+            {
+                calendarService.DeletePublicEvent(eventViewModel.Id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             var pathParts = Request.Headers["Referer"].ToString().Split("/");
             string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
             return RedirectToAction(lastAction);

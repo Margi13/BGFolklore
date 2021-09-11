@@ -26,72 +26,119 @@ namespace BGFolklore.Services.Public
 
             var newFeedback = this.Mapper.Map<Feedback>(feedbackBindingModel);
 
-            var pe = this.Context.PublicEvents.Where(pe => pe.Id == feedbackBindingModel.EventId);
-            PublicEvent publicEvent = this.Mapper.Map<PublicEvent>(pe.First());
-            newFeedback.Event = publicEvent;
+            var pe = this.Context.PublicEvents.Where(pe => pe.Id == feedbackBindingModel.EventId).FirstOrDefault();
+            var ow = this.Context.Users.Where(u => u.Id == feedbackBindingModel.OwnerId).FirstOrDefault();
 
-            var owner = this.Context.Users.Where(u => u.Id == feedbackBindingModel.OwnerId);
-            newFeedback.Owner = this.Mapper.Map<User>(owner.First());
+            try
+            {
+                PublicEvent publicEvent = this.Mapper.Map<PublicEvent>(pe);
+                var owner = this.Mapper.Map<User>(ow);
+                Status status = GetStatus(feedbackBindingModel.StatusId);
 
-            Status status = GetStatus(feedbackBindingModel.StatusId);
-            newFeedback.Status = status;
+                if (publicEvent == null || owner == null || status == null)
+                {
+                    throw new Exception();
+                }
 
-            this.Context.Feedback.Add(newFeedback);
-            this.Context.SaveChanges();
+                newFeedback.Event = publicEvent;
+                newFeedback.Owner = owner;
+                newFeedback.Status = status;
+
+                this.Context.Feedback.Add(newFeedback);
+                this.Context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
+        public IList<FeedbackViewModel> GetFeedbackViewModels(Guid eventId)
+        {
+            try
+            {
+                IList<Feedback> feedsFromData = GetFeedbacksFromData(eventId);
+                IList<FeedbackViewModel> feedbacks = this.Mapper.Map<IList<FeedbackViewModel>>(feedsFromData);
+                return feedbacks;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public void DeleteAllEventFeedbacks(Guid eventId)
+        {
+            try
+            {
+                IList<Feedback> feedbacks = GetFeedbacksFromData(eventId);
+
+                foreach (var feed in feedbacks)
+                {
+                    Status newStatus = GetStatus((int)StatusName.Deleted);
+
+                    feed.StatusId = (int)StatusName.Deleted;
+                    feed.Status = newStatus;
+                }
+                this.Context.Feedback.UpdateRange(feedbacks);
+                this.Context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
         public IList<Feedback> GetFeedbacksFromData(Guid eventId)
         {
             var feedbacks = this.Context.Feedback
                 .Where(f => f.EventId == eventId && f.StatusId != 3)
-                .OrderBy(f=>f.StatusId)
-                .ThenByDescending(f=>f.CreateDateTime);
+                .OrderBy(f => f.StatusId)
+                .ThenByDescending(f => f.CreateDateTime);
+            if (feedbacks == null)
+            {
+                throw new Exception();
+            }
             IList<Feedback> feedsList = this.Mapper.Map<IList<Feedback>>(feedbacks);
             return feedsList;
         }
-        public IList<FeedbackViewModel> GetFeedbackViewModels(Guid eventId)
-        {
-            IList<Feedback> feedsFromData = GetFeedbacksFromData(eventId);
-            IList<FeedbackViewModel> feedbacks = this.Mapper.Map<IList<FeedbackViewModel>>(feedsFromData);
-            return feedbacks;
-        }
-        public void DeleteAllEventFeedbacks(Guid eventId)
-        {
-            IList<Feedback> feedbacks = GetFeedbacksFromData(eventId);
-
-            foreach (var feed in feedbacks)
-            {
-                Status newStatus = GetStatus((int)StatusName.Deleted);
-
-                feed.StatusId = (int)StatusName.Deleted;
-                feed.Status = newStatus;
-                this.Context.Feedback.Update(feed);
-            }
-            Context.SaveChanges();
-        }
-
         public void ChangeFeedbackStatus(Guid feedbackId, int statusId)
         {
-            Feedback feedbackToChange = GetFeedbackById(feedbackId);
-            Status newStatus = GetStatus(statusId);
-            
-            feedbackToChange.StatusId = statusId;
-            feedbackToChange.Status = newStatus;
+            try
+            {
+                Feedback feedbackToChange = GetFeedbackById(feedbackId);
+                Status newStatus = GetStatus(statusId);
+                feedbackToChange.StatusId = statusId;
+                feedbackToChange.Status = newStatus;
+                this.Context.Feedback.Update(feedbackToChange);
+                this.Context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
-            Context.SaveChanges();
         }
-        public Feedback GetFeedbackById(Guid feedbackId) 
+        public Feedback GetFeedbackById(Guid feedbackId)
         {
-            var feedback = this.Context.Feedback.Where(f => f.Id == feedbackId);
-            Feedback feedbackToReturn = this.Mapper.Map<Feedback>(feedback.First());
+            var feedback = this.Context.Feedback.Where(f => f.Id == feedbackId).FirstOrDefault();
+            if (feedback == null)
+            {
+                throw new Exception();
+            }
+            Feedback feedbackToReturn = this.Mapper.Map<Feedback>(feedback);
             return feedbackToReturn;
         }
 
         private Status GetStatus(int statusId)
         {
-            var newStatus = this.Context.Status.Where(s => s.Id == statusId);
-            Status status = this.Mapper.Map<Status>(newStatus.First());
-
+            var newStatus = this.Context.Status.Where(s => s.Id == statusId).FirstOrDefault();
+            if (newStatus == null)
+            {
+                throw new Exception();
+            }
+            Status status = this.Mapper.Map<Status>(newStatus);
             return status;
         }
     }

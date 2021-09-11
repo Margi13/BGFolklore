@@ -19,15 +19,29 @@ namespace BGFolklore.Services.Public
         public IList<Town> GetAllTowns()
         {
             var towns = this.Context.Towns.OrderBy(t => t.Name);
-            IList<Town> townsList = this.Mapper.Map<IList<Town>>(towns);
-            return townsList;
+            if (towns != null)
+            {
+                IList<Town> townsList = this.Mapper.Map<IList<Town>>(towns);
+                return townsList;
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
 
         public Town GetTownByGivenId(int id)
         {
             var towns = this.Context.Towns.Where(t => t.Id.Equals(id));
-            Town townInfo = this.Mapper.Map<Town>(towns.First());
-            return townInfo;
+            if (towns != null)
+            {
+                Town townInfo = this.Mapper.Map<Town>(towns.First());
+                return townInfo;
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
         public IList<Town> GetAllTownsByGivenAreaId(int areaId)
         {
