@@ -166,11 +166,20 @@ h2 {
 
 table {
     margin: auto;
+    width: 75%;
 }
 
-th, td {
+talbe, th, td {
     border: 2px solid brown;
     padding: 10px;
+}
+
+.table-col-w-10 {
+    width: 10%;
+}
+
+.table-col-w-15 {
+    width: 15%;
 }
 
 .vertical-heading, thead {
@@ -293,7 +302,6 @@ th, td {
     opacity: 0.7;
     margin-top: 5px;
 }
-
 
 .horizontal-top {
     justify-content: center;

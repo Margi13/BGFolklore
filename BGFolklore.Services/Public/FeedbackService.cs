@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BGFolklore.Common.Nomenclatures;
 using BGFolklore.Data;
 using BGFolklore.Data.Models;
 using BGFolklore.Data.Models.Calendar;
@@ -41,7 +42,10 @@ namespace BGFolklore.Services.Public
 
         public IList<Feedback> GetFeedbacksFromData(Guid eventId)
         {
-            var feedbacks = this.Context.Feedback.Where(f => f.EventId == eventId && f.StatusId != 3);
+            var feedbacks = this.Context.Feedback
+                .Where(f => f.EventId == eventId && f.StatusId != 3)
+                .OrderBy(f=>f.StatusId)
+                .ThenByDescending(f=>f.CreateDateTime);
             IList<Feedback> feedsList = this.Mapper.Map<IList<Feedback>>(feedbacks);
             return feedsList;
         }
@@ -53,17 +57,19 @@ namespace BGFolklore.Services.Public
         }
         public void DeleteAllEventFeedbacks(Guid eventId)
         {
-            var feedbacks = GetFeedbacksFromData(eventId);
+            IList<Feedback> feedbacks = GetFeedbacksFromData(eventId);
 
             foreach (var feed in feedbacks)
             {
-                Status newStatus = GetStatus(3);
+                Status newStatus = GetStatus((int)StatusName.Deleted);
 
-                feed.StatusId = 3;
+                feed.StatusId = (int)StatusName.Deleted;
                 feed.Status = newStatus;
+                this.Context.Feedback.Update(feed);
             }
             Context.SaveChanges();
         }
+
         public void ChangeFeedbackStatus(Guid feedbackId, int statusId)
         {
             Feedback feedbackToChange = GetFeedbackById(feedbackId);

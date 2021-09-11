@@ -80,24 +80,29 @@ namespace BGFolklore.Web.Controllers
         public IActionResult EventFeedbacksPartial(EventViewModel eventViewModel)
         {
             IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(eventViewModel.Id);
+            
             return View(feedbacks);
         }
 
         public IActionResult DeleteFeedback(FeedbackViewModel feedbackViewModel)
         {
             feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Deleted);
+            EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
 
-            IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(feedbackViewModel.EventId);
-
-            return View("EventFeedbacksPartial", feedbacks);
+            return RedirectToAction("EventFeedbacksPartial", eventViewModel);
+        }
+        public IActionResult DeleteAllFeedbacks(FeedbackViewModel feedbackViewModel)
+        {
+            feedbackService.DeleteAllEventFeedbacks(feedbackViewModel.EventId);
+            return RedirectToAction("UpcomingEvents");
         }
         public IActionResult ReadFeedback(FeedbackViewModel feedbackViewModel)
         {
             feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Readed);
 
-            IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(feedbackViewModel.EventId);
+            EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
 
-            return View("EventFeedbacksPartial", feedbacks);
+            return RedirectToAction("EventFeedbacksPartial", eventViewModel);
         }
 
         [HttpPost]
