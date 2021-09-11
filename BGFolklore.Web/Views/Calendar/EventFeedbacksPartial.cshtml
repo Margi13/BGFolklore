@@ -12,7 +12,7 @@
         <h3>Сигнали за събитието</h3>
         <div class="border border-danger text-danger p-2 m-3">
             <span class="text-justify">
-                Моля имайте в предвид, че за останалите потребители се показва известие за наличие на сигнали за грешна информация, докато не изтриете всички сигнали!
+                Моля имайте в предвид, че за всички потребители се показва известие за наличие на сигнали за грешна информация, докато не бъдат изтрити всички сигнали!
             </span>
         </div>
     </div>
@@ -48,10 +48,10 @@
         $(".can-hover td").hover(
             function (e) {
                 if (!e.target.classList.contains("no-stilization")) {
-                    $(this.parentNode.children).addClass("hovered");
+                    $(this).parentNode.children.addClass("hovered");
                     $(".no-stilization").removeClass("hovered");
                 } else {
-                    $(this.parentNode.children).removeClass("hovered");
+                    $(this).parentNode.children.removeClass("hovered");
                 }
             },
             function () {

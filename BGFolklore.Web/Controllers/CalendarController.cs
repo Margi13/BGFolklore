@@ -27,14 +27,16 @@ namespace BGFolklore.Web.Controllers
         private readonly IMapper mapper;
         private readonly ITownsService townsService;
         private readonly IFeedbackService feedbackService;
+        private readonly IRatingService ratingService;
         private readonly UserManager<User> userManager;
 
         public CalendarController(IWebHostEnvironment webHostEnvironment,
             ICalendarService calendarService,
             IStringLocalizer<CalendarController> localizer,
             IMapper mapper,
-            ITownsService townsService,
             IFeedbackService feedbackService,
+            IRatingService ratingService,
+            ITownsService townsService,
             UserManager<User> userManager)
         {
             this.webHostEnvironment = webHostEnvironment;
@@ -43,6 +45,7 @@ namespace BGFolklore.Web.Controllers
             this.mapper = mapper;
             this.townsService = townsService;
             this.feedbackService = feedbackService;
+            this.ratingService = ratingService;
             this.userManager = userManager;
             if (Towns.AllTowns is null)
             {
@@ -91,6 +94,26 @@ namespace BGFolklore.Web.Controllers
             {
                 throw;
             }
+        }
+
+        [HttpPost]
+        public IActionResult RateForEvent(int rate, Guid eventId)
+        {
+            try
+            {
+                RatingBindingModel ratingBindingModel = new RatingBindingModel();
+                ratingBindingModel.OwnerId = userManager.GetUserId(User);
+                ratingBindingModel.EventId = eventId;
+                ratingBindingModel.Rate = rate;
+                ratingService.SaveRating(ratingBindingModel);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return RedirectToAction("RecurringEvents");
         }
 
         public PartialViewResult MoreInfoBoxPartial(EventViewModel eventViewModel)

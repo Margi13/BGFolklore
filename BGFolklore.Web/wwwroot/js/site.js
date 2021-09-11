@@ -3,6 +3,11 @@
     addInfoToModal(modelData);
 
     displayModal();
+    if (userId == modelData.ownerId) {
+        $(".rating-container").hide();
+    } else {
+        ratingFunctionality();
+    }
     showOwnerOrReaderElements(userId, modelData);
     closeModal();
 
@@ -11,6 +16,8 @@
         appendTextNode('eventDescription', modelData.description);
         appendTextNode('eventPhone', modelData.phone);
         appendTextNode('eventAddress', modelData.address);
+
+        document.getElementById('eventIdRate').value = modelData.id;
     }
 
     function showOwnerOrReaderElements(userId, modelData) {
@@ -38,7 +45,6 @@ function displayModal() {
     $('#reportForm')[0].style.display = 'none';
     document.body.style.overflow = 'hidden';
 }
-
 function closeModal() {
     let modal = $('#myModal')[0];
     let span = document.getElementsByClassName('span-close')[0];
@@ -54,6 +60,49 @@ function closeModal() {
             document.body.style.overflow = '';
         }
     }
+
+    $("#input-rate").removeClass("rated");
+}
+
+function ratingFunctionality() {
+    $(".rate-star").hover(
+        function () {
+            $(".rate-star").addClass("far").removeClass("fas");
+
+            $(this).addClass("fas").removeClass("far");
+            $(this).prevAll(".rate-star").addClass("fas").removeClass("far");
+        }, false
+    );
+    $(".rating-stars").hover(false, function () {
+        let rateStars = document.getElementsByClassName('rate-star');
+        let inputRate = document.getElementById("inputRate");
+        if (inputRate.className.includes('rated')) {
+            for (var i = 0; i < rateStars.length; i++) {
+                if (rateStars[i].dataset.value <= inputRate.value) {
+                    rateStars[i].classList.add('fas');
+                    rateStars[i].classList.remove('far');
+                } else {
+                    rateStars[i].classList.add('far');
+                    rateStars[i].classList.remove('fas');
+                }
+            }
+        } else {
+            rateStars[0].classList.add('fas');
+            rateStars[0].classList.remove('far');
+            for (var i = 1; i < rateStars.length; i++) {
+                rateStars[i].classList.add('far');
+                rateStars[i].classList.remove('fas');
+            }
+        }
+    });
+    $(".rate-star").click(
+        function () {
+            let rate = $(this).attr("data-value");
+            let inputRate = document.getElementById('inputRate');
+            inputRate.value = rate;
+            inputRate.classList.add("rated");
+        }
+    );
 }
 
 function reportButtonOnClick(e, eventId, ownerId) {
@@ -69,6 +118,7 @@ function reportButtonOnClick(e, eventId, ownerId) {
         reportForm.style.display = 'none';
     }
 }
+
 function appendTextNode(elementId, text) {
     let element = document.getElementById(elementId);
     element.textContent = '';

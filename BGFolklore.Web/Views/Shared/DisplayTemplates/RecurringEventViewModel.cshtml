@@ -63,7 +63,26 @@
             }
         }
     </td>
-    <td>@Model.Rating</td>
+
+    <td class="table-col-w-15">
+        <div class="rating-container">
+            @for (int i = 1; i <= @Model.Rating; i++)
+            {
+                <i class="fas fa-star"></i>
+            }
+            @for (int i = 5; i > @Model.Rating; i--)
+            {
+                @if (@Model.Rating > (Math.Floor(@Model.Rating) + 0.5) && i == 5)
+                {
+                    <i class="fas fa-star"></i>
+                    i--;
+                }
+                <i class="far fa-star"></i>
+            }
+            @Model.Rating
+        </div>
+    </td>
+
     <td class="stop-parent-onclick table-col-w-10">
         @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
         {

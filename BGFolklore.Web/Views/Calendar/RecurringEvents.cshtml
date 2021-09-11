@@ -82,11 +82,11 @@
                 }
             }
         }
-    <a asp-action="RecurringEvents"
-       asp-route-pageNumber="@(Model.PageIndex + 1)"
-       class="btn bg-light rounded-circle @nextDisabled">
-        <i class="fas fa-chevron-right"></i>
-    </a>
+        <a asp-action="RecurringEvents"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           class="btn bg-light rounded-circle @nextDisabled">
+            <i class="fas fa-chevron-right"></i>
+        </a>
     </div>
 </section>
 
@@ -109,5 +109,6 @@
                 event.stopPropagation();
             })
             .attr('title', '');
+        $(".rating-container").show();
     </script>
 }
