@@ -51,6 +51,10 @@ namespace BGFolklore.Web.Mapping
                 .ForMember(dest => dest.Status, opt => opt.Ignore())
                 .ForMember(dest => dest.Owner, opt => opt.Ignore());
 
+            this.CreateMap<RatingBindingModel, Rating>()
+                .ForMember(dest => dest.Event, opt => opt.Ignore())
+                .ForMember(dest => dest.Owner, opt => opt.Ignore());
+
             this.CreateMap<FeedbackBindingModel, FeedbackViewModel>();
 
             this.CreateMap<Feedback, FeedbackViewModel>();
