@@ -1,6 +1,6 @@
 ﻿@using BGFolklore.Models.Calendar.ViewModels
 @using BGFolklore.Web.Common
-@model PaginatedList<RecurringEventViewModel>
+@model FilterEventsViewModel
 @{
     ViewData["Title"] = "Всички места";
     ViewData["Description"] = "Всички места, на които всяка седмица можете да се наслаждавате на неспирните бълграски народни танци и хора.";
@@ -27,26 +27,26 @@
             </tr>
         </thead>
         <tbody>
-            @Html.DisplayFor(m => m.PaginatedItems)
+            @Html.DisplayFor(m => m.RecurringPaginatedList.PaginatedItems)
         </tbody>
     </table>
 
     @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        var prevDisabled = !Model.RecurringPaginatedList.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.RecurringPaginatedList.HasNextPage ? "disabled" : "";
     }
     <div class="d-flex justify-content-center mt-3">
         <a asp-action="RecurringEvents"
-           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-pageNumber="@(Model.RecurringPaginatedList.PageIndex - 1)"
            class="btn bg-light rounded-circle @prevDisabled">
             <i class="fas fa-chevron-left"></i>
         </a>
         @{
-            for (int i = 1; i <= Model.TotalPages; i++)
+            for (int i = 1; i <= Model.RecurringPaginatedList.TotalPages; i++)
             {
-                if (i == Model.PageIndex)
+                if (i == Model.RecurringPaginatedList.PageIndex)
                 {
-                    <a asp-action="UpcomingEvents"
+                    <a asp-action="RecurringEvents"
                        asp-route-pageNumber="@i"
                        class="page-number active-page">
                         @i
@@ -54,7 +54,7 @@
                 }
                 else
                 {
-                    <a asp-action="UpcomingEvents"
+                    <a asp-action="RecurringEvents"
                        asp-route-pageNumber="@i"
                        class="page-number">
                         @i
@@ -63,18 +63,16 @@
             }
         }
         <a asp-action="RecurringEvents"
-           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-pageNumber="@(Model.RecurringPaginatedList.PageIndex + 1)"
            class="btn bg-light rounded-circle @nextDisabled">
             <i class="fas fa-chevron-right"></i>
         </a>
     </div>
+
 </section>
 
 <div id="modal-container">
     <partial name="_MoreInfoBoxPartial" model="@(new FeedbackViewModel())" />
-</div>
-<div id="feedbacks-container">
-
 </div>
 
 @section CSS {

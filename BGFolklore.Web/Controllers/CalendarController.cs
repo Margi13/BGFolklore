@@ -16,6 +16,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using BGFolklore.Web.Models;
 using System.Diagnostics;
+using BGFolklore.Common.Common;
 
 namespace BGFolklore.Web.Controllers
 {
@@ -27,14 +28,9 @@ namespace BGFolklore.Web.Controllers
         private readonly IRatingService ratingService;
         private readonly UserManager<User> userManager;
 
-        public CalendarController(ILogger<CalendarController> logger,
-            IWebHostEnvironment webHostEnvironment,
-            IStringLocalizer<CalendarController> localizer,
-            ITownsService townsService,
-            IMapper mapper,
-            ICalendarService calendarService,
-            IFeedbackService feedbackService,
-            IRatingService ratingService,
+        public CalendarController(ILogger<CalendarController> logger, IWebHostEnvironment webHostEnvironment,
+            IStringLocalizer<CalendarController> localizer, ITownsService townsService, IMapper mapper,
+            ICalendarService calendarService, IFeedbackService feedbackService, IRatingService ratingService,
             UserManager<User> userManager) : base(logger, webHostEnvironment, localizer, townsService)
         {
             this.mapper = mapper;
@@ -52,7 +48,8 @@ namespace BGFolklore.Web.Controllers
         //Event Actions
         public IActionResult UpcomingEvents(int pageNumber = 1)
         {
-            PaginatedList<UpcomingEventViewModel> paginatedList;
+            FilterEventsViewModel viewModel = new FilterEventsViewModel();
+            viewModel.Filters = new FilterBindingModel();
             try
             {
                 IList<UpcomingEventViewModel> viewModelList = calendarService.GetUpcomingEvents();
@@ -61,18 +58,31 @@ namespace BGFolklore.Web.Controllers
                 {
                     throw new Exception();
                 }
-                paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, pageNumber, 5);
+                PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, pageNumber, 5);
+                viewModel.UpcomingPaginatedList = paginatedList;
             }
             catch (Exception)
             {
                 return Error();
             }
-            return View(paginatedList);
+            return View(viewModel);
         }
-
+        [HttpPost]
+        public IActionResult UpcomingEvents(FilterBindingModel filterBindingModel)
+        {
+            //Filter functions from FilterService
+            //Get paginatedList from function
+            //new filterviewmodel
+            return View();
+        }
+        private PaginatedList<UpcomingEventViewModel> GetUpcomingPaginatedList(IEnumerable<UpcomingEventViewModel>orderedList, int pageNumber)
+        {
+            PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, 1, 5);
+            return paginatedList;
+        }
         public IActionResult RecurringEvents(int pageNumber = 1)
         {
-            PaginatedList<RecurringEventViewModel> paginatedList;
+            FilterEventsViewModel viewModel = new FilterEventsViewModel();
             try
             {
                 IList<RecurringEventViewModel> viewModelList = calendarService.GetRecurringEvents();
@@ -81,13 +91,14 @@ namespace BGFolklore.Web.Controllers
                 {
                     throw new Exception();
                 }
-                paginatedList = new PaginatedList<RecurringEventViewModel>(orderedList, pageNumber, 5);
+                PaginatedList<RecurringEventViewModel> paginatedList = new PaginatedList<RecurringEventViewModel>(orderedList, pageNumber, 5);
+                viewModel.RecurringPaginatedList = paginatedList;
             }
             catch (Exception)
             {
                 return Error();
             }
-            return View(paginatedList);
+            return View(viewModel);
         }
 
         //Да го направя да взима само ID, а не целия евент, за да мога да го ползвам и в feedbacksPartial

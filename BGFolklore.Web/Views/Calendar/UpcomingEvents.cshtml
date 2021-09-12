@@ -1,6 +1,6 @@
 ﻿@using BGFolklore.Models.Calendar.ViewModels
 @using BGFolklore.Web.Common
-@model PaginatedList<UpcomingEventViewModel>
+@model FilterEventsViewModel
 @{
     ViewData["Title"] = "Предстоящи събития";
     ViewData["Description"] = "Предстоящите събития, на които можете да се насладите на неспирните български народни танци и хора.";
@@ -8,9 +8,12 @@
 <partial name="_EventsNavPartial" />
 
 <section class="calendar-section">
-    @*<div>
-            Търсачка
-        </div>*@
+    <div>
+        <h6>Филтрирай по:</h6>
+        <form method="post" asp-action="FilterUpcomingEvents">
+
+        </form>
+    </div>
     <table class="calendar-table">
         <thead>
             <tr>
@@ -25,24 +28,24 @@
             </tr>
         </thead>
         <tbody>
-            @Html.DisplayFor(m => m.PaginatedItems)
+            @Html.DisplayFor(m => m.UpcomingPaginatedList.PaginatedItems)
         </tbody>
     </table>
 
     @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        var prevDisabled = !Model.UpcomingPaginatedList.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.UpcomingPaginatedList.HasNextPage ? "disabled" : "";
     }
     <div class="d-flex justify-content-center mt-3">
         <a asp-action="UpcomingEvents"
-           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-pageNumber="@(Model.UpcomingPaginatedList.PageIndex - 1)"
            class="btn bg-light rounded-circle @prevDisabled">
             <i class="fas fa-chevron-left"></i>
         </a>
         @{
-            for (int i = 1; i <= Model.TotalPages; i++)
+            for (int i = 1; i <= Model.UpcomingPaginatedList.TotalPages; i++)
             {
-                if (i == Model.PageIndex)
+                if (i == Model.UpcomingPaginatedList.PageIndex)
                 {
                     <a asp-action="UpcomingEvents"
                        asp-route-pageNumber="@i"
@@ -61,11 +64,12 @@
             }
         }
         <a asp-action="UpcomingEvents"
-           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-pageNumber="@(Model.UpcomingPaginatedList.PageIndex + 1)"
            class="btn bg-light rounded-circle @nextDisabled">
             <i class="fas fa-chevron-right"></i>
         </a>
     </div>
+
 </section>
 
 <div id="modal-container">
