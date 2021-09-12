@@ -1,5 +1,6 @@
 ﻿using BGFolklore.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.Localization;
@@ -15,11 +16,12 @@ using System.Threading.Tasks;
 namespace BGFolklore.Web.Controllers
 {
     //[Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
 
         private readonly ILogger<HomeController> _logger;
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+            IWebHostEnvironment webHostEnvironment) :base(logger,webHostEnvironment)
         {
             _logger = logger;
         }

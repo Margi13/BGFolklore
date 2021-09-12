@@ -1,21 +1,24 @@
 ﻿using BGFolklore.Models.Gallery.ViewModels;
 using BGFolklore.Services.Public.Interfaces;
+using BGFolklore.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
 namespace BGFolklore.Web.Controllers
 {
-    public class GalleryController : Controller
+    public class GalleryController : BaseController
     {
-        private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IGalleryService galleryService;
 
-        public GalleryController(IWebHostEnvironment webHostEnvironment, IGalleryService galleryService)
+        public GalleryController(ILogger<GalleryController> logger,
+            IWebHostEnvironment webHostEnvironment,
+            IGalleryService galleryService) : base(logger, webHostEnvironment)
         {
-            this.webHostEnvironment = webHostEnvironment;
             this.galleryService = galleryService;
         }
         public IActionResult Index()
@@ -45,6 +48,11 @@ namespace BGFolklore.Web.Controllers
                 jsonString = r.ReadToEnd();
             }
             return jsonString;
+        }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 

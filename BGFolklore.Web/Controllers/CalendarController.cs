@@ -1,7 +1,9 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using AutoMapper;
 using BGFolklore.Common.Nomenclatures;
 using BGFolklore.Data.Models;
-using BGFolklore.Data.Models.Calendar;
 using BGFolklore.Models.Calendar.BindingModels;
 using BGFolklore.Models.Calendar.ViewModels;
 using BGFolklore.Services.Public.Interfaces;
@@ -11,46 +13,35 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+using Microsoft.Extensions.Logging;
+using BGFolklore.Web.Models;
+using System.Diagnostics;
 
 namespace BGFolklore.Web.Controllers
 {
-    public class CalendarController : Controller
+    public class CalendarController : BaseController
     {
-        private readonly IWebHostEnvironment webHostEnvironment;
-        private readonly ICalendarService calendarService;
-        private readonly IStringLocalizer<CalendarController> localizer;
         private readonly IMapper mapper;
-        private readonly ITownsService townsService;
+        private readonly ICalendarService calendarService;
         private readonly IFeedbackService feedbackService;
         private readonly IRatingService ratingService;
         private readonly UserManager<User> userManager;
 
-        public CalendarController(IWebHostEnvironment webHostEnvironment,
-            ICalendarService calendarService,
+        public CalendarController(ILogger<CalendarController> logger,
+            IWebHostEnvironment webHostEnvironment,
             IStringLocalizer<CalendarController> localizer,
+            ITownsService townsService,
             IMapper mapper,
+            ICalendarService calendarService,
             IFeedbackService feedbackService,
             IRatingService ratingService,
-            ITownsService townsService,
-            UserManager<User> userManager)
+            UserManager<User> userManager) : base(logger, webHostEnvironment, localizer, townsService)
         {
-            this.webHostEnvironment = webHostEnvironment;
-            this.calendarService = calendarService;
-            this.localizer = localizer;
             this.mapper = mapper;
-            this.townsService = townsService;
+            this.calendarService = calendarService;
             this.feedbackService = feedbackService;
             this.ratingService = ratingService;
             this.userManager = userManager;
-            if (Towns.AllTowns is null)
-            {
-                Towns.GetTowns(townsService);
-            }
         }
 
         public IActionResult Index()
@@ -58,8 +49,10 @@ namespace BGFolklore.Web.Controllers
             return View();
         }
 
+        //Event Actions
         public IActionResult UpcomingEvents(int pageNumber = 1)
         {
+            PaginatedList<UpcomingEventViewModel> paginatedList;
             try
             {
                 IList<UpcomingEventViewModel> viewModelList = calendarService.GetUpcomingEvents();
@@ -68,17 +61,18 @@ namespace BGFolklore.Web.Controllers
                 {
                     throw new Exception();
                 }
-                PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, pageNumber, 5);
-                return View(paginatedList);
+                paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, pageNumber, 5);
             }
             catch (Exception)
             {
-                throw;
+                return Error();
             }
+            return View(paginatedList);
         }
 
         public IActionResult RecurringEvents(int pageNumber = 1)
         {
+            PaginatedList<RecurringEventViewModel> paginatedList;
             try
             {
                 IList<RecurringEventViewModel> viewModelList = calendarService.GetRecurringEvents();
@@ -87,120 +81,13 @@ namespace BGFolklore.Web.Controllers
                 {
                     throw new Exception();
                 }
-                PaginatedList<RecurringEventViewModel> paginatedList = new PaginatedList<RecurringEventViewModel>(orderedList, pageNumber, 5);
-                return View(paginatedList);
+                paginatedList = new PaginatedList<RecurringEventViewModel>(orderedList, pageNumber, 5);
             }
             catch (Exception)
             {
-                throw;
+                return Error();
             }
-        }
-
-        [HttpPost]
-        public IActionResult RateForEvent(int rate, Guid eventId)
-        {
-            try
-            {
-                RatingBindingModel ratingBindingModel = new RatingBindingModel();
-                ratingBindingModel.OwnerId = userManager.GetUserId(User);
-                ratingBindingModel.EventId = eventId;
-                ratingBindingModel.Rate = rate;
-                ratingService.SaveRating(ratingBindingModel);
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            return RedirectToAction("RecurringEvents");
-        }
-
-        public PartialViewResult MoreInfoBoxPartial(EventViewModel eventViewModel)
-        {
-
-            return PartialView("_MoreInfoBoxPartial", new FeedbackViewModel());
-        }
-
-        public IActionResult EventFeedbacksPartial(EventViewModel eventViewModel)
-        {
-            try
-            {
-                IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(eventViewModel.Id);
-                return View(feedbacks);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
-        public IActionResult DeleteFeedback(FeedbackViewModel feedbackViewModel)
-        {
-            try
-            {
-                feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Deleted);
-                EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
-                return RedirectToAction("EventFeedbacksPartial", eventViewModel);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-        public IActionResult DeleteAllFeedbacks(FeedbackViewModel feedbackViewModel)
-        {
-            try
-            {
-                feedbackService.DeleteAllEventFeedbacks(feedbackViewModel.EventId);
-                return RedirectToAction("UpcomingEvents");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        public IActionResult ReadFeedback(FeedbackViewModel feedbackViewModel)
-        {
-            try
-            {
-                feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Readed);
-                EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
-                return RedirectToAction("EventFeedbacksPartial", eventViewModel);
-            }
-            catch (Exception) { throw; }
-        }
-
-        [HttpPost]
-        public IActionResult Report(FeedbackBindingModel feedbackBindingModel)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    feedbackService.SaveFeedback(feedbackBindingModel);
-
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-                var pathParts = Request.Headers["Referer"].ToString().Split("/");
-                string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
-                return RedirectToAction(lastAction);
-            }
-            else
-            {
-                var feedbackViewModel = this.mapper.Map<FeedbackViewModel>(feedbackBindingModel);
-                //return PartialView("_MoreInfoBoxPartial", feedbackViewModel);
-                var pathParts = Request.Headers["Referer"].ToString().Split("/");
-                string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
-                return RedirectToAction(lastAction);
-            }
+            return View(paginatedList);
         }
 
         //Да го направя да взима само ID, а не целия евент, за да мога да го ползвам и в feedbacksPartial
@@ -209,34 +96,37 @@ namespace BGFolklore.Web.Controllers
         {
             ViewData["CRUD"] = "Update";
             TempData["Operation"] = "Update";
+            AddEventViewModel viewModel;
             try
             {
                 AddEventBindingModel addEventBindingModel = calendarService.GetBindingModelFromData(eventViewModel.Id);
 
-                AddEventViewModel viewModel = CreateAddEventViewModel(addEventBindingModel);
+                viewModel = CreateAddEventViewModel(addEventBindingModel);
                 TempData["EventId"] = eventViewModel.Id;
-                return View("AddEvent", viewModel);
             }
             catch (Exception)
             {
-                throw;
+                return Error();
             }
+            return View("AddEvent", viewModel);
 
         }
+
         [HttpGet]
         public IActionResult AddEvent()
         {
             ViewData["CRUD"] = "Create";
             TempData["Operation"] = "Create";
+            AddEventViewModel viewModel;
             try
             {
-                AddEventViewModel viewModel = CreateAddEventViewModel();
-                return View(viewModel);
+                viewModel = CreateAddEventViewModel();
             }
             catch (Exception)
             {
-                throw;
+                return Error();
             }
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -258,7 +148,7 @@ namespace BGFolklore.Web.Controllers
                 }
                 catch (Exception)
                 {
-                    throw;
+                    return Error();
                 }
                 if (addEventBindingModel.IsRecurring)
                 {
@@ -285,13 +175,122 @@ namespace BGFolklore.Web.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return Error();
             }
             var pathParts = Request.Headers["Referer"].ToString().Split("/");
             string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
             return RedirectToAction(lastAction);
         }
 
+        // ModalBox Actions
+        [HttpPost]
+        public IActionResult RateForEvent(int rate, Guid eventId)
+        {
+            try
+            {
+                RatingBindingModel ratingBindingModel = new RatingBindingModel();
+                ratingBindingModel.OwnerId = userManager.GetUserId(User);
+                ratingBindingModel.EventId = eventId;
+                ratingBindingModel.Rate = rate;
+                ratingService.SaveRating(ratingBindingModel);
+
+            }
+            catch (Exception)
+            {
+                return Error();
+            }
+            return RedirectToAction("RecurringEvents");
+        }
+        public PartialViewResult MoreInfoBoxPartial(EventViewModel eventViewModel)
+        {
+
+            return PartialView("_MoreInfoBoxPartial", new FeedbackViewModel());
+        }
+
+        // Feedback Actions
+        public IActionResult EventFeedbacks(EventViewModel eventViewModel)
+        {
+            IList<FeedbackViewModel> feedbacks;
+            try
+            {
+                feedbacks = feedbackService.GetFeedbackViewModels(eventViewModel.Id);
+            }
+            catch (Exception)
+            {
+                return Error();
+            }
+            ViewData["EventName"] = eventViewModel.Name;
+            return View(feedbacks);
+
+        }
+        public IActionResult DeleteFeedback(FeedbackViewModel feedbackViewModel)
+        {
+            try
+            {
+                feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Deleted);
+                EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
+                return RedirectToAction("EventFeedbacks", eventViewModel);
+            }
+            catch (Exception)
+            {
+                return Error();
+            }
+
+        }
+        public IActionResult DeleteAllFeedbacks(FeedbackViewModel feedbackViewModel)
+        {
+            try
+            {
+                feedbackService.DeleteAllEventFeedbacks(feedbackViewModel.EventId);
+                return RedirectToAction("UpcomingEvents");
+            }
+            catch (Exception)
+            {
+                return Error();
+            }
+        }
+        public IActionResult ReadFeedback(FeedbackViewModel feedbackViewModel)
+        {
+            try
+            {
+                feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Readed);
+                EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
+                return RedirectToAction("EventFeedbacks", eventViewModel);
+            }
+            catch (Exception)
+            {
+                return Error();
+            }
+        }
+        [HttpPost]
+        public IActionResult Report(FeedbackBindingModel feedbackBindingModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    feedbackService.SaveFeedback(feedbackBindingModel);
+
+                }
+                catch (Exception)
+                {
+                    return Error();
+                }
+                var pathParts = Request.Headers["Referer"].ToString().Split("/");
+                string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
+                return RedirectToAction(lastAction);
+            }
+            else
+            {
+                var feedbackViewModel = this.mapper.Map<FeedbackViewModel>(feedbackBindingModel);
+                //return PartialView("_MoreInfoBoxPartial", feedbackViewModel);
+                var pathParts = Request.Headers["Referer"].ToString().Split("/");
+                string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
+                return RedirectToAction(lastAction);
+            }
+        }
+
+        //Other methods
         private AddEventViewModel CreateAddEventViewModel()
         {
             var viewModel = new AddEventViewModel();
@@ -316,7 +315,6 @@ namespace BGFolklore.Web.Controllers
 
             return viewModel;
         }
-
         private void GetOccuringDays(AddEventViewModel viewModel)
         {
             foreach (var dayName in Enum.GetValues(typeof(DaysOfWeek)))
@@ -327,7 +325,6 @@ namespace BGFolklore.Web.Controllers
                 viewModel.OccuringDays.Add(selectListItem);
             }
         }
-
         private void GetSelectedOccuringDays(AddEventViewModel viewModel, AddEventBindingModel bindingModel)
         {
             GetOccuringDays(viewModel);
@@ -349,7 +346,6 @@ namespace BGFolklore.Web.Controllers
                 }
             }
         }
-
         private void GetAttendeeType(AddEventViewModel viewModel)
         {
             foreach (var type in Enum.GetValues(typeof(AttendeeType)))
@@ -360,7 +356,6 @@ namespace BGFolklore.Web.Controllers
                 viewModel.IntendedFor.Add(selectListItem);
             }
         }
-
         private void GetSelectedAttendeeType(AddEventViewModel viewModel, AddEventBindingModel bindingModel)
         {
             GetAttendeeType(viewModel);
@@ -380,6 +375,12 @@ namespace BGFolklore.Web.Controllers
                     }
                 }
             }
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
