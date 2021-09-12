@@ -18,8 +18,8 @@
                 <label asp-for="AreaId" class="col-4 col-form-label text-left"></label>
                 <div class="col-8">
                     <select asp-for="AreaId" class="custom-select"
-                            asp-items="@(Towns.AllTowns).Select(t => new SelectListItem { Text = t.Name, Value = (t.Id).ToString() })">
-                        <option value="">Изберете град</option>
+                            asp-items="@(Towns.AllAreas).Select(t => new SelectListItem { Text = t.Name, Value = (t.Id).ToString() })">
+                        <option value="">Изберете област</option>
                     </select>
                 </div>
                 <span asp-validation-for="AreaId" class="col-8 offset-4 text-danger"></span>
