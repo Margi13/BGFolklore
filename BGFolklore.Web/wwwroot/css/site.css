@@ -94,6 +94,10 @@ button.accept-policy {
     padding: 7px;
 }
 
+i {
+    font-size: 20px;
+}
+
 footer i {
     padding-right: 10px;
 }
@@ -140,7 +144,8 @@ a {
 }
 
     a:hover, a:focus {
-        color: #373e18;
+        color: #000;
+        font-size:large;
         text-decoration: none;
     }
 
@@ -208,7 +213,7 @@ talbe, th, td {
 }
 
 /* ******************************************************
-	Script Top
+	Nav-secondary
 *********************************************************/
 .nav-container {
     /*background-color: #efe3af;*/
@@ -260,7 +265,7 @@ talbe, th, td {
                 }
 
 /* ******************************************************
-	Script Header
+    Header
 *********************************************************/
 .page-header {
     /*background-image: url("../images/banners/nosii-banner.jpg");*/

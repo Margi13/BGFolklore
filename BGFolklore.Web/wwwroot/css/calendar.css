@@ -21,10 +21,6 @@
     cursor: pointer;
 }
 
-.btn-signals {
-    font-size: 20px;
-}
-
 .no-stilization {
     border: none;
     background: white;
@@ -105,3 +101,7 @@
     .oldFeedback:hover {
         background: rgb(250 235 215);
     }
+
+.fa-star {
+    font-size: 15px;
+}
