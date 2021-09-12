@@ -41,7 +41,16 @@
     </td>
     <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
     <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
-    <td>@Model.Name</td>
+    <td>
+        @if (Model.Name.Length > 80)
+        {
+            <div>@(Model.Name.Substring(0, 80)+"...")</div>
+        }
+        else
+        {
+            <div>@Model.Name </div>
+        }
+    </td>
     <td>@Model.EventDateTime.Date.ToShortDateString()</td>
     <td>@Model.EventDateTime.TimeOfDay</td>
     <td>
