@@ -109,8 +109,7 @@ namespace BGFolklore.Web
             services.AddScoped<ITownsService, TownsService>();
             services.AddScoped<IFeedbackService, FeedbackService>();
             services.AddScoped<IRatingService, RatingService>();
-
+            services.AddScoped<IFilterService, FilterService>();
         }
-        
     }
 }
