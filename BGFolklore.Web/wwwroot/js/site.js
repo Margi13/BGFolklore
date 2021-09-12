@@ -44,6 +44,10 @@ function displayModal() {
     modal.style.display = 'block';
     $('#reportForm')[0].style.display = 'none';
     document.body.style.overflow = 'hidden';
+
+    setTimeout(function () {
+        $('.trans--grow').addClass('grow');
+    }, 275);
 }
 function closeModal() {
     let modal = $('#myModal')[0];
@@ -52,12 +56,15 @@ function closeModal() {
     span.onclick = function () {
         modal.style.display = 'none';
         document.body.style.overflow = '';
+
+        $('.trans--grow').removeClass('grow');
     }
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = 'none';
             document.body.style.overflow = '';
+            $('.trans--grow').removeClass('grow');
         }
     }
 
