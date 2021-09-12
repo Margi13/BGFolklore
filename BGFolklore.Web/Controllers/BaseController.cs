@@ -13,16 +13,12 @@ namespace BGFolklore.Web.Controllers
         protected readonly ILogger<BaseController> logger;
         protected readonly IWebHostEnvironment webHostEnvironment;
 
-        protected readonly IStringLocalizer<BaseController> localizer;
-
         protected BaseController(ILogger<BaseController> logger,
             IWebHostEnvironment webHostEnvironment,
-            IStringLocalizer<CalendarController> localizer,
             ITownsService townsService)
         {
             this.logger = logger;
             this.webHostEnvironment = webHostEnvironment;
-            this.localizer = localizer;
 
             if (Towns.AllTowns is null)
             {
