@@ -109,8 +109,7 @@
             <div class="form-group row">
                 <label asp-for="EventDateTime" class="col-4 col-form-label"></label>
                 <div class="col-8">
-                    <input asp-for="EventDateTime" class="form-control upcoming-event" id="datetimePicker" />
-                    <input asp-for="EventDateTime" class="form-control recurring-event" id="timePicker" />
+                    <input asp-for="EventDateTime" class="form-control" id="datetimePicker" />
                 </div>
                 <span asp-validation-for="EventDateTime" class="col-8 offset-4 text-danger"></span>
             </div>
@@ -173,13 +172,6 @@
                 allowInput: true,
                 locale: "bg"
             });
-            $("#timePicker").flatpickr({
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "d/m/Y H:i",
-                allowInput: true,
-                locale: "bg"
-            });
 
             toggleEventFields($('#isRecurring')[0]);
 
@@ -196,21 +188,14 @@
                     $(".upcoming-event input").attr('disabled', true);
 
                     $(".recurring-event").show();
-                    $(".recurring-event input").removeAttr('disabled');
-
-                    $("#datetimePicker").attr('disabled', true);
-                    $("#timePicker").removeAttr('disabled');
-
+                    $(".recurring-event input").attr('disabled', false);
                 } else {
                     $(".upcoming-event").show();
-                    $(".upcoming-event input").removeAttr('disabled');
+                    //$(".upcoming-event input").removeAttr('disabled');
+                    $(".upcoming-event input").attr('disabled', false);
 
                     $(".recurring-event").hide();
                     $(".recurring-event input").attr('disabled', true);
-
-                    $("#datetimePicker").removeAttr('disabled');
-                    $("#timePicker").attr('disabled', true);
-
                 }
             }
         });
