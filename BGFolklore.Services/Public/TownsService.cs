@@ -29,34 +29,88 @@ namespace BGFolklore.Services.Public
                 throw new Exception();
             }
         }
-
-        public Town GetTownByGivenId(int id)
+        public IList<Town> GetAllAreas()
         {
-            var towns = this.Context.Towns.Where(t => t.Id.Equals(id));
+            var towns = this.Context.Towns.Where(t => t.Id == t.AreaId).OrderBy(t => t.Name);
             if (towns != null)
             {
-                Town townInfo = this.Mapper.Map<Town>(towns.First());
-                return townInfo;
+                IList<Town> townsList = this.Mapper.Map<IList<Town>>(towns);
+                return townsList;
             }
             else
             {
                 throw new Exception();
             }
         }
+        public Town GetTownByGivenId(int id)
+        {
+            Town town = new Town();
+            var towns = this.Context.Towns.Where(t => t.Id == id).FirstOrDefault();
+            if (towns != null)
+            {
+                town = this.Mapper.Map<Town>(towns);
+            }
+            else
+            {
+                throw new Exception();
+            }
+
+            return town;
+        }
         public IList<Town> GetAllTownsByGivenAreaId(int areaId)
         {
-            throw new NotImplementedException();
+            IList<Town> townsList = new List<Town>();
+            var towns = this.Context.Towns.Where(t => t.AreaId == areaId);
+            if (towns != null)
+            {
+                townsList = this.Mapper.Map<IList<Town>>(towns);
+            }
+            else
+            {
+                throw new Exception();
+            }
+
+            return townsList;
         }
 
-        public IList<Town> GetAllEventsByGivenTownId(int townId)
+        public IList<PublicEvent> GetAllEventsByGivenAreaId(int areaId)
         {
-            throw new NotImplementedException();
+            IList<PublicEvent> publicEvents = new List<PublicEvent>();
+            var townsInArea = GetAllTownsByGivenAreaId(areaId);
+            foreach (var town in townsInArea)
+            {
+                IList<PublicEvent> eventsByTown = GetAllEventsByGivenTownId(town.Id);
+
+                if (eventsByTown != null)
+                {
+                    IList<PublicEvent> events = this.Mapper.Map<IList<PublicEvent>>(eventsByTown);
+                    foreach (var ev in events)
+                    {
+                        publicEvents.Add(ev);
+                    }
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            return publicEvents;
         }
 
-        public IList<Town> GetAllEventsByGivenAreaId(int areaId)
+        public IList<PublicEvent> GetAllEventsByGivenTownId(int townId)
         {
-            throw new NotImplementedException();
-        }
+            IList<PublicEvent> publicEvents = new List<PublicEvent>();
+            var eventsByTown = this.Context.PublicEvents.Where(t => t.TownId == townId);
+            if (eventsByTown != null)
+            {
+                publicEvents = this.Mapper.Map<IList<PublicEvent>>(eventsByTown);
+            }
+            else
+            {
+                throw new Exception();
+            }
 
+            return publicEvents;
+        }
     }
 }
