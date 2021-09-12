@@ -1,15 +1,22 @@
 ﻿@using BGFolklore.Models.Calendar.ViewModels
 
 @model IList<FeedbackViewModel>
-@*
-    Списъкът предварително трябва да е подреден по статус - първо новите, после прочетените.
+@{
+    ViewData["Title"] = "Сигнали за събитие";
+    ViewData["Description"] = "Подадени сигнали от потребители за евентуална грешна информация за даденото събитие.";
+}
+<partial name="_EventsNavPartial" />
 
-    Трябва да има бутон за редактиране на събите
-
-*@
 <div id="feeedbacksModal">
     <div class="text-center mt-3 mx-auto w-50">
-        <h3>Сигнали за събитието</h3>
+        <div class="d-flex justify-content-center">
+            <h3>@ViewData["EventName"]</h3>
+            <button type="button" onclick="location.href='@Url.Action("EditEvent", "Calendar", Model.FirstOrDefault())'"
+                    class="btn bg-light rounded-circle ml-4"
+                    title="Редактирай събитието.">
+                <i class="fas fa-edit"></i>
+            </button>
+        </div>
         <div class="border border-danger text-danger p-2 m-3">
             <span class="text-justify">
                 Моля имайте в предвид, че за всички потребители се показва известие за наличие на сигнали за грешна информация, докато не бъдат изтрити всички сигнали!
@@ -32,7 +39,7 @@
     </div>
     <div class="text-center">
         <button type="button" onclick="location.href='@Url.Action("DeleteAllFeedbacks", "Calendar", Model.FirstOrDefault())'"
-                class="btn btn-danger bg-brown op-80 btn-delete-event"
+                class="btn btn-danger bg-brown op-80"
                 title="Изтриване на събитието.">
             Изтрий всички <i class="fas fa-trash-alt"></i>
         </button>

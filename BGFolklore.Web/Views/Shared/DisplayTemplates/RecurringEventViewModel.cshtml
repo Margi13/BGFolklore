@@ -29,7 +29,7 @@
     <td class="no-stilization stop-parent-onclick pr-1">
         @if (Model.Feedbacks.Count != 0)
         {
-            <button type="button" onclick="location.href='@Url.Action("EventFeedbacksPartial", "Calendar", Model)'"
+            <button type="button" onclick="location.href='@Url.Action("EventFeedbacks", "Calendar", Model)'"
                     class="btn bg-light rounded-circle btn-signals @(hasNewFeeds ? "text-danger" : "")"
                     title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
                 <i class="fas fa-exclamation pulseIcon"></i>

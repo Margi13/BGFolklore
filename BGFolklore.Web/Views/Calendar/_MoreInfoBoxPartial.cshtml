@@ -9,23 +9,25 @@
         <div class="d-flex flex-row justify-content-between align-items-start flex-nowrap">
             <span id="ownerSpan" class="hidden mr-2" title="Разглеждане на мое събитие."><i class="fas fa-user"></i></span>
             <span id="readerSpan" class="hidden mr-2" title="Разглеждане на допълнителна информация за избрано събитие."><i class="fas fa-info"></i></span>
-            <h3 class="text-center">Допълнителна информация</h3>
+            <h5 class="text-center">Допълнителна информация</h5>
             <span class="span-close ml-2" title="Затвори">&times;</span>
         </div>
 
-        <div id="eventInfo" class="d-flex flex-column align-items-start m-5">
-            <h5 id="eventName" class="border-bottom"></h5>
-            <p id="eventDescription" class="text-break"></p>
+        <div id="eventInfo" class="d-flex flex-column align-items-center m-5">
+            <h4 id="eventName" class="border-bottom"></h4>
 
-            <div class="border-top mt-4">
-                <span class="font-weight-bold">Телефон за контакт: </span>
+            <div class="mb-4 d-flex align-items-center" title="Телефон за контакт">
+                <i class="fas fa-mobile-alt mr-3"></i>
                 <div id="eventPhone">
 
                 </div>
             </div>
-            <div>
+
+            <p id="eventDescription" class="text-break text-justify mx-2"></p>
+
+            <div class="border-top">
                 <span class="font-weight-bold">Адрес: </span>
-                <div id="eventAddress">
+                <div id="eventAddress" class="text-justify">
 
                 </div>
             </div>
@@ -34,7 +36,7 @@
         <div class="rating-container text-center">
             <form id="formRating" method="post" asp-controller="Calendar" asp-action="RateForEvent">
                 <span class="small">Може да оцените мястото за танцуване:</span>
-                <input type="hidden" name="rate" id="inputRate" value="1"/>
+                <input type="hidden" name="rate" id="inputRate" value="1" />
                 <input type="hidden" name="eventId" id="eventIdRate" />
                 <div class="d-flex justify-content-center align-items-center">
                     <div class="rating-stars">
