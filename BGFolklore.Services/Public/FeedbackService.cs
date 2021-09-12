@@ -49,8 +49,7 @@ namespace BGFolklore.Services.Public
             }
             catch (Exception)
             {
-
-                throw;
+                throw new Exception();
             }
         }
 
@@ -64,7 +63,7 @@ namespace BGFolklore.Services.Public
             }
             catch (Exception)
             {
-                throw;
+                throw new Exception();
             }
             return feedbacks;
         }
@@ -86,8 +85,7 @@ namespace BGFolklore.Services.Public
             }
             catch (Exception)
             {
-
-                throw;
+                throw new Exception();
             }
 
         }
@@ -101,7 +99,15 @@ namespace BGFolklore.Services.Public
             {
                 throw new Exception();
             }
-            IList<Feedback> feedsList = this.Mapper.Map<IList<Feedback>>(feedbacks);
+            IList<Feedback> feedsList;
+            try
+            {
+                feedsList = this.Mapper.Map<IList<Feedback>>(feedbacks);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
             return feedsList;
         }
         public void ChangeFeedbackStatus(Guid feedbackId, int statusId)
@@ -117,7 +123,7 @@ namespace BGFolklore.Services.Public
             }
             catch (Exception)
             {
-                throw;
+                throw new Exception();
             }
 
         }
