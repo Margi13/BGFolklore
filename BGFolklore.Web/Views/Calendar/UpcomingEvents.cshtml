@@ -8,12 +8,13 @@
 <partial name="_EventsNavPartial" />
 
 <section class="calendar-section">
-    <div>
-        <h6>Филтрирай по:</h6>
-        <form method="post" asp-action="FilterUpcomingEvents">
-
-        </form>
+    <div class="m-auto text-center m-3 form-container">
+        <h6 id="filterBtn" class="mb-1">Филтриране</h6>
+        <div class="hidden form-filter">
+            <partial name="_FilterFormPartial" model="@Model.Filters" />
+        </div>
     </div>
+
     <table class="calendar-table">
         <thead>
             <tr>
@@ -77,10 +78,16 @@
 </div>
 
 @section CSS {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
     <link rel="stylesheet" href="~/css/calendar.css" />
 }
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/bg.js"></script>
+
     <script type="text/javascript">
         $(".stop-parent-onclick")
             .click(function (event) {
@@ -88,5 +95,22 @@
             })
             .attr('title', '');
         $(".rating-container").hide();
+        $("#filterBtn").click(function () {
+            $(".form-filter").toggle();
+        });
+        $("#beforeDatetimePicker").flatpickr({
+            enableTime: true,
+            dateFormat: "d/m/Y H:i",
+            minDate: "today",
+            allowInput: true,
+            locale: "bg"
+        });
+        $("#afterDatetimePicker").flatpickr({
+            enableTime: true,
+            dateFormat: "d/m/Y H:i",
+            minDate: "today",
+            allowInput: true,
+            locale: "bg"
+        });
     </script>
 }

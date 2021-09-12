@@ -22,22 +22,30 @@ namespace BGFolklore.Web.Controllers
 {
     public class CalendarController : BaseController
     {
+        private readonly IStringLocalizer<CalendarController> localizer;
         private readonly IMapper mapper;
         private readonly ICalendarService calendarService;
         private readonly IFeedbackService feedbackService;
         private readonly IRatingService ratingService;
         private readonly UserManager<User> userManager;
-
-        public CalendarController(ILogger<CalendarController> logger, IWebHostEnvironment webHostEnvironment,
+        private ViewModelHelper helperMethods;
+        private FilterEventsViewModel filterEventsViewModel;
+        public CalendarController(ILogger<BaseController> logger, IWebHostEnvironment webHostEnvironment,
             IStringLocalizer<CalendarController> localizer, ITownsService townsService, IMapper mapper,
             ICalendarService calendarService, IFeedbackService feedbackService, IRatingService ratingService,
-            UserManager<User> userManager) : base(logger, webHostEnvironment, localizer, townsService)
+            UserManager<User> userManager) : base(logger, webHostEnvironment, townsService)
         {
+            this.localizer = localizer;
             this.mapper = mapper;
             this.calendarService = calendarService;
             this.feedbackService = feedbackService;
             this.ratingService = ratingService;
             this.userManager = userManager;
+
+            this.helperMethods = new ViewModelHelper(localizer, mapper);
+
+            this.filterEventsViewModel = new FilterEventsViewModel();
+            filterEventsViewModel.Filters = helperMethods.CreateFilterViewModel();
         }
 
         public IActionResult Index()
@@ -46,19 +54,27 @@ namespace BGFolklore.Web.Controllers
         }
 
         //Event Actions
-        public IActionResult UpcomingEvents(int pageNumber = 1)
+        public IActionResult UpcomingEvents(int pageNumber = 1, Guid ownerId = new Guid(), IEnumerable<UpcomingEventViewModel> orderedList = null)
         {
-            FilterEventsViewModel viewModel = new FilterEventsViewModel();
-            viewModel.Filters = new FilterBindingModel();
+            FilterEventsViewModel viewModel = filterEventsViewModel;
+            IEnumerable<UpcomingEventViewModel> newList = orderedList;
             try
             {
-                IList<UpcomingEventViewModel> viewModelList = calendarService.GetUpcomingEvents();
-                var orderedList = viewModelList.OrderBy(ue => ue.EventDateTime);
-                if (orderedList == null)
+                IList<UpcomingEventViewModel> viewModelList = new List<UpcomingEventViewModel>();
+                if (newList.Count() == 0)
                 {
-                    throw new Exception();
+                    viewModelList = calendarService.GetUpcomingEvents();
+
+                    if (ownerId.Equals(new Guid()))
+                    {
+                        newList = viewModelList.OrderBy(ue => ue.EventDateTime);
+                    }
+                    else
+                    {
+                        newList = viewModelList.OrderBy(ue => ue.Feedbacks.Count).ThenBy(ue => ue.EventDateTime);
+                    }
                 }
-                PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, pageNumber, 5);
+                PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(newList, pageNumber, 5);
                 viewModel.UpcomingPaginatedList = paginatedList;
             }
             catch (Exception)
@@ -70,15 +86,53 @@ namespace BGFolklore.Web.Controllers
         [HttpPost]
         public IActionResult UpcomingEvents(FilterBindingModel filterBindingModel)
         {
-            //Filter functions from FilterService
-            //Get paginatedList from function
-            //new filterviewmodel
-            return View();
-        }
-        private PaginatedList<UpcomingEventViewModel> GetUpcomingPaginatedList(IEnumerable<UpcomingEventViewModel>orderedList, int pageNumber)
-        {
-            PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, 1, 5);
-            return paginatedList;
+            FilterEventsViewModel viewModel = filterEventsViewModel;
+            var orderedList = new List<UpcomingEventViewModel>();
+            //Look if there is no given information
+            bool hasGivenFilter = true;
+
+            if (filterBindingModel.AreaId == null &&
+                filterBindingModel.TownId == null &&
+                filterBindingModel.OwnerId == null &&
+                filterBindingModel.IntendedFor == null &&
+                filterBindingModel.OccuringDays == null &&
+                filterBindingModel.PlaceType == null &&
+                filterBindingModel.AfterDate == null &&
+                filterBindingModel.BeforeDate == null &&
+                filterBindingModel.DurationInDays == 0
+                )
+            {
+                hasGivenFilter = false;
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (hasGivenFilter)
+                {
+                    //Filter functions from FilterService
+
+                    //orderedList = ...
+
+                    //new FilterViewModel passed to the Form
+                    viewModel.Filters = helperMethods.CreateFilterViewModel();
+                }
+            }
+            else
+            {
+                viewModel.Filters = helperMethods.CreateFilterViewModel(filterBindingModel);
+                //Open filter form with validation texts
+            }
+
+            if (filterBindingModel.IsRecurring)
+            {
+                //Return Recurring...
+                //Have to make it first
+                return UpcomingEvents(1, new Guid(), orderedList);
+            }
+            else
+            {
+                return UpcomingEvents(1, new Guid(), orderedList);
+            }
         }
         public IActionResult RecurringEvents(int pageNumber = 1)
         {
@@ -112,7 +166,7 @@ namespace BGFolklore.Web.Controllers
             {
                 AddEventBindingModel addEventBindingModel = calendarService.GetBindingModelFromData(eventViewModel.Id);
 
-                viewModel = CreateAddEventViewModel(addEventBindingModel);
+                viewModel = helperMethods.CreateAddEventViewModel(addEventBindingModel);
                 TempData["EventId"] = eventViewModel.Id;
             }
             catch (Exception)
@@ -131,7 +185,7 @@ namespace BGFolklore.Web.Controllers
             AddEventViewModel viewModel;
             try
             {
-                viewModel = CreateAddEventViewModel();
+                viewModel = helperMethods.CreateAddEventViewModel();
             }
             catch (Exception)
             {
@@ -172,7 +226,7 @@ namespace BGFolklore.Web.Controllers
             }
             else
             {
-                var addEventViewModel = CreateAddEventViewModel(addEventBindingModel);
+                var addEventViewModel = helperMethods.CreateAddEventViewModel(addEventBindingModel);
 
                 return View(addEventViewModel);
             }
@@ -301,92 +355,6 @@ namespace BGFolklore.Web.Controllers
             }
         }
 
-        //Other methods
-        private AddEventViewModel CreateAddEventViewModel()
-        {
-            var viewModel = new AddEventViewModel();
-
-            viewModel.IntendedFor = new List<SelectListItem>();
-            GetAttendeeType(viewModel);
-
-            viewModel.OccuringDays = new List<SelectListItem>();
-            GetOccuringDays(viewModel);
-
-            return viewModel;
-        }
-        private AddEventViewModel CreateAddEventViewModel(AddEventBindingModel addEventBindingModel)
-        {
-            var viewModel = this.mapper.Map<AddEventViewModel>(addEventBindingModel);
-
-            viewModel.IntendedFor = new List<SelectListItem>();
-            GetSelectedAttendeeType(viewModel, addEventBindingModel);
-
-            viewModel.OccuringDays = new List<SelectListItem>();
-            GetSelectedOccuringDays(viewModel, addEventBindingModel);
-
-            return viewModel;
-        }
-        private void GetOccuringDays(AddEventViewModel viewModel)
-        {
-            foreach (var dayName in Enum.GetValues(typeof(DaysOfWeek)))
-            {
-                var selectListItem = new SelectListItem();
-                selectListItem.Value = ((int)dayName).ToString();
-                selectListItem.Text = localizer[$"Day{dayName}"];
-                viewModel.OccuringDays.Add(selectListItem);
-            }
-        }
-        private void GetSelectedOccuringDays(AddEventViewModel viewModel, AddEventBindingModel bindingModel)
-        {
-            GetOccuringDays(viewModel);
-
-            if (bindingModel.OccuringDays != null)
-            {
-
-                foreach (var dayName in viewModel.OccuringDays)
-                {
-                    dayName.Selected = false;
-
-                    foreach (var selectedDay in bindingModel.OccuringDays)
-                    {
-                        if (dayName.Value.CompareTo(selectedDay.ToString()) == 0)
-                        {
-                            dayName.Selected = true;
-                        }
-                    }
-                }
-            }
-        }
-        private void GetAttendeeType(AddEventViewModel viewModel)
-        {
-            foreach (var type in Enum.GetValues(typeof(AttendeeType)))
-            {
-                var selectListItem = new SelectListItem();
-                selectListItem.Value = ((int)type).ToString();
-                selectListItem.Text = localizer[$"AttendeeType{type}"];
-                viewModel.IntendedFor.Add(selectListItem);
-            }
-        }
-        private void GetSelectedAttendeeType(AddEventViewModel viewModel, AddEventBindingModel bindingModel)
-        {
-            GetAttendeeType(viewModel);
-
-            if (bindingModel.IntendedFor != null)
-            {
-                foreach (var attendee in viewModel.IntendedFor)
-                {
-                    attendee.Selected = false;
-
-                    foreach (var selectedAttendee in bindingModel.IntendedFor)
-                    {
-                        if (attendee.Value.CompareTo(selectedAttendee.ToString()) == 0)
-                        {
-                            attendee.Selected = true;
-                        }
-                    }
-                }
-            }
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

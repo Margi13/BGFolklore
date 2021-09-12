@@ -8,9 +8,12 @@
 <partial name="_EventsNavPartial" />
 
 <section class="calendar-section">
-    @*<div>
-            Търсачка
-        </div>*@
+    <div class="m-auto text-center m-3 form-container">
+        <h6 id="filterBtn" class="mb-1">Филтриране</h6>
+        <div class="hidden form-filter">
+            <partial name="_FilterFormPartial" model="@Model.Filters" />
+        </div>
+    </div>
     <table class="calendar-table">
         <thead>
             <tr>
