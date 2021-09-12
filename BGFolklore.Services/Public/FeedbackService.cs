@@ -56,16 +56,17 @@ namespace BGFolklore.Services.Public
 
         public IList<FeedbackViewModel> GetFeedbackViewModels(Guid eventId)
         {
+            IList<FeedbackViewModel> feedbacks;
             try
             {
                 IList<Feedback> feedsFromData = GetFeedbacksFromData(eventId);
-                IList<FeedbackViewModel> feedbacks = this.Mapper.Map<IList<FeedbackViewModel>>(feedsFromData);
-                return feedbacks;
+                feedbacks = this.Mapper.Map<IList<FeedbackViewModel>>(feedsFromData);
             }
             catch (Exception)
             {
                 throw;
             }
+            return feedbacks;
         }
         public void DeleteAllEventFeedbacks(Guid eventId)
         {
