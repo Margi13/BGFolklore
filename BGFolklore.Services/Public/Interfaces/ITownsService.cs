@@ -13,7 +13,7 @@ namespace BGFolklore.Services.Public.Interfaces
         IList<Town> GetAllAreas();
         Town GetTownByGivenId(int id);
         IList<Town> GetAllTownsByGivenAreaId(int areaId);
-        IList<PublicEvent> GetAllEventsByGivenTownId(int townId);
-        IList<PublicEvent> GetAllEventsByGivenAreaId(int areaId);
+        IList<PublicEvent> GetAllEventsByGivenTownId(int townId, IEnumerable<PublicEvent> listToFilter);
+        IList<PublicEvent> GetAllEventsByGivenAreaId(int areaId, IEnumerable<PublicEvent> listToFilter);
     }
 }

@@ -73,18 +73,17 @@ namespace BGFolklore.Services.Public
             return townsList;
         }
 
-        public IList<PublicEvent> GetAllEventsByGivenAreaId(int areaId)
+        public IList<PublicEvent> GetAllEventsByGivenAreaId(int areaId, IEnumerable<PublicEvent> listToFilter)
         {
             IList<PublicEvent> publicEvents = new List<PublicEvent>();
             var townsInArea = GetAllTownsByGivenAreaId(areaId);
             foreach (var town in townsInArea)
             {
-                IList<PublicEvent> eventsByTown = GetAllEventsByGivenTownId(town.Id);
+                IList<PublicEvent> eventsByTown = GetAllEventsByGivenTownId(town.Id, listToFilter);
 
                 if (eventsByTown != null)
                 {
-                    IList<PublicEvent> events = this.Mapper.Map<IList<PublicEvent>>(eventsByTown);
-                    foreach (var ev in events)
+                    foreach (var ev in eventsByTown)
                     {
                         publicEvents.Add(ev);
                     }
@@ -97,10 +96,10 @@ namespace BGFolklore.Services.Public
             return publicEvents;
         }
 
-        public IList<PublicEvent> GetAllEventsByGivenTownId(int townId)
+        public IList<PublicEvent> GetAllEventsByGivenTownId(int townId, IEnumerable<PublicEvent> listToFilter)
         {
             IList<PublicEvent> publicEvents = new List<PublicEvent>();
-            var eventsByTown = this.Context.PublicEvents.Where(t => t.TownId == townId);
+            var eventsByTown = listToFilter.Where(t => t.TownId == townId);
             if (eventsByTown != null)
             {
                 publicEvents = this.Mapper.Map<IList<PublicEvent>>(eventsByTown);
