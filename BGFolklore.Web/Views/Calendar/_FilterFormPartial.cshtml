@@ -5,21 +5,21 @@
 @model FilterViewModel
 <section class="row">
     <div class="col-10 offset-1">
-        <form method="post" asp-controller="Calendar" asp-action="UpcomingEvents">
+        <form method="post" asp-controller="Calendar" asp-action="@(Model.IsRecurring ? "RecurringEvents" : "UpcomingEvents")">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group hidden">
-                <label class="form-check">
-                    <input type="checkbox" asp-for="IsRecurring" class="form-check-input"
-                           value="@(ViewData["Title"].Equals("Всички места") ? true : false)" />
-                </label>
-            </div>
+                    <label class="form-check">
+                        <input type="checkbox" asp-for="IsRecurring" class="form-check-input"
+                               value="@Model.IsRecurring" />
+                    </label>
+                </div>
 
             <div class="form-group row">
                 <label asp-for="AreaId" class="col-4 col-form-label text-left"></label>
                 <div class="col-8">
                     <select asp-for="AreaId" class="custom-select"
                             asp-items="@(Towns.AllAreas).Select(t => new SelectListItem { Text = t.Name, Value = (t.Id).ToString() })">
-                        <option value="">Изберете област</option>
+                        <option value="0">Изберете област</option>
                     </select>
                 </div>
                 <span asp-validation-for="AreaId" class="col-8 offset-4 text-danger"></span>
@@ -30,7 +30,7 @@
                 <div class="col-8">
                     <select asp-for="TownId" class="custom-select"
                             asp-items="@(Towns.AllTowns).Select(t => new SelectListItem { Text = t.Name, Value = (t.Id).ToString() })">
-                        <option value="">Изберете град</option>
+                        <option value="0">Изберете град</option>
                     </select>
                 </div>
                 <span asp-validation-for="TownId" class="col-8 offset-4 text-danger"></span>
@@ -75,32 +75,26 @@
                 <span asp-validation-for="IntendedFor" class="col-8 offset-4 text-danger"></span>
             </div>
 
-            @if (ViewData["Title"].Equals("Всички места"))
-            {
-                <div class="form-group row" id="occuringDays">
-                    <label asp-for="OccuringDays" class="col-4 col-form-label text-left"></label>
-                    <div class="col-8">
-                        @foreach (var item in Model.OccuringDays)
-                        {
-                            <div class="form-check text-left">
-                                <input type="checkbox" name="OccuringDays" id="@item.Text" value="@item.Value" checked="@item.Selected" class="form-check-input" />
-                                <label for="@item.Text" class="form-check-label">@item.Text</label>
-                            </div>
-                        }
-                    </div>
-                    <span asp-validation-for="OccuringDays" class="col-8 offset-4 text-danger"></span>
+            <div class="form-group row @(Model.IsRecurring ? "" : "hidden")">
+                <label asp-for="OccuringDays" class="col-4 col-form-label text-left"></label>
+                <div class="col-8">
+                    @foreach (var item in Model.OccuringDays)
+                    {
+                        <div class="form-check text-left">
+                            <input type="checkbox" name="OccuringDays" id="@item.Text" value="@item.Value" checked="@item.Selected" class="form-check-input" />
+                            <label for="@item.Text" class="form-check-label">@item.Text</label>
+                        </div>
+                    }
                 </div>
-            }
-            else
-            {
-                <div class="form-group row">
-                    <label asp-for="DurationInDays" class="col-4 col-form-label text-left"></label>
-                    <div class="col-8">
-                        <input asp-for="DurationInDays" class="form-control" />
-                    </div>
-                    <span asp-validation-for="DurationInDays" class="col-8 offset-4 text-danger"></span>
+                <span asp-validation-for="OccuringDays" class="col-8 offset-4 text-danger"></span>
+            </div>
+            <div class="form-group row @(Model.IsRecurring ? "hidden" : "")">
+                <label asp-for="DurationInDays" class="col-4 col-form-label text-left"></label>
+                <div class="col-8">
+                    <input asp-for="DurationInDays" class="form-control" />
                 </div>
-            }
+                <span asp-validation-for="DurationInDays" class="col-8 offset-4 text-danger"></span>
+            </div>
 
             <div class="row">
                 <div class="text-center m-auto">

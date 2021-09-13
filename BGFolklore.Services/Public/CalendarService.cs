@@ -18,27 +18,45 @@ namespace BGFolklore.Services.Public
         private readonly ITownsService townsService;
         private readonly IFeedbackService feedbackService;
         private readonly IRatingService ratingService;
+        private readonly IFilterService filterService;
 
         public CalendarService(ApplicationDbContext context, IMapper mapper,
             ITownsService townsService,
             IFeedbackService feedbackService,
-            IRatingService ratingService) : base(context, mapper)
+            IRatingService ratingService,
+            IFilterService filterService) : base(context, mapper)
         {
             this.townsService = townsService;
             this.feedbackService = feedbackService;
             this.ratingService = ratingService;
+            this.filterService = filterService;
         }
 
-        public IList<RecurringEventViewModel> GetRecurringEvents()
+        public IList<RecurringEventViewModel> GetRecurringEvents(FilterBindingModel filterBindingModel)
         {
             var publicEvents = this.Context.PublicEvents.Where(e => e.OccuringDays != 0 && e.StatusId != (int)StatusName.Deleted);
             if (publicEvents == null)
             {
                 throw new Exception();
             }
-            IList<RecurringEventViewModel> recurringEvents = this.Mapper.Map<IList<RecurringEventViewModel>>(publicEvents);
+
+            IList<RecurringEventViewModel> recurringEvents = new List<RecurringEventViewModel>();
             try
             {
+                if (filterBindingModel != null)
+                {
+                    //Ordering is called in the method
+                    recurringEvents = filterService.GetFilteredRecurringEvents(filterBindingModel, publicEvents);
+                }
+                else
+                {
+                    var ordered = filterService.OrderFilteredData(null,true, publicEvents);
+                    if (ordered != null)
+                    {
+                        recurringEvents = this.Mapper.Map<IList<RecurringEventViewModel>>(publicEvents);
+                    }
+                }
+
                 foreach (var recurringEvent in recurringEvents)
                 {
                     IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(recurringEvent.Id);
@@ -58,14 +76,14 @@ namespace BGFolklore.Services.Public
             return recurringEvents;
         }
 
-        public IList<UpcomingEventViewModel> GetUpcomingEvents()
+        public IList<UpcomingEventViewModel> GetUpcomingEvents(FilterBindingModel filterBindingModel)
         {
             var publicEvents = this.Context.PublicEvents.Where(e => e.OccuringDays == 0);
             if (publicEvents == null)
             {
                 throw new Exception();
             }
-
+            IList<UpcomingEventViewModel> upcomingEvents = new List<UpcomingEventViewModel>();
             try
             {
                 //Looks if there are old events and delete them. If there are no events to delete - do nothing
@@ -73,13 +91,25 @@ namespace BGFolklore.Services.Public
                 publicEvents = publicEvents.Where(e => e.StatusId != (int)StatusName.Deleted);
                 if (publicEvents != null)
                 {
-                    IList<UpcomingEventViewModel> upcomingEvents = this.Mapper.Map<IList<UpcomingEventViewModel>>(publicEvents);
+                    if (filterBindingModel != null)
+                    {
+                        //Ordering is called in the method
+                        upcomingEvents = filterService.GetFilteredUpcomingEvents(filterBindingModel, publicEvents);
+                    }
+                    else
+                    {
+                        var ordered = filterService.OrderFilteredData(null, false, publicEvents);
+                        if (ordered != null)
+                        {
+                            upcomingEvents = this.Mapper.Map<IList<UpcomingEventViewModel>>(publicEvents);
+                        }
+                    }
+
                     foreach (var upcomingEvent in upcomingEvents)
                     {
                         IList<FeedbackViewModel> feedbacks = feedbackService.GetFeedbackViewModels(upcomingEvent.Id);
                         upcomingEvent.Feedbacks = feedbacks;
                     }
-                    return upcomingEvents;
                 }
                 else
                 {
@@ -90,7 +120,7 @@ namespace BGFolklore.Services.Public
             {
                 throw;
             }
-
+            return upcomingEvents;
         }
 
         public EventViewModel GetEventViewModel(Guid eventId)

@@ -11,8 +11,8 @@ namespace BGFolklore.Services.Public.Interfaces
 {
     public interface ICalendarService
     {
-        IList<UpcomingEventViewModel> GetUpcomingEvents();
-        IList<RecurringEventViewModel> GetRecurringEvents();
+        IList<UpcomingEventViewModel> GetUpcomingEvents(FilterBindingModel filterBindingModel);
+        IList<RecurringEventViewModel> GetRecurringEvents(FilterBindingModel filterBindingModel);
         public EventViewModel GetEventViewModel(Guid eventId);
         void SaveAddEvent(AddEventBindingModel newEvent);
         void UpdatePublicEvent(Guid eventId, AddEventBindingModel updatedViewModel);

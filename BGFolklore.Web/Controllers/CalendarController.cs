@@ -29,7 +29,6 @@ namespace BGFolklore.Web.Controllers
         private readonly IRatingService ratingService;
         private readonly UserManager<User> userManager;
         private ViewModelHelper helperMethods;
-        private FilterEventsViewModel filterEventsViewModel;
         public CalendarController(ILogger<BaseController> logger, IWebHostEnvironment webHostEnvironment,
             IStringLocalizer<CalendarController> localizer, ITownsService townsService, IMapper mapper,
             ICalendarService calendarService, IFeedbackService feedbackService, IRatingService ratingService,
@@ -43,9 +42,6 @@ namespace BGFolklore.Web.Controllers
             this.userManager = userManager;
 
             this.helperMethods = new ViewModelHelper(localizer, mapper);
-
-            this.filterEventsViewModel = new FilterEventsViewModel();
-            filterEventsViewModel.Filters = helperMethods.CreateFilterViewModel();
         }
 
         public IActionResult Index()
@@ -54,28 +50,18 @@ namespace BGFolklore.Web.Controllers
         }
 
         //Event Actions
-        public IActionResult UpcomingEvents(int pageNumber = 1, Guid ownerId = new Guid(), IEnumerable<UpcomingEventViewModel> orderedList = null)
+        public IActionResult UpcomingEvents(int pageNumber = 1)
         {
-            FilterEventsViewModel viewModel = filterEventsViewModel;
-            IEnumerable<UpcomingEventViewModel> newList = orderedList;
+            FilterEventsViewModel viewModel = new FilterEventsViewModel
+            {
+                Filters = helperMethods.CreateFilterViewModel()
+            };
             try
             {
-                IList<UpcomingEventViewModel> viewModelList = new List<UpcomingEventViewModel>();
-                if (newList.Count() == 0)
-                {
-                    viewModelList = calendarService.GetUpcomingEvents();
-
-                    if (ownerId.Equals(new Guid()))
-                    {
-                        newList = viewModelList.OrderBy(ue => ue.EventDateTime);
-                    }
-                    else
-                    {
-                        newList = viewModelList.OrderBy(ue => ue.Feedbacks.Count).ThenBy(ue => ue.EventDateTime);
-                    }
-                }
-                PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(newList, pageNumber, 5);
+                IList<UpcomingEventViewModel> orderedList = calendarService.GetUpcomingEvents(null);
+                PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, pageNumber, 5);
                 viewModel.UpcomingPaginatedList = paginatedList;
+                viewModel.Filters.IsRecurring = false;
             }
             catch (Exception)
             {
@@ -86,16 +72,19 @@ namespace BGFolklore.Web.Controllers
         [HttpPost]
         public IActionResult UpcomingEvents(FilterBindingModel filterBindingModel)
         {
-            FilterEventsViewModel viewModel = filterEventsViewModel;
-            var orderedList = new List<UpcomingEventViewModel>();
-            //Look if there is no given information
+            FilterEventsViewModel viewModel = new FilterEventsViewModel
+            {
+                Filters = helperMethods.CreateFilterViewModel()
+            };
+            viewModel.Filters.IsRecurring = false;
+
+            IList<UpcomingEventViewModel> orderedList;
             bool hasGivenFilter = true;
 
-            if (filterBindingModel.AreaId == null &&
-                filterBindingModel.TownId == null &&
+            if (filterBindingModel.AreaId == 0 &&
+                filterBindingModel.TownId == 0 &&
                 filterBindingModel.OwnerId == null &&
                 filterBindingModel.IntendedFor == null &&
-                filterBindingModel.OccuringDays == null &&
                 filterBindingModel.PlaceType == null &&
                 filterBindingModel.AfterDate == null &&
                 filterBindingModel.BeforeDate == null &&
@@ -109,42 +98,40 @@ namespace BGFolklore.Web.Controllers
             {
                 if (hasGivenFilter)
                 {
-                    //Filter functions from FilterService
-
-                    //orderedList = ...
-
-                    //new FilterViewModel passed to the Form
-                    viewModel.Filters = helperMethods.CreateFilterViewModel();
+                    orderedList = calendarService.GetUpcomingEvents(filterBindingModel);
                 }
+                else
+                {
+                    orderedList = calendarService.GetUpcomingEvents(null);
+                }
+                PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, 1, 5);
+                viewModel.UpcomingPaginatedList = paginatedList;
+                viewModel.Filters = helperMethods.CreateFilterViewModel();
+                viewModel.Filters.IsRecurring = false;
+                return View(viewModel);
             }
             else
             {
+                orderedList = calendarService.GetUpcomingEvents(null);
+                PaginatedList<UpcomingEventViewModel> paginatedList = new PaginatedList<UpcomingEventViewModel>(orderedList, 1, 5);
+                viewModel.UpcomingPaginatedList = paginatedList;
                 viewModel.Filters = helperMethods.CreateFilterViewModel(filterBindingModel);
-                //Open filter form with validation texts
+                viewModel.Filters.IsRecurring = false;
+
+                return View(viewModel);
             }
 
-            if (filterBindingModel.IsRecurring)
-            {
-                //Return Recurring...
-                //Have to make it first
-                return UpcomingEvents(1, new Guid(), orderedList);
-            }
-            else
-            {
-                return UpcomingEvents(1, new Guid(), orderedList);
-            }
         }
         public IActionResult RecurringEvents(int pageNumber = 1)
         {
-            FilterEventsViewModel viewModel = new FilterEventsViewModel();
+            FilterEventsViewModel viewModel = new FilterEventsViewModel
+            {
+                Filters = helperMethods.CreateFilterViewModel()
+            };
+            viewModel.Filters.IsRecurring = true;
             try
             {
-                IList<RecurringEventViewModel> viewModelList = calendarService.GetRecurringEvents();
-                var orderedList = viewModelList.OrderBy(re => re.Rating);
-                if (orderedList == null)
-                {
-                    throw new Exception();
-                }
+                IList<RecurringEventViewModel> orderedList = calendarService.GetRecurringEvents(null);
                 PaginatedList<RecurringEventViewModel> paginatedList = new PaginatedList<RecurringEventViewModel>(orderedList, pageNumber, 5);
                 viewModel.RecurringPaginatedList = paginatedList;
             }
@@ -154,20 +141,69 @@ namespace BGFolklore.Web.Controllers
             }
             return View(viewModel);
         }
+        [HttpPost]
+        public IActionResult RecurringEvents(FilterBindingModel filterBindingModel)
+        {
+            FilterEventsViewModel viewModel = new FilterEventsViewModel
+            {
+                Filters = helperMethods.CreateFilterViewModel()
+            };
+            viewModel.Filters.IsRecurring = true;
+            IList<RecurringEventViewModel> orderedList;
+            bool hasGivenFilter = true;
 
-        //Да го направя да взима само ID, а не целия евент, за да мога да го ползвам и в feedbacksPartial
-        //Да направя метод за взимане на event по Id
-        public IActionResult EditEvent(EventViewModel eventViewModel)
+            if (filterBindingModel.AreaId == 0 &&
+                filterBindingModel.TownId == 0 &&
+                filterBindingModel.OwnerId == null &&
+                filterBindingModel.IntendedFor == null &&
+                filterBindingModel.OccuringDays == null &&
+                filterBindingModel.PlaceType == null &&
+                filterBindingModel.AfterDate == null &&
+                filterBindingModel.BeforeDate == null
+                )
+            {
+                hasGivenFilter = false;
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (hasGivenFilter)
+                {
+                    orderedList = calendarService.GetRecurringEvents(filterBindingModel);
+                }
+                else
+                {
+                    orderedList = calendarService.GetRecurringEvents(null);
+                }
+                PaginatedList<RecurringEventViewModel> paginatedList = new PaginatedList<RecurringEventViewModel>(orderedList, 1, 5);
+                viewModel.RecurringPaginatedList = paginatedList;
+                viewModel.Filters = helperMethods.CreateFilterViewModel();
+                viewModel.Filters.IsRecurring = true;
+                return View(viewModel);
+            }
+            else
+            {
+                orderedList = calendarService.GetRecurringEvents(null);
+                PaginatedList<RecurringEventViewModel> paginatedList = new PaginatedList<RecurringEventViewModel>(orderedList, 1, 5);
+                viewModel.RecurringPaginatedList = paginatedList;
+                viewModel.Filters = helperMethods.CreateFilterViewModel(filterBindingModel);
+                viewModel.Filters.IsRecurring = true;
+
+                return View(viewModel);
+            }
+        }
+
+        public IActionResult EditEvent(Guid eventId)
         {
             ViewData["CRUD"] = "Update";
             TempData["Operation"] = "Update";
             AddEventViewModel viewModel;
             try
             {
-                AddEventBindingModel addEventBindingModel = calendarService.GetBindingModelFromData(eventViewModel.Id);
+                AddEventBindingModel addEventBindingModel = calendarService.GetBindingModelFromData(eventId);
 
                 viewModel = helperMethods.CreateAddEventViewModel(addEventBindingModel);
-                TempData["EventId"] = eventViewModel.Id;
+                TempData["EventId"] = eventId;
             }
             catch (Exception)
             {
@@ -232,11 +268,11 @@ namespace BGFolklore.Web.Controllers
             }
         }
 
-        public IActionResult DeleteEvent(EventViewModel eventViewModel)
+        public IActionResult DeleteEvent(Guid eventId)
         {
             try
             {
-                calendarService.DeletePublicEvent(eventViewModel.Id);
+                calendarService.DeletePublicEvent(eventId);
             }
             catch (Exception)
             {
