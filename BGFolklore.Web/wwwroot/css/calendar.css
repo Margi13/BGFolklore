@@ -27,8 +27,13 @@
     color: #222;
     height: 100%;
 }
-.form-container{
+
+.form-container {
     width: 60%;
+}
+
+#filterBtn:hover {
+    cursor: pointer;
 }
 /* ******************************************************
 	Pagination

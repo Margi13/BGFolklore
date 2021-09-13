@@ -14,9 +14,9 @@ namespace BGFolklore.Models.Calendar.BindingModels
         [Required]
         public bool IsRecurring { get; set; }
 
-        public Guid? AreaId { get; set; }
+        public int AreaId { get; set; }
 
-        public Guid? TownId { get; set; }
+        public int TownId { get; set; }
 
         public PlaceType? PlaceType { get; set; }
 

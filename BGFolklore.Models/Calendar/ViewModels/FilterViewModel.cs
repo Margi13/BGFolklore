@@ -16,10 +16,10 @@ namespace BGFolklore.Models.Calendar.ViewModels
         public bool IsRecurring { get; set; }
 
         [Display(Name = "Област")]
-        public Guid? AreaId { get; set; }
+        public int AreaId { get; set; }
 
         [Display(Name = "Град")]
-        public Guid? TownId { get; set; }
+        public int TownId { get; set; }
 
         [Display(Name = "Тип на мястото")]
         public PlaceType? PlaceType { get; set; }
