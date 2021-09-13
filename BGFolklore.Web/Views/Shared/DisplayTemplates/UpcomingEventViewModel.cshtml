@@ -32,7 +32,7 @@
         @if (Model.Feedbacks.Count != 0)
         {
             <button type="button" onclick="location.href='@Url.Action("EventFeedbacks", "Calendar", Model)'"
-                    class="btn bg-light rounded-circle btn-signals @(hasNewFeeds ? "text-danger" : "")"
+                    class="btn bg-light rounded-circle @(hasNewFeeds ? "text-danger" : "")"
                     title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
                 <i class="fas fa-exclamation pulseIcon"></i>
             </button>
@@ -68,16 +68,16 @@
         @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
         {
             <div class="d-flex justify-content-start">
-                <button type="button" onclick="location.href='@Url.Action("EditEvent", "Calendar", Model)'"
-                        class="btn bg-light rounded-circle btn-signals"
+                <a asp-action="EditEvent" asp-route-eventId="@Model.Id"
+                        class="btn bg-light rounded-circle"
                         title="Редактиране на информацията за събитието.">
                     <i class="fas fa-edit font"></i>
-                </button>
-                <button type="button" onclick="location.href='@Url.Action("DeleteEvent", "Calendar", Model)'"
-                        class="btn bg-light rounded-circle btn-signals"
+                </a>
+                <a asp-action="DeleteEvent" asp-route-eventId="@Model.Id"
+                        class="btn bg-light rounded-circle"
                         title="Изтриване на събитието.">
                     <i class="fas fa-trash-alt"></i>
-                </button>
+                </a>
             </div>
         }
     </td>
