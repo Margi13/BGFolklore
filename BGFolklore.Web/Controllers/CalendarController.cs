@@ -302,11 +302,11 @@ namespace BGFolklore.Web.Controllers
             }
             return RedirectToAction("RecurringEvents");
         }
-        public PartialViewResult MoreInfoBoxPartial(EventViewModel eventViewModel)
-        {
+        //public PartialViewResult MoreInfoBoxPartial(EventViewModel eventViewModel)
+        //{
 
-            return PartialView("_MoreInfoBoxPartial", new FeedbackViewModel());
-        }
+        //    return PartialView("_MoreInfoBoxPartial", new FeedbackViewModel());
+        //}
 
         // Feedback Actions
         public IActionResult EventFeedbacks(EventViewModel eventViewModel)
@@ -324,12 +324,12 @@ namespace BGFolklore.Web.Controllers
             return View(feedbacks);
 
         }
-        public IActionResult DeleteFeedback(FeedbackViewModel feedbackViewModel)
+        public IActionResult DeleteFeedback(Guid feedId, Guid eventId)
         {
             try
             {
-                feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Deleted);
-                EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
+                feedbackService.ChangeFeedbackStatus(feedId, (int)StatusName.Deleted);
+                EventViewModel eventViewModel = calendarService.GetEventViewModel(eventId);
                 return RedirectToAction("EventFeedbacks", eventViewModel);
             }
             catch (Exception)
@@ -338,11 +338,11 @@ namespace BGFolklore.Web.Controllers
             }
 
         }
-        public IActionResult DeleteAllFeedbacks(FeedbackViewModel feedbackViewModel)
+        public IActionResult DeleteAllFeedbacks(Guid eventId)
         {
             try
             {
-                feedbackService.DeleteAllEventFeedbacks(feedbackViewModel.EventId);
+                feedbackService.DeleteAllEventFeedbacks(eventId);
                 return RedirectToAction("UpcomingEvents");
             }
             catch (Exception)
@@ -350,12 +350,12 @@ namespace BGFolklore.Web.Controllers
                 return Error();
             }
         }
-        public IActionResult ReadFeedback(FeedbackViewModel feedbackViewModel)
+        public IActionResult ReadFeedback(Guid feedId, Guid eventId)
         {
             try
             {
-                feedbackService.ChangeFeedbackStatus(feedbackViewModel.Id, (int)StatusName.Readed);
-                EventViewModel eventViewModel = calendarService.GetEventViewModel(feedbackViewModel.EventId);
+                feedbackService.ChangeFeedbackStatus(feedId, (int)StatusName.Readed);
+                EventViewModel eventViewModel = calendarService.GetEventViewModel(eventId);
                 return RedirectToAction("EventFeedbacks", eventViewModel);
             }
             catch (Exception)

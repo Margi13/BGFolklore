@@ -16,17 +16,17 @@
             <div class="d-flex justify-content-end">
                 @if (Model.StatusId == (int)StatusName.New)
                 {
-                    <button type="button" onclick="location.href='@Url.Action("ReadFeedback", "Calendar", Model)'"
+                    <a asp-action="ReadFeedback" asp-route-feedId="@Model.Id" asp-route-eventId="@Model.EventId"
                             class="btn bg-light rounded-circle btn-signals"
                             title="Отбележи като прочетено.">
                         <i class="fas fa-check"></i>
-                    </button>
+                    </a>
                 }
-                <button type="button" onclick="location.href='@Url.Action("DeleteFeedback", "Calendar", Model)'"
+                <a asp-action="DeleteFeedback" asp-route-feedId="@Model.Id" asp-route-eventId="@Model.EventId"
                         class="btn bg-light rounded-circle btn-signals"
                         title="Изтриване на сигнал.">
                     <i class="fas fa-trash-alt"></i>
-                </button>
+                </a>
             </div>
         }
     </td>
