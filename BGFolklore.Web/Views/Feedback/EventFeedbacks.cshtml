@@ -1,23 +1,33 @@
 ﻿@using BGFolklore.Models.Calendar.ViewModels
+@using BGFolklore.Data.Models;
+@using Microsoft.AspNetCore.Identity;
 
+@inject UserManager<User> userManager;
 @model IList<FeedbackViewModel>
 @{
     ViewData["Title"] = "Сигнали за събитие";
     ViewData["Description"] = "Подадени сигнали от потребители за евентуална грешна информация за даденото събитие.";
+    var eventId = Model.FirstOrDefault().EventId;
+    var isOwner = userManager.GetUserId(User).Equals(ViewData["EventOwner"]);
 }
-<partial name="_EventsNavPartial" />
+@*<partial name="_EventsNavPartial" />*@
 
 <div id="feeedbacksModal">
     <div class="text-center mt-3 mx-auto w-50">
         <div class="d-flex justify-content-center">
             <h3>@ViewData["EventName"]</h3>
-            <a asp-action="EditEvent" asp-route-eventId="@Model.FirstOrDefault().EventId"
-                    class="btn bg-light rounded-circle ml-4"
-                    title="Редактирай събитието.">
-                <i class="fas fa-edit"></i>
-            </a>
+
+            @if (isOwner)
+            {
+                <a asp-controller="Calendar" asp-action="EditEvent" asp-route-eventId="@eventId"
+                   class="btn bg-light rounded-circle ml-4"
+                   title="Редактирай събитието.">
+                    <i class="fas fa-edit"></i>
+                </a>
+            }
+
         </div>
-        <div class="border border-danger text-danger p-2 m-3">
+        <div class="border border-danger text-danger p-2 m-3 @(isOwner ? "" : "hidden")">
             <span class="text-justify">
                 Моля имайте в предвид, че за всички потребители се показва известие за наличие на сигнали за грешна информация, докато не бъдат изтрити всички сигнали!
             </span>
@@ -29,7 +39,10 @@
                 <tr>
                     <th>Дата</th>
                     <th>Сигнал</th>
-                    <th></th>
+                    @if (isOwner)
+                    {
+                        <th></th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -37,13 +50,16 @@
             </tbody>
         </table>
     </div>
-    <div class="text-center">
-        <a  asp-action="DeleteAllFeedbacks" asp-route-eventId="@Model.FirstOrDefault().EventId"
-                class="btn btn-danger bg-brown op-80"
-                title="Изтриване на събитието.">
-            Изтрий всички <i class="fas fa-trash-alt"></i>
-        </a>
-    </div>
+    @if (isOwner)
+    {
+        <div class="text-center">
+            <a asp-action="DeleteAllFeedbacks" asp-route-eventId="@Model.FirstOrDefault().EventId"
+               class="btn btn-danger bg-brown op-80"
+               title="Изтриване на събитието.">
+                Изтрий всички <i class="fas fa-trash-alt"></i>
+            </a>
+        </div>
+    }
 </div>
 
 @section CSS {

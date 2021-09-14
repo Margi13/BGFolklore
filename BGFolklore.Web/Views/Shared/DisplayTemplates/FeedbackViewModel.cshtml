@@ -10,26 +10,26 @@
 <tr class="@(Model.StatusId == 1 ? "new" : "old")Feedback">
     <td class="table-col-w-15">@Model.CreateDateTime</td>
     <td class="text-break">@Model.Description</td>
-    <td class="table-col-w-10">
-        @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
-        {
+    @if (userManager.GetUserId(User).Equals(ViewData["EventOwner"]))
+    {
+        <td class="table-col-w-10">
             <div class="d-flex justify-content-end">
                 @if (Model.StatusId == (int)StatusName.New)
                 {
                     <a asp-action="ReadFeedback" asp-route-feedId="@Model.Id" asp-route-eventId="@Model.EventId"
-                            class="btn bg-light rounded-circle btn-signals"
-                            title="Отбележи като прочетено.">
+                       class="btn bg-light rounded-circle btn-signals"
+                       title="Отбележи като прочетено.">
                         <i class="fas fa-check"></i>
                     </a>
                 }
                 <a asp-action="DeleteFeedback" asp-route-feedId="@Model.Id" asp-route-eventId="@Model.EventId"
-                        class="btn bg-light rounded-circle btn-signals"
-                        title="Изтриване на сигнал.">
+                   class="btn bg-light rounded-circle btn-signals"
+                   title="Изтриване на сигнал.">
                     <i class="fas fa-trash-alt"></i>
                 </a>
             </div>
-        }
-    </td>
+        </td>
+    }
 </tr>
 
 

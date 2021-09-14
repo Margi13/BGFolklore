@@ -1,10 +1,13 @@
 ﻿using BGFolklore.Data.Models;
 using BGFolklore.Services.Public.Interfaces;
 using BGFolklore.Web.Common;
+using BGFolklore.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace BGFolklore.Web.Controllers
 {
@@ -35,5 +38,11 @@ namespace BGFolklore.Web.Controllers
         //{
         //    return View();
         //}
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [AllowAnonymous]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }

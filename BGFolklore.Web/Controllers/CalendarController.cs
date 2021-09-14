@@ -202,8 +202,9 @@ namespace BGFolklore.Web.Controllers
 
         public IActionResult EditEvent(Guid eventId)
         {
-            ViewData["CRUD"] = "Update";
+            //ViewData["CRUD"] = "Update";
             TempData["Operation"] = "Update";
+
             AddEventViewModel viewModel;
             try
             {
@@ -216,7 +217,15 @@ namespace BGFolklore.Web.Controllers
             {
                 return Error();
             }
-            return View("AddEvent", viewModel);
+
+            if (userManager.GetUserId(User).Equals(viewModel.OwnerId))
+            {
+                return View("AddEvent", viewModel);
+            }
+            else
+            {
+                return AddEvent();
+            }
 
         }
 
@@ -279,7 +288,11 @@ namespace BGFolklore.Web.Controllers
         {
             try
             {
-                calendarService.DeletePublicEvent(eventId);
+                var eventToDelete = calendarService.GetEventViewModel(eventId);
+                if (userManager.GetUserId(User).Equals(eventToDelete.OwnerId))
+                {
+                    calendarService.DeletePublicEvent(eventId);
+                }
             }
             catch (Exception)
             {
@@ -311,99 +324,8 @@ namespace BGFolklore.Web.Controllers
         }
         //public PartialViewResult MoreInfoBoxPartial(EventViewModel eventViewModel)
         //{
-
         //    return PartialView("_MoreInfoBoxPartial", new FeedbackViewModel());
         //}
 
-        // Feedback Actions
-        public IActionResult EventFeedbacks(EventViewModel eventViewModel)
-        {
-            IList<FeedbackViewModel> feedbacks;
-            try
-            {
-                feedbacks = feedbackService.GetFeedbackViewModels(eventViewModel.Id);
-            }
-            catch (Exception)
-            {
-                return Error();
-            }
-            ViewData["EventName"] = eventViewModel.Name;
-            return View(feedbacks);
-
-        }
-        public IActionResult DeleteFeedback(Guid feedId, Guid eventId)
-        {
-            try
-            {
-                feedbackService.ChangeFeedbackStatus(feedId, (int)StatusName.Deleted);
-                EventViewModel eventViewModel = calendarService.GetEventViewModel(eventId);
-                return RedirectToAction("EventFeedbacks", eventViewModel);
-            }
-            catch (Exception)
-            {
-                return Error();
-            }
-
-        }
-        public IActionResult DeleteAllFeedbacks(Guid eventId)
-        {
-            try
-            {
-                feedbackService.DeleteAllEventFeedbacks(eventId);
-                return RedirectToAction("UpcomingEvents");
-            }
-            catch (Exception)
-            {
-                return Error();
-            }
-        }
-        public IActionResult ReadFeedback(Guid feedId, Guid eventId)
-        {
-            try
-            {
-                feedbackService.ChangeFeedbackStatus(feedId, (int)StatusName.Readed);
-                EventViewModel eventViewModel = calendarService.GetEventViewModel(eventId);
-                return RedirectToAction("EventFeedbacks", eventViewModel);
-            }
-            catch (Exception)
-            {
-                return Error();
-            }
-        }
-        [HttpPost]
-        public IActionResult Report(FeedbackBindingModel feedbackBindingModel)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    feedbackService.SaveFeedback(feedbackBindingModel);
-
-                }
-                catch (Exception)
-                {
-                    return Error();
-                }
-                var pathParts = Request.Headers["Referer"].ToString().Split("/");
-                string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
-                return RedirectToAction(lastAction);
-            }
-            else
-            {
-                var feedbackViewModel = this.mapper.Map<FeedbackViewModel>(feedbackBindingModel);
-                //return PartialView("_MoreInfoBoxPartial", feedbackViewModel);
-                var pathParts = Request.Headers["Referer"].ToString().Split("/");
-                string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
-                return RedirectToAction(lastAction);
-            }
-        }
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        [AllowAnonymous]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

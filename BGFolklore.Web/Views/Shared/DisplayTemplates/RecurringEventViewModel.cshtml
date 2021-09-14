@@ -31,11 +31,11 @@
         <td class="no-stilization stop-parent-onclick pr-1">
             @if (Model.Feedbacks.Count != 0)
             {
-                <button type="button" onclick="location.href='@Url.Action("EventFeedbacks", "Calendar", Model)'"
+                <a  asp-controller="Feedback" asp-action="EventFeedbacks" asp-route-eventId="@Model.Id"
                         class="btn bg-light rounded-circle @(hasNewFeeds ? "text-danger" : "")"
                         title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
                     <i class="fas fa-exclamation pulseIcon"></i>
-                </button>
+                </a>
             }
         </td>
     }

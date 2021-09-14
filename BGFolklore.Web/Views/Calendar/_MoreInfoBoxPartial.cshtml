@@ -35,66 +35,69 @@
         </div>
         <hr class="trans--grow hr1">
 
-        <div class="rating-container text-center">
-            <form id="formRating" method="post" asp-controller="Calendar" asp-action="RateForEvent">
-                <span class="small">Може да оцените мястото за танцуване:</span>
-                <input type="hidden" name="rate" id="inputRate" value="1" />
-                <input type="hidden" name="eventId" id="eventIdRate" />
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="rating-stars">
-                        <i class="fas fa-star rate-star" data-value="1"></i>
-                        <i class="far fa-star rate-star" data-value="2"></i>
-                        <i class="far fa-star rate-star" data-value="3"></i>
-                        <i class="far fa-star rate-star" data-value="4"></i>
-                        <i class="far fa-star rate-star" data-value="5"></i>
-                    </div>
-                    <button type="submit" class="btn bg-light rounded-circle ml-3"
-                            title="Оцени събитието">
-                        <i class="fas fa-vote-yea"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
+        <div class="@(User.Identity.IsAuthenticated ? "" : "hidden") text-center">
 
-        <div id="readerButtons" class="align-self-center hidden mt-4">
-            <button class="btn btn-danger bg-brown op-80" id="reportBtn" type="button"
-                    title="Докладване за грешна или неточна информация.">
-                Докладвай за грешка <i class="fas fa-bug"></i>
-            </button>
-        </div>
+            <div class="rating-container text-center">
+                <form id="formRating" method="post" asp-controller="Calendar" asp-action="RateForEvent">
+                    <span class="small">Може да оцените мястото за танцуване:</span>
+                    <input type="hidden" name="rate" id="inputRate" value="1" />
+                    <input type="hidden" name="eventId" id="eventIdRate" />
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="rating-stars">
+                            <i class="fas fa-star rate-star" data-value="1"></i>
+                            <i class="far fa-star rate-star" data-value="2"></i>
+                            <i class="far fa-star rate-star" data-value="3"></i>
+                            <i class="far fa-star rate-star" data-value="4"></i>
+                            <i class="far fa-star rate-star" data-value="5"></i>
+                        </div>
+                        <button type="submit" class="btn bg-light rounded-circle ml-3"
+                                title="Оцени събитието">
+                            <i class="fas fa-vote-yea"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
 
-        <div>
-            <form id="reportForm" method="post" asp-controller="Calendar" asp-action="Report"
-                  class="hidden align-items-center">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group row hidden">
-                    <label asp-for="OwnerId" class="col-form-label"></label>
-                    <div>
-                        <input asp-for="OwnerId" id="ownerId" class="form-control" value="" />
-                    </div>
-                    <span asp-validation-for="OwnerId" class="text-danger"></span>
-                </div>
-                <div class="form-group row hidden">
-                    <label asp-for="EventId" class="col-form-label"></label>
-                    <div>
-                        <input asp-for="EventId" id="eventId" class="form-control" value="" />
-                    </div>
-                    <span asp-validation-for="EventId" class="text-danger"></span>
-                </div>
-                <div class="form-group w-50">
-                    <label asp-for="Description" class="col-form-label"></label>
-                    <div>
-                        <textarea asp-for="Description" class="form-control"></textarea>
-                    </div>
-                    <span asp-validation-for="Description" class="text-danger text-center"></span>
-                </div>
+            <div id="readerButtons" class="align-self-center hidden mt-4">
+                <button class="btn btn-danger bg-brown op-80" id="reportBtn" type="button"
+                        title="Докладване за грешна или неточна информация.">
+                    Докладвай за грешка <i class="fas fa-bug"></i>
+                </button>
+            </div>
 
-                <div>
-                    <div class="m-auto">
-                        <button type="submit" class="btn btn-danger bg-brown op-80">Изпрати <i class="fas fa-bug"></i></button>
+            <div>
+                <form id="reportForm" method="post" asp-controller="Feedback" asp-action="AddFeedback"
+                      class="hidden align-items-center">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group row hidden">
+                        <label asp-for="OwnerId" class="col-form-label"></label>
+                        <div>
+                            <input asp-for="OwnerId" id="ownerId" class="form-control" value="" />
+                        </div>
+                        <span asp-validation-for="OwnerId" class="text-danger"></span>
                     </div>
-                </div>
-            </form>
+                    <div class="form-group row hidden">
+                        <label asp-for="EventId" class="col-form-label"></label>
+                        <div>
+                            <input asp-for="EventId" id="eventId" class="form-control" value="" />
+                        </div>
+                        <span asp-validation-for="EventId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group w-50">
+                        <label asp-for="Description" class="col-form-label"></label>
+                        <div>
+                            <textarea asp-for="Description" class="form-control"></textarea>
+                        </div>
+                        <span asp-validation-for="Description" class="text-danger text-center"></span>
+                    </div>
+
+                    <div>
+                        <div class="m-auto">
+                            <button type="submit" class="btn btn-danger bg-brown op-80">Изпрати <i class="fas fa-bug"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
