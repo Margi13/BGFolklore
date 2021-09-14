@@ -33,7 +33,7 @@ namespace BGFolklore.Web.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult EventFeedbacks(Guid eventId)
         {
@@ -50,7 +50,7 @@ namespace BGFolklore.Web.Controllers
             }
             ViewData["EventName"] = eventViewModel.Name;
             ViewData["EventOwner"] = eventViewModel.OwnerId;
-            return View(feedbacks);
+            return View("EventFeedbacks", feedbacks);
 
         }
         public IActionResult DeleteFeedback(Guid feedId, Guid eventId)
@@ -70,7 +70,7 @@ namespace BGFolklore.Web.Controllers
             {
                 return Error();
             }
-            return RedirectToAction("EventFeedbacks", eventViewModel);
+            return EventFeedbacks(eventId);
 
         }
         public IActionResult DeleteAllFeedbacks(Guid eventId)
@@ -90,10 +90,11 @@ namespace BGFolklore.Web.Controllers
             {
                 return Error();
             }
-            return RedirectToAction("EventFeedbacks", eventViewModel);
+            return RedirectToAction("Index","Calendar");
         }
         public IActionResult ReadFeedback(Guid feedId, Guid eventId)
         {
+
             EventViewModel eventViewModel;
             try
             {
@@ -108,7 +109,7 @@ namespace BGFolklore.Web.Controllers
             {
                 return Error();
             }
-            return RedirectToAction("EventFeedbacks", eventViewModel);
+            return EventFeedbacks(eventId);
         }
         [HttpPost]
         public IActionResult AddFeedback(FeedbackBindingModel feedbackBindingModel)
