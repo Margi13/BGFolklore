@@ -26,16 +26,19 @@
     }
 }
 <tr class="event-row" title="Виж допълнителна информация за това събитие" onclick="eventRowOnClick(@modelJson, @userIdJson)">
-    <td class="no-stilization stop-parent-onclick pr-1">
-        @if (Model.Feedbacks.Count != 0)
-        {
-            <button type="button" onclick="location.href='@Url.Action("EventFeedbacks", "Calendar", Model)'"
-                    class="btn bg-light rounded-circle @(hasNewFeeds ? "text-danger" : "")"
-                    title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
-                <i class="fas fa-exclamation pulseIcon"></i>
-            </button>
-        }
-    </td>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <td class="no-stilization stop-parent-onclick pr-1">
+            @if (Model.Feedbacks.Count != 0)
+            {
+                <button type="button" onclick="location.href='@Url.Action("EventFeedbacks", "Calendar", Model)'"
+                        class="btn bg-light rounded-circle @(hasNewFeeds ? "text-danger" : "")"
+                        title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
+                    <i class="fas fa-exclamation pulseIcon"></i>
+                </button>
+            }
+        </td>
+    }
     <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
     <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
     <td>
@@ -91,22 +94,24 @@
             @Model.Rating
         </div>
     </td>
-
-    <td class="stop-parent-onclick table-col-w-10">
-        @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
-        {
-            <div class="d-flex justify-content-start">
-                <a asp-action="EditEvent" asp-route-eventId="@Model.Id"
-                        class="btn bg-light rounded-circle"
-                        title="Редактиране на информацията за събитието.">
-                    <i class="fas fa-edit font"></i>
-                </a>
-                <a asp-action="DeleteEvent" asp-route-eventId="@Model.Id"
-                        class="btn bg-light rounded-circle"
-                        title="Изтриване на събитието.">
-                    <i class="fas fa-trash-alt"></i>
-                </a>
-            </div>
-        }
-    </td>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <td class="stop-parent-onclick table-col-w-10">
+            @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
+            {
+                <div class="d-flex justify-content-start">
+                    <a asp-action="EditEvent" asp-route-eventId="@Model.Id"
+                       class="btn bg-light rounded-circle"
+                       title="Редактиране на информацията за събитието.">
+                        <i class="fas fa-edit font"></i>
+                    </a>
+                    <a asp-action="DeleteEvent" asp-route-eventId="@Model.Id"
+                       class="btn bg-light rounded-circle"
+                       title="Изтриване на събитието.">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </div>
+            }
+        </td>
+    }
 </tr>

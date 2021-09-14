@@ -1,25 +1,25 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using AutoMapper;
+using BGFolklore.Common.Common;
 using BGFolklore.Common.Nomenclatures;
 using BGFolklore.Data.Models;
 using BGFolklore.Models.Calendar.BindingModels;
 using BGFolklore.Models.Calendar.ViewModels;
 using BGFolklore.Services.Public.Interfaces;
+using BGFolklore.Web.Models;
 using BGFolklore.Web.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using BGFolklore.Web.Models;
 using System.Diagnostics;
-using BGFolklore.Common.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BGFolklore.Web.Controllers
 {
+    [Authorize]
     public class CalendarController : BaseController
     {
         private readonly IStringLocalizer<CalendarController> localizer;
@@ -43,13 +43,14 @@ namespace BGFolklore.Web.Controllers
 
             this.helperMethods = new ViewModelHelper(localizer, mapper);
         }
-
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
         //Event Actions
+        [AllowAnonymous]
         public IActionResult UpcomingEvents(int pageNumber = 1)
         {
             FilterEventsViewModel viewModel = new FilterEventsViewModel
@@ -69,7 +70,9 @@ namespace BGFolklore.Web.Controllers
             }
             return View(viewModel);
         }
+
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult UpcomingEvents(FilterBindingModel filterBindingModel)
         {
             FilterEventsViewModel viewModel = new FilterEventsViewModel
@@ -122,6 +125,8 @@ namespace BGFolklore.Web.Controllers
             }
 
         }
+
+        [AllowAnonymous]
         public IActionResult RecurringEvents(int pageNumber = 1)
         {
             FilterEventsViewModel viewModel = new FilterEventsViewModel
@@ -141,7 +146,9 @@ namespace BGFolklore.Web.Controllers
             }
             return View(viewModel);
         }
+
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult RecurringEvents(FilterBindingModel filterBindingModel)
         {
             FilterEventsViewModel viewModel = new FilterEventsViewModel
@@ -393,6 +400,7 @@ namespace BGFolklore.Web.Controllers
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [AllowAnonymous]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

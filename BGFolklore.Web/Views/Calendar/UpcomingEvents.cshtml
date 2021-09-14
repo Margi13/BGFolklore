@@ -18,14 +18,20 @@
     <table class="calendar-table">
         <thead>
             <tr>
-                <th class="no-stilization"></th>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <th class="no-stilization"></th>
+                }
                 <th>Град</th>
                 <th>Тип</th>
                 <th>Събитие</th>
                 <th>Дата</th>
                 <th>Час</th>
                 <th>За кого е предназначено</th>
-                <th></th>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <th></th>
+                }
             </tr>
         </thead>
         <tbody>

@@ -17,7 +17,10 @@
     <table class="calendar-table">
         <thead>
             <tr>
-                <th class="no-stilization"></th>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <th class="no-stilization"></th>
+                }
                 <th>Град</th>
                 <th>Тип</th>
                 <th>Име</th>
@@ -26,7 +29,10 @@
                 <th>За кого е предназначено</th>
                 @*<th>Коментар</th>*@
                 <th>Рейтинг</th>
-                <th class="feedback-col"></th>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <th></th>
+                }
             </tr>
         </thead>
         <tbody>
