@@ -17,13 +17,13 @@
                 @if (Model.StatusId == (int)StatusName.New)
                 {
                     <a asp-action="ReadFeedback" asp-route-feedId="@Model.Id" asp-route-eventId="@Model.EventId"
-                       class="btn bg-light rounded-circle btn-signals"
+                       class="btn bg-light rounded-circle"
                        title="Отбележи като прочетено.">
                         <i class="fas fa-check"></i>
                     </a>
                 }
                 <a asp-action="DeleteFeedback" asp-route-feedId="@Model.Id" asp-route-eventId="@Model.EventId"
-                   class="btn bg-light rounded-circle btn-signals"
+                   class="btn bg-light rounded-circle"
                    title="Изтриване на сигнал.">
                     <i class="fas fa-trash-alt"></i>
                 </a>

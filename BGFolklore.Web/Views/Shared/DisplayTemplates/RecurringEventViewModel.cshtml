@@ -2,16 +2,17 @@
 @using BGFolklore.Common.Nomenclatures
 @using BGFolklore.Web.Controllers
 @using BGFolklore.Web.Common;
+@using System.Linq;
 @using Microsoft.Extensions.Localization;
 @using BGFolklore.Data.Models;
 @using Microsoft.AspNetCore.Identity;
-@using System.Text.Json;
 
 @inject UserManager<User> userManager
 
 @inject IStringLocalizer<CalendarController> localizer
 
 @model RecurringEventViewModel
+
 @{
     var modelJson = Json.Serialize(Model).ToString();
     var userIdJson = Json.Serialize(userManager.GetUserId(User)).ToString();
@@ -31,9 +32,9 @@
         <td class="no-stilization stop-parent-onclick pr-1">
             @if (Model.Feedbacks.Count != 0)
             {
-                <a  asp-controller="Feedback" asp-action="EventFeedbacks" asp-route-eventId="@Model.Id"
-                        class="btn bg-light rounded-circle @(hasNewFeeds ? "text-danger" : "")"
-                        title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
+                <a asp-controller="Feedback" asp-action="EventFeedbacks" asp-route-eventId="@Model.Id"
+                   class="btn bg-light rounded-circle @(hasNewFeeds ? "text-danger" : "")"
+                   title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
                     <i class="fas fa-exclamation pulseIcon"></i>
                 </a>
             }
@@ -77,7 +78,7 @@
     </td>
 
     <td class="table-col-w-15">
-        <div class="rating-container">
+        <div>
             @for (int i = 1; i <= @Model.Rating; i++)
             {
                 <i class="fas fa-star"></i>
