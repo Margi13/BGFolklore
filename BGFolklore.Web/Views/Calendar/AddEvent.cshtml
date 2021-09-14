@@ -34,16 +34,28 @@
                 <span asp-validation-for="OwnerId" class="col-8 offset-4 text-danger"></span>
             </div>
 
-            <div class="form-group row">
-                <label asp-for="IsRecurring" class="col-4 col-form-label"></label>
-                <div class="col-8">
-                    <label class="form-check switch">
-                        <input type="checkbox" asp-for="IsRecurring" id="isRecurring" class="form-check-input" />
-                        <span class="slider"></span>
-                    </label>
+            @if (User.IsInRole(CustomRoleNames.User.ToString()))
+            {
+                if (Model.OwnerId == null)
+                {
+                    <div class="text-danger border border-danger mb-5 p-2">
+                        Потребители, регистрирани като обикновен потребител могат да създават само ПРЕДСТОЯЩИ събития
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="form-group row">
+                    <label asp-for="IsRecurring" class="col-4 col-form-label"></label>
+                    <div class="col-8">
+                        <label class="form-check switch">
+                            <input type="checkbox" asp-for="IsRecurring" id="isRecurring" class="form-check-input" />
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <span asp-validation-for="IsRecurring" class="col-8 offset-4 text-danger"></span>
                 </div>
-                <span asp-validation-for="IsRecurring" class="col-8 offset-4 text-danger"></span>
-            </div>
+            }
 
             <div class="form-group row">
                 <label asp-for="Name" class="col-4 col-form-label"></label>
@@ -117,7 +129,7 @@
             <div class="form-group row">
                 <label asp-for="EventDateTime" class="col-4 col-form-label"></label>
                 <div class="col-8">
-                    <input asp-for="EventDateTime" class="form-control" id="datetimePicker" />
+                    <input asp-for="EventDateTime" class="form-control" id="datetimePicker" value="@Model.EventDateTime"/>
                 </div>
                 <span asp-validation-for="EventDateTime" class="col-8 offset-4 text-danger"></span>
             </div>
