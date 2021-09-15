@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using BGFolklore.Common.Nomenclatures;
 using BGFolklore.Data;
+using BGFolklore.Data.Models;
 using BGFolklore.Data.Models.Calendar;
 using BGFolklore.Models.Calendar.BindingModels;
 using BGFolklore.Models.Calendar.ViewModels;
 using BGFolklore.Services.Public.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +21,23 @@ namespace BGFolklore.Services.Public
         private readonly IFeedbackService feedbackService;
         private readonly IRatingService ratingService;
         private readonly IFilterService filterService;
+        private readonly IStatusService statusService;
+        private readonly UserManager<User> userManager;
 
         public CalendarService(ApplicationDbContext context, IMapper mapper,
             ITownsService townsService,
             IFeedbackService feedbackService,
             IRatingService ratingService,
-            IFilterService filterService) : base(context, mapper)
+            IFilterService filterService,
+            IStatusService statusService,
+            UserManager<User> userManager) : base(context, mapper)
         {
             this.townsService = townsService;
             this.feedbackService = feedbackService;
             this.ratingService = ratingService;
             this.filterService = filterService;
+            this.statusService = statusService;
+            this.userManager = userManager;
         }
 
         public IList<RecurringEventViewModel> GetRecurringEvents(FilterBindingModel filterBindingModel)
@@ -50,7 +58,7 @@ namespace BGFolklore.Services.Public
                 }
                 else
                 {
-                    var ordered = filterService.OrderFilteredData(null,true, publicEvents);
+                    var ordered = filterService.OrderFilteredData(null, true, publicEvents);
                     if (ordered != null)
                     {
                         recurringEvents = this.Mapper.Map<IList<RecurringEventViewModel>>(publicEvents);
@@ -123,39 +131,19 @@ namespace BGFolklore.Services.Public
             return upcomingEvents;
         }
 
-        public EventViewModel GetEventViewModel(Guid eventId)
-        {
-            try
-            {
-                PublicEvent publicEvent = GetPublicEvent(eventId);
-                EventViewModel eventViewModel = this.Mapper.Map<EventViewModel>(publicEvent);
-                return eventViewModel;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public void SaveAddEvent(AddEventBindingModel newEvent)
         {
-            var newPublicEvent = this.Mapper.Map<PublicEvent>(newEvent);
-            newPublicEvent.InsertDateTime = DateTime.Now;
-
-            newPublicEvent = CopyEventInfo(newPublicEvent, newEvent);
-
-            newPublicEvent.Feedbacks = new List<Feedback>();
-
-            var status = Context.Status.Where(s => s.Id == (int)StatusName.New).FirstOrDefault();
-            if (status == null)
-            {
-                throw new Exception();
-            }
-            Status newStatus = this.Mapper.Map<Status>(status);
-            newPublicEvent.Status = newStatus;
-
             try
             {
+                var newPublicEvent = this.Mapper.Map<PublicEvent>(newEvent);
+                newPublicEvent.InsertDateTime = DateTime.Now;
+                newPublicEvent.Feedbacks = new List<Feedback>();
+
+                newPublicEvent = CopyEventInfo(newPublicEvent, newEvent);
+
+                newPublicEvent.Town = townsService.GetTownByGivenId(newEvent.TownId);
+                newPublicEvent.Status = statusService.GetStatus((int)StatusName.New);
+
                 this.Context.PublicEvents.Add(newPublicEvent);
                 this.Context.SaveChanges();
             }
@@ -164,59 +152,21 @@ namespace BGFolklore.Services.Public
                 throw;
             }
         }
-
-        public void UpdatePublicEvent(Guid eventId, AddEventBindingModel updatedViewModel)
+        public EventViewModel GetEventViewModel(Guid eventId)
         {
+            EventViewModel eventViewModel;
             try
             {
                 PublicEvent publicEvent = GetPublicEvent(eventId);
-                publicEvent.Name = updatedViewModel.Name;
-                publicEvent.EventDateTime = updatedViewModel.EventDateTime;
-                publicEvent.Address = updatedViewModel.Address;
-                publicEvent.Description = updatedViewModel.Description;
-                publicEvent.DurationInDays = updatedViewModel.DurationInDays;
-                publicEvent.Phone = updatedViewModel.Phone;
-                publicEvent.PlaceType = updatedViewModel.PlaceType;
-
-                CopyEventInfo(publicEvent, updatedViewModel);
-
-                publicEvent.UpdateDateTime = DateTime.Now;
-
-                this.Context.PublicEvents.Update(publicEvent);
-                this.Context.SaveChanges();
+                eventViewModel = this.Mapper.Map<EventViewModel>(publicEvent);
             }
             catch (Exception)
             {
                 throw;
             }
+            return eventViewModel;
         }
 
-        public void DeletePublicEvent(Guid eventId)
-        {
-            var status = Context.Status.Where(s => s.Id == (int)StatusName.Deleted).FirstOrDefault();
-            if (status == null)
-            {
-                throw new Exception();
-            }
-            Status newStatus = this.Mapper.Map<Status>(status);
-            try
-            {
-                PublicEvent publicEvent = GetPublicEvent(eventId);
-
-                publicEvent.StatusId = (int)StatusName.Deleted;
-                publicEvent.Status = newStatus;
-
-                feedbackService.DeleteAllEventFeedbacks(eventId);
-
-                this.Context.PublicEvents.Update(publicEvent);
-                this.Context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
         public AddEventBindingModel GetBindingModelFromData(Guid eventId)
         {
             try
@@ -258,6 +208,56 @@ namespace BGFolklore.Services.Public
             }
         }
 
+        public void UpdatePublicEvent(Guid eventId, AddEventBindingModel updatedViewModel)
+        {
+            try
+            {
+                PublicEvent publicEvent = GetPublicEvent(eventId);
+                publicEvent.Name = updatedViewModel.Name;
+                publicEvent.EventDateTime = updatedViewModel.EventDateTime;
+                publicEvent.Address = updatedViewModel.Address;
+                publicEvent.Description = updatedViewModel.Description;
+                publicEvent.DurationInDays = updatedViewModel.DurationInDays;
+                publicEvent.Phone = updatedViewModel.Phone;
+                publicEvent.PlaceType = updatedViewModel.PlaceType;
+
+                CopyEventInfo(publicEvent, updatedViewModel);
+
+                publicEvent.Town = townsService.GetTownByGivenId(updatedViewModel.TownId);
+
+                publicEvent.UpdateDateTime = DateTime.Now;
+
+                this.Context.PublicEvents.Update(publicEvent);
+                this.Context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void DeletePublicEvent(Guid eventId)
+        {
+            try
+            {
+                Status newStatus = statusService.GetStatus((int)StatusName.Deleted);
+                PublicEvent publicEvent = GetPublicEvent(eventId);
+
+                publicEvent.StatusId = (int)StatusName.Deleted;
+                publicEvent.Status = newStatus;
+
+                feedbackService.DeleteAllEventFeedbacks(eventId);
+
+                this.Context.PublicEvents.Update(publicEvent);
+                this.Context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
         private PublicEvent GetPublicEvent(Guid eventId)
         {
             var publicEvent = this.Context.PublicEvents.Where(pe => pe.Id == eventId).FirstOrDefault();
@@ -266,21 +266,25 @@ namespace BGFolklore.Services.Public
                 throw new Exception();
             }
 
-            PublicEvent findedPublicEvent = this.Mapper.Map<PublicEvent>(publicEvent);
+            PublicEvent findedPublicEvent;
 
             try
             {
+                findedPublicEvent = this.Mapper.Map<PublicEvent>(publicEvent);
                 findedPublicEvent.Feedbacks = feedbackService.GetFeedbacksFromData(findedPublicEvent.Id);
-                return findedPublicEvent;
+                findedPublicEvent.Town = townsService.GetTownByGivenId(findedPublicEvent.TownId);
+                findedPublicEvent.Status = statusService.GetStatus(findedPublicEvent.StatusId);
             }
             catch (Exception)
             {
-                throw;
+                throw new Exception();
             }
+            return findedPublicEvent;
         }
 
         private PublicEvent CopyEventInfo(PublicEvent destination, AddEventBindingModel source)
         {
+            destination.IntendedFor = 0;
             foreach (int attendeeType in source.IntendedFor)
             {
                 destination.IntendedFor = destination.IntendedFor | attendeeType;
@@ -288,28 +292,36 @@ namespace BGFolklore.Services.Public
 
             if (source.IsRecurring == true)
             {
+                destination.OccuringDays = 0;
                 foreach (int dayName in source.OccuringDays)
                 {
                     destination.OccuringDays = destination.OccuringDays | dayName;
                 }
             }
 
-            destination.Town = townsService.GetTownByGivenId(source.TownId);
-
             return destination;
         }
 
         private void DeleteOldEvents(IQueryable<PublicEvent> publicEvents)
         {
-            var oldEvents = publicEvents.Where(e => e.EventDateTime.CompareTo(DateTime.Now) < 0);
+            var oldEvents = publicEvents.Where(e => e.EventDateTime.CompareTo(DateTime.Now) < 0 && e.StatusId != (int)StatusName.Deleted);
             if (oldEvents == null)
             {
                 throw new Exception();
             }
-            var eventsToDelete = this.Mapper.Map<IList<PublicEvent>>(oldEvents);
-            foreach (var oldEvent in eventsToDelete)
+            IList<PublicEvent> eventsToDelete;
+            try
             {
-                DeletePublicEvent(oldEvent.Id);
+                eventsToDelete = this.Mapper.Map<IList<PublicEvent>>(oldEvents);
+                foreach (var oldEvent in eventsToDelete)
+                {
+                    DeletePublicEvent(oldEvent.Id);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw new Exception();
             }
         }
     }

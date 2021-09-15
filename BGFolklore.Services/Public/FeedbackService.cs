@@ -16,9 +16,24 @@ namespace BGFolklore.Services.Public
 {
     public class FeedbackService : BaseService, IFeedbackService
     {
-        public FeedbackService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
+        private readonly IStatusService statusService;
+
+        public FeedbackService(ApplicationDbContext context, IMapper mapper, IStatusService statusService) : base(context, mapper)
         {
+            this.statusService = statusService;
         }
+
+        public Feedback GetFeedbackById(Guid feedbackId)
+        {
+            var feedback = this.Context.Feedback.Where(f => f.Id == feedbackId).FirstOrDefault();
+            if (feedback == null)
+            {
+                throw new Exception();
+            }
+            Feedback feedbackToReturn = this.Mapper.Map<Feedback>(feedback);
+            return feedbackToReturn;
+        }
+
         public void SaveFeedback(FeedbackBindingModel feedbackBindingModel)
         {
             feedbackBindingModel.StatusId = (int)StatusName.New;
@@ -33,7 +48,7 @@ namespace BGFolklore.Services.Public
             {
                 PublicEvent publicEvent = this.Mapper.Map<PublicEvent>(pe);
                 var owner = this.Mapper.Map<User>(ow);
-                Status status = GetStatus(feedbackBindingModel.StatusId);
+                Status status = statusService.GetStatus(feedbackBindingModel.StatusId);
 
                 if (publicEvent == null || owner == null || status == null)
                 {
@@ -53,42 +68,6 @@ namespace BGFolklore.Services.Public
             }
         }
 
-        public IList<FeedbackViewModel> GetFeedbackViewModels(Guid eventId)
-        {
-            IList<FeedbackViewModel> feedbacks;
-            try
-            {
-                IList<Feedback> feedsFromData = GetFeedbacksFromData(eventId);
-                feedbacks = this.Mapper.Map<IList<FeedbackViewModel>>(feedsFromData);
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
-            return feedbacks;
-        }
-        public void DeleteAllEventFeedbacks(Guid eventId)
-        {
-            try
-            {
-                IList<Feedback> feedbacks = GetFeedbacksFromData(eventId);
-
-                foreach (var feed in feedbacks)
-                {
-                    Status newStatus = GetStatus((int)StatusName.Deleted);
-
-                    feed.StatusId = (int)StatusName.Deleted;
-                    feed.Status = newStatus;
-                }
-                this.Context.Feedback.UpdateRange(feedbacks);
-                this.Context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
-
-        }
         public IList<Feedback> GetFeedbacksFromData(Guid eventId)
         {
             var feedbacks = this.Context.Feedback
@@ -110,14 +89,32 @@ namespace BGFolklore.Services.Public
             }
             return feedsList;
         }
+
+        public IList<FeedbackViewModel> GetFeedbackViewModels(Guid eventId)
+        {
+            IList<FeedbackViewModel> feedbacks;
+            try
+            {
+                IList<Feedback> feedsFromData = GetFeedbacksFromData(eventId);
+                feedbacks = this.Mapper.Map<IList<FeedbackViewModel>>(feedsFromData);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+            return feedbacks;
+        }
+
         public void ChangeFeedbackStatus(Guid feedbackId, int statusId)
         {
             try
             {
+                Status newStatus = statusService.GetStatus(statusId);
                 Feedback feedbackToChange = GetFeedbackById(feedbackId);
-                Status newStatus = GetStatus(statusId);
+
                 feedbackToChange.StatusId = statusId;
                 feedbackToChange.Status = newStatus;
+
                 this.Context.Feedback.Update(feedbackToChange);
                 this.Context.SaveChanges();
             }
@@ -127,26 +124,27 @@ namespace BGFolklore.Services.Public
             }
 
         }
-        public Feedback GetFeedbackById(Guid feedbackId)
-        {
-            var feedback = this.Context.Feedback.Where(f => f.Id == feedbackId).FirstOrDefault();
-            if (feedback == null)
-            {
-                throw new Exception();
-            }
-            Feedback feedbackToReturn = this.Mapper.Map<Feedback>(feedback);
-            return feedbackToReturn;
-        }
 
-        private Status GetStatus(int statusId)
+        public void DeleteAllEventFeedbacks(Guid eventId)
         {
-            var newStatus = this.Context.Status.Where(s => s.Id == statusId).FirstOrDefault();
-            if (newStatus == null)
+            try
+            {
+                IList<Feedback> feedbacks = GetFeedbacksFromData(eventId);
+
+                foreach (var feed in feedbacks)
+                {
+                    Status newStatus = statusService.GetStatus((int)StatusName.Deleted);
+
+                    feed.StatusId = (int)StatusName.Deleted;
+                    feed.Status = newStatus;
+                }
+                this.Context.Feedback.UpdateRange(feedbacks);
+                this.Context.SaveChanges();
+            }
+            catch (Exception)
             {
                 throw new Exception();
             }
-            Status status = this.Mapper.Map<Status>(newStatus);
-            return status;
         }
     }
 }
