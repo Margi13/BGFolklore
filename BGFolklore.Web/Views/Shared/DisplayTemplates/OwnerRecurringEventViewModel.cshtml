@@ -1,0 +1,129 @@
+﻿@using BGFolklore.Models.Calendar.ViewModels
+@using BGFolklore.Common.Nomenclatures
+@using BGFolklore.Web.Controllers
+@using BGFolklore.Web.Common;
+@using System.Linq;
+@using Microsoft.Extensions.Localization;
+@using BGFolklore.Data.Models;
+@using Microsoft.AspNetCore.Identity;
+
+@inject UserManager<User> userManager
+
+@inject IStringLocalizer<CalendarController> localizer
+
+@model RecurringEventViewModel
+
+@{
+    var hasNewFeeds = false;
+    foreach (var feed in Model.Feedbacks)
+    {
+        if (feed.StatusId == (int)StatusName.New)
+        {
+            hasNewFeeds = true;
+            break;
+        }
+    }
+}
+
+<tr>
+    <td>@Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</td>
+
+    <td>@localizer[$"PlaceType{Model.PlaceType}"]</td>
+    <td>
+        @if (Model.Name.Length > 80)
+        {
+            <div>@(Model.Name.Substring(0, 80)+"...")</div>
+        }
+        else
+        {
+            <div>@Model.Name </div>
+        }
+    </td>
+    <td>@Model.Phone</td>
+    <td>
+        @if (Model.Description.Length > 80)
+        {
+            <div>@(Model.Description.Substring(0, 80)+"...")</div>
+        }
+        else
+        {
+            <div>@Model.Description </div>
+        }
+    </td>
+    <td>
+        @if (Model.Address.Length > 80)
+        {
+            <div>@(Model.Address.Substring(0, 80)+"...")</div>
+        }
+        else
+        {
+            <div>@Model.Address </div>
+        }
+    </td>
+
+    <td>
+        @foreach (int item in Enum.GetValues(typeof(DaysOfWeek)))
+        {
+            @if ((Model.OccuringDays & item) == item)
+            {
+                <div>
+                    @localizer[$"Day{(((DaysOfWeek)item).ToString())}"]
+                </div>
+            }
+        }
+    </td>
+    <td>@Model.EventDateTime.TimeOfDay</td>
+    <td>
+        @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
+        {
+            @if ((Model.IntendedFor & item) == item)
+            {
+                <div>
+                    @localizer[$"AttendeeType{(((AttendeeType)item).ToString())}"]
+                </div>
+            }
+        }
+    </td>
+
+    <td>
+        @if (Model.Feedbacks.Count != 0)
+        {
+            <a asp-controller="Feedback" asp-action="EventFeedbacks" asp-route-eventId="@Model.Id"
+               class="btn bg-light rounded-circle @(hasNewFeeds ? "text-danger" : "")"
+               title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
+                <i class="fas fa-exclamation pulseIcon"></i>
+            </a>
+        }
+    </td>
+
+    <td>
+        @if (Model.OwnerId.Equals(userManager.GetUserId(User)))
+        {
+            <div class="d-flex justify-content-start">
+                <a asp-action="EditEvent" asp-route-eventId="@Model.Id"
+                   class="btn bg-light rounded-circle"
+                   title="Редактиране на информацията за събитието.">
+                    <i class="fas fa-edit font"></i>
+                </a>
+                <a asp-action="DeleteEvent" asp-route-eventId="@Model.Id"
+                   class="btn bg-light rounded-circle"
+                   title="Изтриване на събитието.">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </div>
+        }
+    </td>
+</tr>
+@section CSS {
+    <link rel="stylesheet" href="~/css/calendar.css" />
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <script type="text/javascript">
+       
+
+    </script>
+}

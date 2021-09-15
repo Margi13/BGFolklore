@@ -146,7 +146,7 @@ namespace BGFolklore.Web.Controllers
             }
             return View(viewModel);
         }
-
+        
         [HttpPost]
         [AllowAnonymous]
         public IActionResult RecurringEvents(FilterBindingModel filterBindingModel)
@@ -327,5 +327,22 @@ namespace BGFolklore.Web.Controllers
         //    return PartialView("_MoreInfoBoxPartial", new FeedbackViewModel());
         //}
 
+        public IActionResult OwnEvents()
+        {
+            Guid userId;
+            OwnerEventsViewModel ownEventsViewModel;
+            try
+            {
+                userId = this.mapper.Map<Guid>(userManager.GetUserId(User));
+                ownEventsViewModel = calendarService.GetAllEventsForUser(userId);
+            }
+            catch (Exception)
+            {
+
+                return Error();
+            }
+
+            return View(ownEventsViewModel);
+        }
     }
 }

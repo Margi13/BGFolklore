@@ -40,6 +40,33 @@ namespace BGFolklore.Services.Public
             this.userManager = userManager;
         }
 
+        public OwnerEventsViewModel GetAllEventsForUser(Guid userId)
+        {
+            FilterBindingModel filterForOwner = new FilterBindingModel();
+            filterForOwner.OwnerId = userId;
+
+            OwnerEventsViewModel ownEventsViewModel = new OwnerEventsViewModel();
+            try
+            {
+                IList<RecurringEventViewModel> ownRecurring = GetRecurringEvents(filterForOwner);
+                IList<UpcomingEventViewModel> ownUpcoming = GetUpcomingEvents(filterForOwner);
+                if (ownRecurring != null)
+                {
+                    ownEventsViewModel.OwnerRecurringEventViewModels = ownRecurring;
+
+                }
+                if(ownUpcoming != null)
+                {
+                    ownEventsViewModel.OwnerUpcomingEventViewModels = ownUpcoming;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return ownEventsViewModel;
+        }
         public IList<RecurringEventViewModel> GetRecurringEvents(FilterBindingModel filterBindingModel)
         {
             var publicEvents = this.Context.PublicEvents.Where(e => e.OccuringDays != 0 && e.StatusId != (int)StatusName.Deleted);

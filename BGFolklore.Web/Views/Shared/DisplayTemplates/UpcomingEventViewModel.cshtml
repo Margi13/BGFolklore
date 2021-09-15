@@ -35,8 +35,8 @@
             @if (Model.Feedbacks.Count != 0)
             {
                 <a asp-controller="Feedback" asp-action="EventFeedbacks" asp-route-eventId="@Model.Id"
-                        class="btn bg-light rounded-circle @(hasNewFeeds ? "text-danger" : "")"
-                        title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
+                   class="btn bg-light rounded-circle @(hasNewFeeds ? "text-danger" : "")"
+                   title="Има @Model.Feedbacks.Count @((Model.Feedbacks.Count == 1) ? "подаден сигнал" : "подадени сигнала") за грешна информация">
                     <i class="fas fa-exclamation pulseIcon"></i>
                 </a>
 
@@ -55,8 +55,13 @@
             <div>@Model.Name </div>
         }
     </td>
-    <td>@Model.EventDateTime.Date.ToShortDateString()</td>
-    <td>@Model.EventDateTime.TimeOfDay</td>
+    <td>
+        @Model.EventDateTime.Date.ToShortDateString() 
+        @(Model.DurationInDays > 1 ? 
+        "-" + @Model.EventDateTime.Date.AddDays(Model.DurationInDays - 1).ToShortDateString():"")
+
+    </td>
+    <td>@Model.EventDateTime.ToShortTimeString()</td>
     <td>
         @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
         {
@@ -68,6 +73,7 @@
             }
         }
     </td>
+
     @if (User.Identity.IsAuthenticated)
     {
         <td class="stop-parent-onclick table-col-w-10">

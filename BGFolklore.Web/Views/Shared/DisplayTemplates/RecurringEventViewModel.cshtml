@@ -63,9 +63,8 @@
             }
         }
     </td>
-    <td>@Model.EventDateTime.TimeOfDay</td>
+    <td>@Model.EventDateTime.ToShortTimeString()</td>
     <td>
-        @* В мапер *@
         @foreach (int item in Enum.GetValues(typeof(AttendeeType)))
         {
             @if ((Model.IntendedFor & item) == item)

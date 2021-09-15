@@ -30,16 +30,17 @@ namespace BGFolklore.Services.Public
             {
                 IEnumerable<PublicEvent> events = GetFilteredData(filterBindingModel, listToFilter);
 
-                events = OrderFilteredData(filterBindingModel.OwnerId,filterBindingModel.IsRecurring, events);
+                events = OrderFilteredData(filterBindingModel.OwnerId, filterBindingModel.IsRecurring, events);
                 if (events == null)
                 {
                     return new List<UpcomingEventViewModel>();
                 }
-                resultUpcomingEvents = this.Mapper.Map<IList<UpcomingEventViewModel>>(events);
+                var resultEvents = this.Mapper.Map<IEnumerable<UpcomingEventViewModel>>(events);
+                resultUpcomingEvents = this.Mapper.Map<IList<UpcomingEventViewModel>>(resultEvents);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception();
+                throw new Exception(ex.Message);
             }
 
             return resultUpcomingEvents;
@@ -91,31 +92,38 @@ namespace BGFolklore.Services.Public
                 {
                     ordered = listToOrder.OrderByDescending(e =>
                     {
-                        foreach (var feed in e.Feedbacks)
+                        if (e.Feedbacks != null)
                         {
-                            if (feed.StatusId == (int)StatusName.New)
+                            foreach (var feed in e.Feedbacks)
                             {
-                                return true;
+                                if (feed.StatusId == (int)StatusName.New)
+                                {
+                                    return true;
+                                }
                             }
                         }
                         return false;
-                    }).ThenByDescending(e=>e.Rating);
+                    }).ThenByDescending(e => e.Rating);
                 }
                 else
                 {
                     ordered = listToOrder.OrderByDescending(e =>
                     {
-                        foreach (var feed in e.Feedbacks)
+                        if (e.Feedbacks != null)
                         {
-                            if (feed.StatusId == (int)StatusName.New)
+                            foreach (var feed in e.Feedbacks)
                             {
-                                return true;
+                                if (feed.StatusId == (int)StatusName.New)
+                                {
+                                    return true;
+                                }
                             }
                         }
                         return false;
-                    }).OrderByDescending(e => e.EventDateTime);
+                    })
+                    .ThenBy(e => e.EventDateTime);
                 }
-                
+
             }
             return ordered;
         }

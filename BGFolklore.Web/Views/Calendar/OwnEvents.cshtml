@@ -1,0 +1,92 @@
+﻿@using BGFolklore.Models.Calendar.ViewModels;
+@model OwnerEventsViewModel;
+
+<header class="page-header calendar-header">
+    <div class="rt-container op-80 bg-brown">
+        <h1>Моите събития</h1>
+    </div>
+    <div class="nav-container horizontal-top">
+        <div class="page-navbar horizontal-navbar">
+            <ul class="my-4">
+                <li>
+                    <a class="nav-link op-80 bg-brown own-events" id="upcomingEvents" href="#">Предстоящи събития</a>
+                </li>
+                <li>
+                    <a class="nav-link op-80 bg-brown own-events" id="recurringEvents" href="#">Всички места</a>
+                </li>
+                <li>
+                    <a class="nav-link op-80 bg-brown own-events" asp-area="" asp-controller="Calendar" asp-action="AddEvent">Създай събитие</a>
+                </li>
+            </ul>
+        </div>
+
+        @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
+    </div>
+</header>
+
+<section>
+    <table class="calendar-table">
+
+        <thead>
+            <tr>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <th class="no-stilization"></th>
+                }
+                <th>Град</th>
+                <th>Тип</th>
+                <th>Име на събитието</th>
+                <th>Дни</th>
+                <th>Кога започва</th>
+                <th>За кого е предназначено</th>
+                <th class="rating hidden">Рейтинг</th>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <th>Опции</th>
+                }
+            </tr>
+        </thead>
+        <tbody class="upcomingEvents">
+            @Html.DisplayFor(m => m.OwnerUpcomingEventViewModels)
+        </tbody>
+        <tbody class="recurringEvents hidden">
+            @Html.DisplayFor(m => m.OwnerRecurringEventViewModels)
+        </tbody>
+    </table>
+
+</section>
+<div id="modal-container">
+    <partial name="_MoreInfoBoxPartial" model="@(new FeedbackViewModel())" />
+</div>
+@section CSS {
+    <link rel="stylesheet" href="~/css/calendar.css" />
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+        $(".stop-parent-onclick")
+            .click(function (event) {
+                event.stopPropagation();
+            })
+            .attr('title', '');
+        $(".rating-container").show();
+
+        $("#filterBtn").click(function () {
+            $(".form-filter").toggle();
+        });
+
+        $("#recurringEvents").click(function (e) {
+            e.preventDefault();
+            $(".recurringEvents").show();
+            $(".upcomingEvents").hide();
+            $(".rating").show();
+        });
+        $("#upcomingEvents").click(function (e) {
+            e.preventDefault();
+            $(".recurringEvents").hide();
+            $(".upcomingEvents").show();
+            $(".rating").hide();
+        });
+    </script>
+}

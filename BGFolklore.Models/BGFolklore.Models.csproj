@@ -13,8 +13,4 @@
     <ProjectReference Include="..\BGFolklore.Data\BGFolklore.Models\BGFolklore.Data.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Gallery\BindingModel\" />
-  </ItemGroup>
-
 </Project>
