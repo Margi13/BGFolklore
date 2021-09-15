@@ -1,5 +1,5 @@
 ﻿@using BGFolklore.Models.Gallery.ViewModels
-@model IList<AreaImagesViewModel>
+@model GalleryViewModel
 @{
     ViewData["Title"] = "Images";
 }
@@ -10,23 +10,15 @@
         <p>Галерия с различните български народни носии от всяка област.</p>
     </div>
     <div class="nav-container">
-        <div class="page-navbar" id="area-nav-bar">
-            @*<partial name="_AreasNavBar" />*@
-            <ul class="my-4 tags-bar nav">
-                @foreach (var area in Model)
-                {
-                    <li class="nav-item"><a class="area-link nav-link op-80 bg-brown" href="#gallery" id="area-@area.AreaType">@area.AreaName</a></li>
-                }
-            </ul>
-        </div>
+        <partial name="_AreasNavBar" model="@Model.EthnoAreaViewModels" />
         @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
     </div>
 
 </header>
 <section class="gallery-section hidden" id="gallery">
-    @foreach (var area in Model)
+    @foreach (var area in Model.EthnoAreaViewModels)
     {
-        <div class="area-gallery @area.AreaType" id="@area.AreaType"> @Html.DisplayFor(a => area.Images, new { data = area.AreaType })</div>
+        <div class="area-gallery @area.AreaName" id="@area.AreaName"> @Html.DisplayFor(m => area.ImageViewModels)</div>
     }
 </section>
 

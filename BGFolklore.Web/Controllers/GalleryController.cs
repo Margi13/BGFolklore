@@ -27,29 +27,49 @@ namespace BGFolklore.Web.Controllers
         }
         public IActionResult Images()
         {
-
-            string jsonString = LoadJson();
-            IList<AreaImagesViewModel> viewModelList = galleryService.GetImagesFromJson(jsonString);
-            return View(viewModelList);
+            GalleryViewModel galleryViewModel = new GalleryViewModel();
+            galleryViewModel.EthnoAreaViewModels = galleryService.GetAllGalleryViewModels();
+            galleryViewModel.FilterViewModel = new GalleryFilterViewModel();
+            return View(galleryViewModel);
         }
         public IActionResult Videos()
         {
-            string jsonString = LoadJson();
-            IList<AreaVideosViewModel> viewModelList = galleryService.GetVideosFromJson(jsonString);
-            return View(viewModelList);
-        }
+            GalleryViewModel galleryViewModel = new GalleryViewModel();
+            galleryViewModel.EthnoAreaViewModels = galleryService.GetAllGalleryViewModels();
+            galleryViewModel.FilterViewModel = new GalleryFilterViewModel();
 
-        //Common, ErrorHandling
-        public static string LoadJson()
+            return View(galleryViewModel);
+        }
+        [HttpPost]
+        public IActionResult Videos(GalleryViewModel galleryViewModel)
         {
-            string jsonString;
-            using (StreamReader r = new StreamReader("./areas.json", Encoding.UTF8))
+            //Трябва да го измисля как ще стане...
+            GalleryFilterViewModel viewModel = new GalleryFilterViewModel();
+            if (ModelState.IsValid)
             {
-                jsonString = r.ReadToEnd();
+                try
+                {
+                    var wordsToSearch = galleryViewModel.FilterViewModel.VideoSearch.Split(" ");
+                    var filteredVideos = galleryService.GetFilteredVideos(wordsToSearch);
+                    if (filteredVideos != null)
+                    {
+                    }
+                }
+                catch (System.Exception)
+                {
+
+                    throw;
+                }
+
+                return View(viewModel);
             }
-            return jsonString;
+            else
+            {
+
+                return View(viewModel);
+            }
+
+            //return View(viewModel);
         }
-
     }
-
 }

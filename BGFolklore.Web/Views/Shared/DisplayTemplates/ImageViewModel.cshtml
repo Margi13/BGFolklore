@@ -2,15 +2,19 @@
 @using BGFolklore.Common
 @model ImageViewModel
 
+@*@foreach (var viewModel in Model)*@
+@*{*@
+
 <div class="image-card">
-    <a href="@Model.Path" data-fancybox="@((AreasType)ViewData["data"])" data-caption="@Model.Title">
-        <img class="gallery-item" src="@Model.Path" />
+    <a href="@Model.ImagesPath" data-fancybox="@Model.AreaName" data-caption="@Model.Title">
+        <img class="gallery-item" src="@Model.ImagesPath" />
     </a>
     <div class="info-card">
         <h4>@Model.Title</h4>
         <p>@Model.Description</p>
     </div>
 </div>
+@*}*@
 
 
 

@@ -1,5 +1,5 @@
 ﻿@using BGFolklore.Models.Gallery.ViewModels
-@model IList<AreaVideosViewModel>
+@model GalleryViewModel
 @{
     ViewData["Title"] = "Videos";
 }
@@ -10,19 +10,34 @@
         <p>Галерия с различните български народни хора и танци от всяка област.</p>
     </div>
     <div class="nav-container">
-        <div class="page-navbar" id="area-nav-bar">
-            @*<partial name="_AreasNavBar" />*@
-            <ul class="my-4 tags-bar nav">
-                @foreach (var area in Model)
-                {
-                    <li class="nav-item"><a class="area-link nav-link op-80 bg-brown" href="#gallery" id="area-@area.AreaType">@area.AreaName</a></li>
-                }
-            </ul>
-        </div>
+        <partial name="_AreasNavBar" model="@Model.EthnoAreaViewModels" />
         @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
     </div>
 </header>
 
+<div class="m-auto text-center m-3 form-container">
+    <h6 id="filterBtn" class="mb-1">Филтриране</h6>
+    <section class="row hidden form-filter" id="filter">
+        <div class="col-10 offset-1">
+            <form method="post" asp-controller="Gallery" asp-action="Videos">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group row">
+                    <label asp-for="FilterViewModel.VideoSearch" class="col-4 col-form-label text-left"></label>
+                    <div class="col-8">
+                        <input asp-for="FilterViewModel.VideoSearch" class="form-control" />
+                    </div>
+                    <span asp-validation-for="FilterViewModel.VideoSearch" class="col-8 offset-4 text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="text-center m-auto">
+                        <button type="submit" class="btn btn-danger bg-brown">Филтрирай</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
 
 <section class="gallery-section hidden" id="gallery">
     <div class="videos-container">
@@ -30,9 +45,9 @@
 
         </div>
         <div id="areaContainer">
-            @foreach (var area in Model)
+            @foreach (var area in Model.EthnoAreaViewModels)
             {
-                <div class="area-videos @area.AreaType" id="@area.AreaType">@Html.DisplayFor(a => area.Videos, new { data = area.AreaType })</div>
+                <div class="area-videos @area.AreaName" id="@area.AreaName">@Html.DisplayFor(m => area.VideoViewModels)</div>
             }
         </div>
     </div>
@@ -43,37 +58,36 @@
 }
 
 @section Scripts{
-
     <script type="text/javascript">
-        $(document).ready(function () {
+        $('.area-link').click(function (e) {
 
-            $('.area-link').click(function (e) {
-                document.getElementById('iframe-container').innerHTML = '';
-                $(".area-videos").hide();
-                $(".gallery-section").show();
-                $("#" + e.target.id.split('-')[1]).show();
-            });
-            $('.card').click(function () {
-                let playerDiv = document.getElementById('iframe-container');
-                playerDiv.innerHTML = '';
-
-                let frame = document.createElement('iframe');
-                frame.src = "https://www.youtube.com/embed/" + $(this).attr('id') + "?enablejsapi=1&autoplay=1";
-                frame.allowFullscreen = true;
-                frame.title = "YouTube video player";
-                frame.frameBorder = "0";
-                frame.width = "650px";
-                frame.height = "500px";
-                frame.classList.add('youtube-video');
-                playerDiv.appendChild(frame);
-
-                $('.nav-item').onfocus = () => {
-                    $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
-
-                }
-            });
-
+            let frameContainer = document.getElementById('iframe-container');
+            frameContainer.innerHTML = '';
+            $(".area-videos").hide();
+            $(".gallery-section").show();
+            $("#" + e.target.id.split('-')[1]).show();
         });
+        $('.card').click(function () {
+            let playerDiv = document.getElementById('iframe-container');
+            playerDiv.innerHTML = '';
 
+            let frame = document.createElement('iframe');
+            frame.src = "https://www.youtube.com/embed/" + $(this).attr('id') + "?enablejsapi=1&autoplay=1";
+            frame.allowFullscreen = true;
+            frame.title = "YouTube video player";
+            frame.frameBorder = "0";
+            frame.width = "650px";
+            frame.height = "500px";
+            frame.classList.add('youtube-video');
+            playerDiv.appendChild(frame);
+
+            $('.nav-item').onfocus = () => {
+                $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+
+            }
+        });
+        $("#filterBtn").click(function () {
+            $(".form-filter").toggle();
+        });
     </script>
 }

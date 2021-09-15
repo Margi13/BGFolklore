@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BGFolklore.Data.Models;
 using BGFolklore.Data.Models.Calendar;
+using BGFolklore.Data.Models.Gallery;
 using BGFolklore.Models.Calendar.BindingModels;
 using BGFolklore.Models.Calendar.ViewModels;
 using BGFolklore.Models.Gallery.ViewModels;
@@ -16,12 +17,11 @@ namespace BGFolklore.Web.Mapping
         public AutoMapperProfile()
         {
             //Image Maps
-            this.CreateMap<ImageViewModel, Image>().ReverseMap();
-            this.CreateMap<Area, AreaImagesViewModel>();
-
-            //Video Maps
-            this.CreateMap<VideoViewModel, Video>().ReverseMap();
-            this.CreateMap<Area, AreaVideosViewModel>();
+            this.CreateMap<Image, ImageViewModel>();
+            this.CreateMap<EthnoAreaViewModel, ImageViewModel>();
+            this.CreateMap<Video, VideoViewModel>();
+            this.CreateMap<EthnoAreaViewModel, VideoViewModel>();
+            this.CreateMap<EthnographicArea, EthnoAreaViewModel>();
 
             //PublicEvent Maps
             this.CreateMap<PublicEvent, UpcomingEventViewModel>();

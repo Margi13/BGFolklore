@@ -1,4 +1,5 @@
-﻿using BGFolklore.Models.Gallery.ViewModels;
+﻿using BGFolklore.Data.Models.Gallery;
+using BGFolklore.Models.Gallery.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,12 @@ namespace BGFolklore.Services.Public.Interfaces
 {
     public interface IGalleryService
     {
-        IList<AreaImagesViewModel> GetImagesFromJson(string jsonString);
-        IList<AreaVideosViewModel> GetVideosFromJson(string jsonString);
+        IEnumerable<EthnographicArea> GetEthnoAreasFromData();
+        EthnographicArea GetEthnoAreaById(int areaId);
+        IList<EthnoAreaViewModel> GetAllGalleryViewModels();
+        IList<ImageViewModel> GetAllImages();
+        IList<VideoViewModel> GetAllVideos();
+        IList<ImageViewModel> GetFilteredImages(int costumeType);
+        IList<VideoViewModel> GetFilteredVideos(string[] wordsToSearch);
     }
 }

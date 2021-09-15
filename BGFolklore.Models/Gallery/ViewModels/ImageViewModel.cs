@@ -1,15 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BGFolklore.Models.Gallery.ViewModels
 {
-    public class ImageViewModel
+    public class ImageViewModel : GalleryViewModel
     {
-        public string Path { get; set; }
+        [Required]
+        [MaxLength(20)]
+        public string AreaName { get; set; }
+        [Required]
+        public int EthnoAreaId { get; set; }
+
+        [Required]
+        public int CostumeType { get; set; }
+
+        [Required]
+        public string FileName { get; set; }
+
+        [Required]
+        public string ImagesPath { get; set; }
+
+        [Required]
         public string Title { get; set; }
+
         public string Description { get; set; }
     }
 }
