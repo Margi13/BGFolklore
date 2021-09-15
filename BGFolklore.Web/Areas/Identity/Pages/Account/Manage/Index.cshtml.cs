@@ -23,6 +23,7 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
+        [Display(Name = "Потребителско име")]
         public string Username { get; set; }
 
         [TempData]
@@ -34,7 +35,7 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Мобилен телефон")]
             public string PhoneNumber { get; set; }
         }
 

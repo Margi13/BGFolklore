@@ -8,6 +8,7 @@
         Layout = "/Areas/Identity/Pages/_Layout.cshtml";
     }
 }
+<section class="d-flex flex-column align-items-center">
 
 <h2>Управление на профила</h2>
 
@@ -15,14 +16,15 @@
     <h4>Можете да промените настройките на вашия акаунт.</h4>
     <hr />
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-5 align-self-center">
             <partial name="_ManageNav" />
         </div>
-        <div class="col-md-9">
+        <div class="col-md-7">
             @RenderBody()
         </div>
     </div>
 </div>
+</section>
 
 @section Scripts {
     @RenderSection("Scripts", required: false)

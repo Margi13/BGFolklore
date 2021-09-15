@@ -30,8 +30,10 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
             _emailSender = emailSender;
         }
 
+        [Display(Name = "Потребителско име")]
         public string Username { get; set; }
 
+        [Display(Name = "Имейл")]
         public string Email { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -46,7 +48,7 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Нов имейл")]
             public string NewEmail { get; set; }
         }
 
@@ -60,7 +62,7 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
                 NewEmail = email,
             };
 
-            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+            IsEmailConfirmed = true;
         }
 
         public async Task<IActionResult> OnGetAsync()

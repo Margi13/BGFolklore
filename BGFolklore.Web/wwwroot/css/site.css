@@ -27,10 +27,20 @@ a {
     border-color: #1861ac;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+.profile-link, .profile-link:visited {
+    opacity: 80% !important;
+}
+
+.profile-link.active, .profile-link:hover {
+    color: white;
+    background-color: brown !important;
+    opacity: 100% !important;
+}
+
+.nav-pills, .profile-link, .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: brown;
+    border-color: brown;
 }
 
 .area-link {
@@ -145,14 +155,14 @@ a {
 
     a:hover, a:focus {
         color: #000;
-        font-size:large;
+        font-size: large;
         text-decoration: none;
     }
 
-    a:visited {
+/*    a:visited {
         color: #222;
         background: white;
-    }
+    }*/
 
 section {
     width: 100%;
