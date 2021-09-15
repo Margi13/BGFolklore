@@ -1,5 +1,6 @@
 ﻿using BGFolklore.Data.Models;
 using BGFolklore.Data.Models.Calendar;
+using BGFolklore.Data.Models.Gallery;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,9 @@ namespace BGFolklore.Data
         public DbSet<Status> Status { get; set; }
         public DbSet<Feedback> Feedback { get; set; }
         public DbSet<Rating> Rating { get; set; }
+        public DbSet<EthnographicArea> EthnographicAreas { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Video> Videos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -31,6 +35,7 @@ namespace BGFolklore.Data
             OnPublicEventCreating(builder);
             OnFeedbackCreating(builder);
             OnRatingCreating(builder);
+            OnGalleryCreating(builder);
 
             builder.Entity<Town>().HasIndex(t => t.AreaId);
 
@@ -120,6 +125,20 @@ namespace BGFolklore.Data
                 .HasOne(r => r.Event)
                 .WithMany()
                 .HasForeignKey(r => r.EventId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+        private void OnGalleryCreating(ModelBuilder builder)
+        {
+            builder.Entity<Image>()
+                .HasOne(r => r.EthnoArea)
+                .WithMany()
+                .HasForeignKey(r => r.EthnoAreaId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Video>()
+                .HasOne(r => r.EthnoArea)
+                .WithMany()
+                .HasForeignKey(r => r.EthnoAreaId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

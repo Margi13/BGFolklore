@@ -3,14 +3,16 @@ using System;
 using BGFolklore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BGFolklore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210915060349_CreateEthnoAreasImagesAndVideos")]
+    partial class CreateEthnoAreasImagesAndVideos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,6 +201,11 @@ namespace BGFolklore.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
+                    b.Property<string>("ImagesDescription")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
                     b.Property<string>("ImagesPath")
                         .IsRequired()
                         .HasColumnType("text");
@@ -206,6 +213,11 @@ namespace BGFolklore.Data.Migrations
                     b.Property<string>("MapImageFileName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("VideosDescription")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
