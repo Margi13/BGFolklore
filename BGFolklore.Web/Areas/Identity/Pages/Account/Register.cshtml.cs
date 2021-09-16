@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using BGFolklore.Common;
 using BGFolklore.Common.Nomenclatures;
 using BGFolklore.Data.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -47,9 +48,9 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Моля изберете едно от двете")]
             [Display(Name = "Както какъв се регистрирате?")]
-            public bool IsOrganization { get; set; }
+            public string RoleNameToAdd { get; set; }
 
             [Required]
             [EmailAddress]
@@ -91,13 +92,13 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    if (Input.IsOrganization)
+                    if (Input.RoleNameToAdd.Equals(Constants.OrgRoleName))
                     {
-                        await _userManager.AddToRoleAsync(user, CustomRoleNames.Organization.ToString());
+                        await _userManager.AddToRoleAsync(user, Constants.OrgRoleName);
                     }
-                    else
+                    else if (Input.RoleNameToAdd.Equals(Constants.UserRoleName))
                     {
-                        await _userManager.AddToRoleAsync(user, CustomRoleNames.User.ToString());
+                        await _userManager.AddToRoleAsync(user, Constants.UserRoleName);
                     }
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

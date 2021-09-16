@@ -34,7 +34,7 @@
                 <span asp-validation-for="OwnerId" class="col-8 offset-4 text-danger"></span>
             </div>
 
-            @if (User.IsInRole(Constants.OrgRoleName))
+            @if (!User.IsInRole(Constants.UserRoleName))
             {
                 <div class="form-group row">
                     <label asp-for="IsRecurring" class="col-4 col-form-label"></label>

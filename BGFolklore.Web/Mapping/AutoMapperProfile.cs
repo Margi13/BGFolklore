@@ -65,6 +65,11 @@ namespace BGFolklore.Web.Mapping
                 .ForMember(dest => dest.Event, opt => opt.Ignore())
                 .ForMember(dest => dest.Owner, opt => opt.Ignore());
 
+            //Admin managment maps
+            //EventViewModel -> PublicEvent
+            //UserViewModel -> User
+            //FeedbackViewModel -> Feedback
+
         }
     }
 }

@@ -13,15 +13,15 @@
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group row justify-content-center align-items-center">
-                <label asp-for="Input.IsOrganization" class="col-md-5"></label>
+                <label asp-for="Input.RoleNameToAdd" class="col-md-5"></label>
                 <div class="col">
 
                     <div class="d-flex flex-row align-items-center ml-4">
-                        <input asp-for="Input.IsOrganization" class="form-control w-auto" type="radio" value="false" />
+                        <input asp-for="Input.RoleNameToAdd" class="form-control w-auto" type="radio" value="@(Constants.UserRoleName)" />
                         <label class="m-0 col-md-12">Обикновен потребител</label>
                     </div>
                     <div class="d-flex flex-row align-items-center ml-4">
-                        <input asp-for="Input.IsOrganization" class="form-control w-auto" type="radio" value="true" />
+                        <input asp-for="Input.RoleNameToAdd" class="form-control w-auto" type="radio" value="@Constants.OrgRoleName" />
                         <label class="m-0 col-md-12">Танцова формация</label>
                     </div>
                 </div>

@@ -1,5 +1,7 @@
 using BGFolklore.Data;
 using BGFolklore.Data.Models;
+using BGFolklore.Services.Admin;
+using BGFolklore.Services.Admin.Interfaces;
 using BGFolklore.Services.Public;
 using BGFolklore.Services.Public.Interfaces;
 using BGFolklore.Web.Common;
@@ -35,7 +37,7 @@ namespace BGFolklore.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySQL(connectionString));
             services.AddDatabaseDeveloperPageExceptionFilter();
-            
+
 
             services.AddIdentity<User, IdentityRole>(options =>
             {
@@ -47,7 +49,7 @@ namespace BGFolklore.Web
                 options.User.RequireUniqueEmail = true;
             }).AddDefaultTokenProviders().AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddMvc()
@@ -86,7 +88,7 @@ namespace BGFolklore.Web
 
             //var serviceProvider = app.ApplicationServices;
             //var townsEnv = serviceProvider.GetService<ITownsService>();
-            
+
             app.UseRouting();
 
             app.UseAuthentication();
@@ -94,9 +96,17 @@ namespace BGFolklore.Web
 
             app.UseEndpoints(endpoints =>
             {
+
+                endpoints.MapAreaControllerRoute(
+                  name: "defaultArea",
+                  areaName: "Admin",
+                  pattern: "{controller=Admin}/{action=Index}/{id?}"
+                );
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapRazorPages();
             });
             app.SeedDatabaseAsync();
@@ -111,6 +121,7 @@ namespace BGFolklore.Web
             services.AddScoped<IRatingService, RatingService>();
             services.AddScoped<IFilterService, FilterService>();
             services.AddScoped<IStatusService, StatusService>();
+            services.AddScoped<IManageUsersService, ManageUsersService>();
         }
     }
 }
