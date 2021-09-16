@@ -8,6 +8,7 @@ namespace BGFolklore.Data.Models
     public class User : IdentityUser
     {
         public ICollection<PublicEvent> PublicEvents { get; set; }
+        public ICollection<Feedback> Reports { get; set; }
 
         public string Name { get; set; }
     }

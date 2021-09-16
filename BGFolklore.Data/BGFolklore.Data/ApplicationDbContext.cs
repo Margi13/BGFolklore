@@ -49,6 +49,12 @@ namespace BGFolklore.Data
                 .WithOne(pe => pe.Owner)
                 .HasForeignKey(pe => pe.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<User>()
+                .HasMany(u => u.Reports)
+                .WithOne(pe => pe.Owner)
+                .HasForeignKey(pe => pe.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         private void OnIdentityCreating(ModelBuilder builder)
@@ -97,12 +103,12 @@ namespace BGFolklore.Data
         {
             builder.Entity<Feedback>()
                 .HasOne(f => f.Owner)
-                .WithMany()
+                .WithMany(u => u.Reports)
                 .HasForeignKey(f => f.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Feedback>()
-                .HasOne(f=>f.Status)
+                .HasOne(f => f.Status)
                 .WithMany()
                 .HasForeignKey(f => f.StatusId)
                 .OnDelete(DeleteBehavior.Restrict);
