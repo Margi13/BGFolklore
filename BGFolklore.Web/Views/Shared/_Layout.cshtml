@@ -52,12 +52,18 @@
     <footer class="border-top text-muted">
         <section class="footer-container d-flex justify-content-around m-0 bg-gray">
             <article class="d-flex flex-column footer-left">
-                <h4>Друго, което може да прочетете:</h4>
+                <h4>Друго, което може да видите:</h4>
                 <article class="d-flex flex-row flex-wrap">
-                    <ul class="footer-list" type="none">
-                        <li><a href="#" class="footer-link">HTTP</a></li>
-                        <li><a href="#" class="footer-link">SSL / TLS</a></li>
-                        <li><a href="#" class="footer-link">HTTPS</a></li>
+                    <ul class="footer-list py-2" type="none">
+                        <li><a asp-controller="Home" asp-action="History" class="footer-link">История</a></li>
+                        <li><a asp-controller="Home" asp-action="EthnoAreas" class="footer-link">Фолклорни области</a></li>
+                        <li><a asp-controller="Home" asp-action="Embroidery" class="footer-link">Шевиците</a></li>
+                        <li><a asp-controller="Gallery" asp-action="Index" class="footer-link">Галерия</a></li>
+                    </ul>
+                    <ul class="footer-list py-2" type="none">
+                        <li><a asp-controller="Calendar" asp-action="Index" class="footer-link">Къде да танцувам?</a></li>
+                        <li><a asp-controller="Calendar" asp-action="AddEvent" class="footer-link">Създай събитие</a></li>
+                        <li><a asp-controller="Calendar" asp-action="OwnEvents" class="footer-link">Моите събития</a></li>
                     </ul>
                 </article>
             </article>
