@@ -83,14 +83,14 @@ namespace BGFolklore.Services.Public
                 }
                 else
                 {
-                    ordered = listToOrder.OrderByDescending(e => e.EventDateTime);
+                    ordered = listToOrder.OrderBy(e => e.EventDateTime);
                 }
             }
             else
             {
                 if (isRecurring)
                 {
-                    ordered = listToOrder.OrderByDescending(e =>
+                    ordered = listToOrder.OrderBy(e =>
                     {
                         if (e.Feedbacks != null)
                         {
@@ -150,14 +150,14 @@ namespace BGFolklore.Services.Public
                         return new List<PublicEvent>();
                     }
                 }
-                else if (filterBindingModel.AreaId != 0)
-                {
-                    events = townsService.GetAllEventsByGivenAreaId(filterBindingModel.AreaId, events);
-                    if (events == null)
-                    {
-                        return new List<PublicEvent>();
-                    }
-                }
+                //else if (filterBindingModel.AreaId != 0)
+                //{
+                //    events = townsService.GetAllEventsByGivenAreaId(filterBindingModel.AreaId, events);
+                //    if (events == null)
+                //    {
+                //        return new List<PublicEvent>();
+                //    }
+                //}
 
                 if (filterBindingModel.PlaceType != null)
                 {
@@ -176,14 +176,14 @@ namespace BGFolklore.Services.Public
                         return new List<PublicEvent>();
                     }
                 }
-                else if (filterBindingModel.BeforeDate != null)
-                {
-                    events = GetEventsBeforeGivenDate(filterBindingModel.BeforeDate, filterBindingModel.IsRecurring, events);
-                    if (events == null)
-                    {
-                        return new List<PublicEvent>();
-                    }
-                }
+                //else if (filterBindingModel.BeforeDate != null)
+                //{
+                //    events = GetEventsBeforeGivenDate(filterBindingModel.BeforeDate, filterBindingModel.IsRecurring, events);
+                //    if (events == null)
+                //    {
+                //        return new List<PublicEvent>();
+                //    }
+                //}
 
                 if (filterBindingModel.IntendedFor != null)
                 {
