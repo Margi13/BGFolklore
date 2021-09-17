@@ -114,6 +114,10 @@ namespace BGFolklore.Services.Admin
                 {
                     userViewModel.ActivePublicEvents = this.Mapper.Map<IList<ManageEventViewModel>>(events);
                     AddOwnerName(userViewModel.ActivePublicEvents);
+                    foreach (var eventViewModel in userViewModel.ActivePublicEvents)
+                    {
+                        AddEventFeedbacks(eventViewModel);
+                    }
                 }
                 if (reports.Count != 0)
                 {
@@ -126,10 +130,22 @@ namespace BGFolklore.Services.Admin
             }
             catch (Exception)
             {
-                return null;
+                return new ManageUserViewModel();
             }
 
             return userViewModel;
+        }
+        private void AddEventFeedbacks(ManageEventViewModel eventViewModel)
+        {
+            var allEventFeedbacks = this.Context.Feedback.Where(f => f.EventId.Equals(eventViewModel.Id)).ToList();
+            if (allEventFeedbacks != null)
+            {
+                eventViewModel.Feedbacks = this.Mapper.Map<IList<ManageFeedbackViewModel>>(allEventFeedbacks);
+            }
+            else
+            {
+                eventViewModel.Feedbacks = new List<ManageFeedbackViewModel>();
+            }
         }
         private void AddEventName(IList<ManageFeedbackViewModel> reportViewModels)
         {
