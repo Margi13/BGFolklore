@@ -1,6 +1,8 @@
 ﻿@model ManageEventViewModel
-
-<tr class="info-row">
+@{ 
+    var hasFeeds = Model.Feedbacks.Count == 0 ? "withoutFeeds" : "withFeeds";
+}
+<tr class="info-row @hasFeeds">
     <td>@Model.OwnerUserName</td>
     <td class="text-break min-w-90">
         @if (Model.Name.Length > 80)
@@ -42,7 +44,10 @@
             </a>
         </div>
     </td>
-    <td>
-        <a class="btn btn-danger bg-brown op-80 m-1" asp-action="DeleteEvent" asp-route-eventId="@Model.Id">И</a>
-    </td>
+    @if (User.IsInRole(Constants.AdminRoleName))
+    {
+        <td>
+            <a class="btn btn-danger bg-brown op-80 m-1" asp-action="DeleteEvent" asp-route-eventId="@Model.Id">И</a>
+        </td>
+    }
 </tr>
