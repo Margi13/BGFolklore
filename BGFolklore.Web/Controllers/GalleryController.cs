@@ -1,13 +1,8 @@
 ﻿using BGFolklore.Models.Gallery.ViewModels;
 using BGFolklore.Services.Public.Interfaces;
-using BGFolklore.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
 
 namespace BGFolklore.Web.Controllers
 {
@@ -57,15 +52,12 @@ namespace BGFolklore.Web.Controllers
                 }
                 catch (System.Exception)
                 {
-
                     throw;
                 }
-
                 return View(viewModel);
             }
             else
             {
-
                 return View(viewModel);
             }
 

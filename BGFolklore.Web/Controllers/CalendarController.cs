@@ -322,10 +322,6 @@ namespace BGFolklore.Web.Controllers
             }
             return RedirectToAction("RecurringEvents");
         }
-        //public PartialViewResult MoreInfoBoxPartial(EventViewModel eventViewModel)
-        //{
-        //    return PartialView("_MoreInfoBoxPartial", new FeedbackViewModel());
-        //}
 
         public IActionResult OwnEvents()
         {

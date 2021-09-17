@@ -1,11 +1,14 @@
 ﻿@using BGFolklore.Models.Gallery.ViewModels
+@using Microsoft.Extensions.Localization
+@using BGFolklore.Web.Controllers
+@inject IStringLocalizer<GalleryController> localizer
 @model IList<EthnoAreaViewModel>
 
-    <div class="page-navbar" id="area-nav-bar">
-        <ul class="my-4 tags-bar nav">
-            @foreach (var area in Model)
-            {
-                <li class="nav-item"><a class="area-link nav-link op-80 bg-brown" href="#gallery" id="area-@area.AreaName">@area.AreaName</a></li>
-            }
-        </ul>
-    </div>
+<div class="page-navbar" id="area-nav-bar">
+    <ul class="my-4 tags-bar nav">
+        @foreach (var area in Model)
+        {
+            <li class="nav-item"><a class="area-link nav-link op-80 bg-brown" href="#gallery" id="area-@area.AreaName">@localizer[area.AreaName]</a></li>
+        }
+    </ul>
+</div>
