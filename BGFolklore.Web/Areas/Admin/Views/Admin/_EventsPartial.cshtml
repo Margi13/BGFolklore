@@ -1,0 +1,22 @@
+﻿@model IList<ManageEventViewModel>
+@{
+}
+<table class="calendar-table">
+    <thead>
+        <tr class="text-center">
+            <th class="ownerName">Собственик</th>
+            <th>Име на събитието</th>
+            <th>Последна промяна</th>
+            <th>Адрес</th>
+            <th>Описание</th>
+            <th>Сигнали</th>
+            @if (User.IsInRole(Constants.AdminRoleName))
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @Html.DisplayForModel()
+    </tbody>
+</table>

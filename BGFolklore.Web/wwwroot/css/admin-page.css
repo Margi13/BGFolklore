@@ -24,6 +24,11 @@
 .area-link:hover {
     background-color: #c14545 !important;
 }
+
 .info-row:hover {
     background: rgb(250 235 215);
+}
+
+.min-w-90 {
+    min-width: 90px;
 }

@@ -1,0 +1,48 @@
+﻿@model ManageEventViewModel
+
+<tr class="info-row">
+    <td>@Model.OwnerUserName</td>
+    <td class="text-break min-w-90">
+        @if (Model.Name.Length > 80)
+        {
+            <div>@(Model.Name.Substring(0, 80)+"...")</div>
+        }
+        else
+        {
+            <div>@Model.Name </div>
+        }
+    </td>
+    <td>@(Model.UpdateDateTime != null ? Model.UpdateDateTime : "Няма")</td>
+    <td class="text-break min-w-90">
+        @if (Model.Address.Length > 80)
+        {
+            <div>@(Model.Address.Substring(0, 80)+"...")</div>
+        }
+        else
+        {
+            <div>@Model.Address </div>
+        }
+    </td>
+    <td class="text-break min-w-90">
+        @if (Model.Description.Length > 80)
+        {
+            <div>@(Model.Description.Substring(0, 80)+"...")</div>
+        }
+        else
+        {
+            <div>@Model.Description </div>
+        }
+    </td>
+    <td>
+        <div class="d-flex flex-column align-items-center">
+            @Model.Feedbacks.Count
+            <a asp-action="ManageFeedbacks" asp-route-eventId="@Model.Id"
+               class="btn btn-danger op-80 bg-brown @(Model.Feedbacks.Count == 0 ? "disabled" : "")">
+                Виж
+            </a>
+        </div>
+    </td>
+    <td>
+        <a class="btn btn-danger bg-brown op-80 m-1" asp-action="DeleteEvent" asp-route-eventId="@Model.Id">И</a>
+    </td>
+</tr>

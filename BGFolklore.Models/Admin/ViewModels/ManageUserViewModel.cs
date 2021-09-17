@@ -17,10 +17,10 @@ namespace BGFolklore.Models.Admin.ViewModels
 
         public IList<string> Roles { get; set; }
 
-        public IList<PublicEvent> ActivePublicEvents { get; set; }
+        public IList<ManageEventViewModel> ActivePublicEvents { get; set; }
         public int AllEventsCount { get; set; }
                 
-        public IList<Feedback> ActiveReports { get; set; }
+        public IList<ManageFeedbackViewModel> ActiveReports { get; set; }
         public int AllReportsCount { get;set; }
     }
 }

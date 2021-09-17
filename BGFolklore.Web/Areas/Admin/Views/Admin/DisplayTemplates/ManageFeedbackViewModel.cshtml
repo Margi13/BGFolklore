@@ -1,0 +1,41 @@
+﻿@using BGFolklore.Common.Nomenclatures
+@model ManageFeedbackViewModel
+
+<tr class="info-row">
+    <td>@Model.OwnerUserName</td>
+    <td>@Model.CreateDateTime</td>
+    <td class="text-break min-w-90">
+        @if (Model.EventName.Length > 80)
+        {
+            <div>@(Model.EventName.Substring(0, 80)+"...")</div>
+        }
+        else
+        {
+            <div>@Model.EventName </div>
+        }
+    </td>
+    <td class="text-break min-w-90">
+        @if (Model.Description.Length > 80)
+        {
+            <div>@(Model.Description.Substring(0, 80)+"...")</div>
+        }
+        else
+        {
+            <div>@Model.Description </div>
+        }
+    </td>
+    <td>
+        <div>@(Model.StatusId==(int)StatusName.New ? "Нов" : "Прочетен") </div>
+    </td>
+    <td>
+        <div class="d-flex flex-column align-items-center">
+            <a asp-action="ManageEvents" asp-route-eventId="@Model.EventId"
+               class="btn btn-danger op-80 bg-brown">
+                Виж
+            </a>
+        </div>
+    </td>
+    <td>
+        <a class="btn btn-danger bg-brown op-80 m-1" asp-action="DeleteFeedback" asp-route-eventId="@Model.Id">И</a>
+    </td>
+</tr>

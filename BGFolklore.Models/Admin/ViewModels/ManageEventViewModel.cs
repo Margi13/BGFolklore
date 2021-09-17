@@ -14,7 +14,11 @@ namespace BGFolklore.Models.Admin.ViewModels
 
         public string OwnerId { get; set; }
 
+        public string OwnerUserName { get; set; }
+
         public string Name { get; set; }
+
+        public DateTime InsertDateTime { get; set; }
 
         public DateTime? UpdateDateTime { get; set; }
 
@@ -24,6 +28,6 @@ namespace BGFolklore.Models.Admin.ViewModels
 
         public string Description { get; set; }
 
-        public IList<Feedback> Feedbacks { get; set; }
+        public IList<ManageFeedbackViewModel> Feedbacks { get; set; }
     }
 }

@@ -32,10 +32,6 @@ namespace BGFolklore.Web.Areas.Admin.Controllers
         //{
         //    return View();
         //}
-        public IActionResult ShowAllEvents()
-        {
-            return View();
-        }
 
         [Authorize(Roles = Constants.AdminRoleName)]
         public IActionResult ShowAllUsers(string sortBy)
@@ -52,13 +48,32 @@ namespace BGFolklore.Web.Areas.Admin.Controllers
         }
         public IActionResult AddToRole(string userId, string roleName)
         {
-            manageUsersService.AddUserRole(userId, roleName);
-            return RedirectToAction("ShowAllUsers");
+            ManageUserViewModel userViewModel;
+            try
+            {
+                manageUsersService.AddUserRole(userId, roleName);
+                userViewModel = manageUsersService.GetUser(userId);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("ShowAllUsers");
+            }
+            return View("ManageUser", userViewModel);
+
         }
         public IActionResult RemoveFromRole(string userId, string roleName)
         {
-            manageUsersService.RemoveUserRole(userId, roleName);
-            return RedirectToAction("ShowAllUsers");
+            ManageUserViewModel userViewModel;
+            try
+            {
+                manageUsersService.RemoveUserRole(userId, roleName);
+                userViewModel = manageUsersService.GetUser(userId);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("ShowAllUsers");
+            }
+            return View("ManageUser", userViewModel);
         }
         public IActionResult ManageUser(string userId)
         {
@@ -66,7 +81,7 @@ namespace BGFolklore.Web.Areas.Admin.Controllers
 
             return View(userViewModel);
         }
-        private IList<ManageUserViewModel> SortUserViewModel(IList<ManageUserViewModel> allUsersViewModel,string sortBy)
+        private IList<ManageUserViewModel> SortUserViewModel(IList<ManageUserViewModel> allUsersViewModel, string sortBy)
         {
             switch (sortBy)
             {

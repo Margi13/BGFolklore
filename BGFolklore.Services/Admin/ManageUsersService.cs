@@ -98,14 +98,29 @@ namespace BGFolklore.Services.Admin
 
         private ManageUserViewModel GetUserViewModel(User user)
         {
-            ManageUserViewModel userViewModel;
+            ManageUserViewModel userViewModel = new ManageUserViewModel();
+            userViewModel.ActivePublicEvents = new List<ManageEventViewModel>();
+            userViewModel.ActiveReports = new List<ManageFeedbackViewModel>();
             try
             {
                 AddEventsToUser(user);
                 AddReportsToUser(user);
                 userViewModel = this.Mapper.Map<ManageUserViewModel>(user);
-                userViewModel.ActivePublicEvents = user.PublicEvents.Where(pe => pe.StatusId != (int)StatusName.Deleted).ToList();
-                userViewModel.ActiveReports = user.Reports.Where(e => e.StatusId != (int)StatusName.Deleted).ToList();
+
+                var events = user.PublicEvents.Where(pe => pe.StatusId != (int)StatusName.Deleted).ToList();
+                var reports = user.Reports.Where(e => e.StatusId != (int)StatusName.Deleted).ToList();
+
+                if (events.Count != 0)
+                {
+                    userViewModel.ActivePublicEvents = this.Mapper.Map<IList<ManageEventViewModel>>(events);
+                    AddOwnerName(userViewModel.ActivePublicEvents);
+                }
+                if (reports.Count != 0)
+                {
+                    userViewModel.ActiveReports = this.Mapper.Map<IList<ManageFeedbackViewModel>>(reports);
+                    AddOwnerName(userViewModel.ActiveReports);
+                    AddEventName(userViewModel.ActiveReports);
+                }
 
                 AddRolesToUserViewModel(userViewModel);
             }
@@ -115,6 +130,52 @@ namespace BGFolklore.Services.Admin
             }
 
             return userViewModel;
+        }
+        private void AddEventName(IList<ManageFeedbackViewModel> reportViewModels)
+        {
+            foreach (var viewModel in reportViewModels)
+            {
+                var eventName = this.Context.PublicEvents.Where(e => e.Id.Equals(viewModel.EventId)).Select(e => e.Name).FirstOrDefault();
+                if (eventName != null)
+                {
+                    viewModel.EventName = eventName.ToString();
+                }
+                else
+                {
+                    viewModel.EventName = "Не е намеренo!";
+                }
+            }
+        }
+
+        private void AddOwnerName(IList<ManageFeedbackViewModel> reportViewModels)
+        {
+            foreach (var viewModel in reportViewModels)
+            {
+                var user = GetUserById(viewModel.OwnerId);
+                if (user != null)
+                {
+                    viewModel.OwnerUserName = user.UserName;
+                }
+                else
+                {
+                    viewModel.OwnerUserName = "Не е намерен!";
+                }
+            }
+        }
+        private void AddOwnerName(IList<ManageEventViewModel> eventViewModels)
+        {
+            foreach (var viewModel in eventViewModels)
+            {
+                var user = GetUserById(viewModel.OwnerId);
+                if (user != null)
+                {
+                    viewModel.OwnerUserName = user.UserName;
+                }
+                else
+                {
+                    viewModel.OwnerUserName = "Не е намерен!";
+                }
+            }
         }
         private string GetRoleId(string roleName)
         {

@@ -1,7 +1,7 @@
 ﻿@model ManageUserViewModel
 @{
-    var activeEvents = Model.ActivePublicEvents.Count();
-    var activeReports = Model.ActiveReports.Count();
+    var activeEvents = Model.ActivePublicEvents == null ? 0 : Model.ActivePublicEvents.Count();
+    var activeReports = Model.ActiveReports == null ? 0 : Model.ActiveReports.Count();
     var roles = "";
     foreach (var role in Model.Roles)
     {
@@ -11,7 +11,7 @@
 <tr class="info-row @roles">
     <td title="@Model.Email">@Model.UserName</td>
     <td title="Активни: @activeEvents">@Model.AllEventsCount</td>
-    <td title="Активни: @activeEvents">@Model.AllReportsCount</td>
+    <td title="Активни: @activeReports">@Model.AllReportsCount</td>
     <td class="text-center m-auto">
         @foreach (var roleName in Model.Roles)
         {

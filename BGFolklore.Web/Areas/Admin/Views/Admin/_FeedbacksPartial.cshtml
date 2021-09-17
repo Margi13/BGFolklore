@@ -1,0 +1,19 @@
+﻿@model IList<ManageFeedbackViewModel>
+@{
+}
+<table class="calendar-table">
+    <thead>
+        <tr class="text-center">
+            <th>Подател</th>
+            <th>Дата на подаване</th>
+            <th>Име на събитието</th>
+            <th>Сигнал</th>
+            <th>Статус на сигнала</th>
+            <th><a>Събитие</a></th>
+            <th><a>Изтриване на сигнал</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        @Html.DisplayForModel()
+    </tbody>
+</table>

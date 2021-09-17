@@ -1,7 +1,77 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IList<ManageUserViewModel>
 @{
     ViewData["Title"] = "Управление на събитията";
 }
-<div>All events</div>
+
+<header class="page-header admin-header m-0">
+    <div class="rt-container op-80 bg-brown">
+        <h2>@ViewData["Title"]</h2>
+        <p>@*Там, където музиката се включва, а заобикалящият ни свят се изключва!*@</p>
+    </div>
+    <div class="nav-container horizontal-top">
+        <div class="page-navbar horizontal-navbar">
+            <ul>
+                <li class="w-auto">
+                    <a class="area-link op-80 bg-brown" href="#" id="allEvents">Всички</a>
+                </li>
+                <li class="w-auto">
+                    <a class="area-link op-80 bg-brown" href="#" id="withFeeds">С активни сигнали</a>
+                </li>
+                <li class="w-auto">
+                    <a class="area-link op-80 bg-brown" href="#" id="withoutFeeds">Без сигнали</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<section class="p-0" id="table-container">
+    <table class="calendar-table">
+        <thead>
+            <tr class="text-center">
+                <th class="table-header" title="Подреди по потребителско име">
+                    <a asp-action="ShowAllUsers"
+                       asp-route-sortBy="@ViewData["UserName"]">
+                        Потребителско име
+                    </a>
+                </th>
+                <th class="table-header number-cell" title="Подреди по брой събития">
+                    <a asp-action="ShowAllUsers"
+                       asp-route-sortBy="@ViewData["CountEvents"]">
+                        Събития
+                    </a>
+                </th>
+                <th class="table-header number-cell" title="Подреди по брой сигнали">
+                    <a asp-action="ShowAllUsers"
+                       asp-route-sortBy="@ViewData["CountReports"]">
+                        Сигнали
+                    </a>
+                </th>
+                <th>Какви роли има?</th>
+                <th>Управление</th>
+            </tr>
+        </thead>
+        <tbody>
+            @Html.DisplayForModel();
+        </tbody>
+    </table>
+</section>
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/admin-page.css" />
+    <link rel="stylesheet" href="~/css/calendar.css" />
+}
+@section Scripts {
+    <script type="text/javascript">
+        $(".area-link").click(function () {
+            let rows = document.getElementsByClassName('info-row');
+            for (let r of rows) {
+                if (this.id.includes("allRoles") || r.classList.contains(this.id)) {
+                    r.classList.remove("hidden");
+                } else {
+                    r.classList.add("hidden");
+                }
+            }
+        });
+    </script>
+} events</div>

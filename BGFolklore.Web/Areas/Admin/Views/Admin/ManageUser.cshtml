@@ -1,0 +1,103 @@
+﻿@model ManageUserViewModel
+@{
+    var activeEvents = Model.ActivePublicEvents == null ? 0 : Model.ActivePublicEvents.Count();
+    var activeReports = Model.ActiveReports == null ? 0 : Model.ActiveReports.Count();
+    var roles = new string[] { Constants.UserRoleName, Constants.OrgRoleName, Constants.ModeratorRoleName, Constants.AdminRoleName };
+}
+<section id="table-container" class="w-75">
+    <table class="w-50">
+        <tr>
+            <th>Потребителско име</th>
+            <td>@Model.UserName</td>
+        </tr>
+        <tr>
+            <th>Имейл</th>
+            <td> @Model.Email</td>
+        </tr>
+        <tr>
+            <th>Създадени събития</th>
+            <td> @Model.AllEventsCount</td>
+        </tr>
+        <tr>
+            <th>От които активни</th>
+            <td>
+                <div class="d-flex justify-content-between">
+                    @activeEvents
+                    <a id="showEvents" href="#events-table"
+                       class="btn btn-danger op-80 bg-brown ml-4 @(activeEvents == 0 ? "disabled" : "")">
+                        Покажи
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>Подадени сигнали</th>
+            <td> @Model.AllReportsCount</td>
+        </tr>
+        <tr>
+            <th>От които активни</th>
+            <td>
+                <div class="d-flex justify-content-between">
+                    @activeReports
+                    <a id="showFeeds" href="#feedbacks-table"
+                       class="btn btn-danger op-80 bg-brown ml-4 @(activeReports == 0 ? "disabled" : "")">
+                        Покажи
+                    </a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>Управление на ролите</th>
+            <td class="text-center m-auto">
+                @foreach (var roleName in roles)
+                {
+                    if (Model.Roles.Contains(roleName))
+                    {
+                        <div class="role-name bg-gray rounded-pill d-flex justify-content-between align-items-center mb-1 pr-0">
+                            @roleName
+                            <a class="btn btn-danger rounded-circle" title="Махни роля" asp-action="RemoveFromRole" asp-route-userId="@Model.Id" asp-route-roleName="@roleName">-</a>
+                        </div>
+                    }
+                }
+                <hr/>
+                @foreach (var roleName in roles)
+                {
+                    if (!Model.Roles.Contains(roleName))
+                    {
+                        <div class="role-name bg-gray rounded-pill d-flex justify-content-between align-items-center mb-1 pr-0">
+                            @roleName
+                            <a class="btn btn-info rounded-circle" title="Добави роля" asp-action="AddToRole" asp-route-userId="@Model.Id" asp-route-roleName="@roleName">+</a>
+                        </div>
+                    }
+                }
+            </td>
+        </tr>
+    </table>
+    <div id="events-table" class="hidden mt-3">
+        <partial name="_EventsPartial" model="@Model.ActivePublicEvents" />
+    </div>
+    <div id="feedbacks-table" class="hidden mt-3">
+        <partial name="_FeedbacksPartial" model="@Model.ActiveReports" />
+    </div>
+</section>
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/admin-page.css" />
+    <link rel="stylesheet" href="~/css/calendar.css" />
+}
+@section Scripts {
+    <script type="text/javascript">
+        $("#showEvents").click(function () {
+            let eventsTable = $("#events-table");
+            eventsTable.removeClass("hidden");
+            let feedsTable = $("#feedbacks-table");
+            feedsTable.addClass("hidden");
+        });
+        $("#showFeeds").click(function () {
+            let eventsTable = $("#events-table");
+            eventsTable.addClass("hidden");
+            let feedsTable = $("#feedbacks-table");
+            feedsTable.removeClass("hidden");
+        });
+    </script>
+}

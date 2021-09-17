@@ -74,9 +74,12 @@ namespace BGFolklore.Web.Mapping
                 .ForMember(dest => dest.AllEventsCount, opt => opt.MapFrom(s => s.PublicEvents.Count()))
                 .ForMember(dest => dest.AllReportsCount, opt => opt.MapFrom(s => s.Reports.Count()));
 
-            this.CreateMap<PublicEvent, ManageEventViewModel>();
+            this.CreateMap<PublicEvent, ManageEventViewModel>()
+                .ForMember(dest => dest.OwnerUserName, opt => opt.Ignore());
 
-            this.CreateMap<Feedback, ManageFeedbackViewModel>();
+            this.CreateMap<Feedback, ManageFeedbackViewModel>()
+                .ForMember(dest => dest.EventName, opt => opt.Ignore())
+                .ForMember(dest => dest.OwnerUserName, opt => opt.Ignore());
         }
     }
 }
