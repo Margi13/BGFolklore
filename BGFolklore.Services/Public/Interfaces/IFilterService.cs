@@ -14,6 +14,6 @@ namespace BGFolklore.Services.Public.Interfaces
     {
         IList<UpcomingEventViewModel> GetFilteredUpcomingEvents(FilterBindingModel filterBindingModel, IEnumerable<PublicEvent> upcomingEvents);
         IList<RecurringEventViewModel> GetFilteredRecurringEvents(FilterBindingModel filterBindingModel, IEnumerable<PublicEvent> recuringEvents);
-        IEnumerable<PublicEvent> OrderFilteredData(Guid? ownerId, bool isRecurring, IEnumerable<PublicEvent> listToOrder);
+        IEnumerable<PublicEvent> OrderFilteredData(string ownerId, bool isRecurring, IEnumerable<PublicEvent> listToOrder);
     }
 }

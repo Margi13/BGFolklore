@@ -11,7 +11,7 @@ namespace BGFolklore.Models.Calendar.ViewModels
 {
     public class FilterViewModel
     {
-        public Guid? OwnerId { get; set; }
+        public string OwnerId { get; set; }
         [Required]
         public bool IsRecurring { get; set; }
 

@@ -9,6 +9,9 @@ namespace BGFolklore.Services.Admin.Interfaces
 {
     public interface IManageUsersService
     {
-        IList<UserViewModel> GetAllUsers();
+        IList<ManageUserViewModel> GetAllUsers();
+        ManageUserViewModel GetUser(string userId);
+        void AddUserRole(string userId, string roleName);
+        void RemoveUserRole(string userId, string roleName);
     }
 }

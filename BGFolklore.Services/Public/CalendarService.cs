@@ -40,7 +40,7 @@ namespace BGFolklore.Services.Public
             this.userManager = userManager;
         }
 
-        public OwnerEventsViewModel GetAllEventsForUser(Guid userId)
+        public OwnerEventsViewModel GetAllEventsForUser(string userId)
         {
             FilterBindingModel filterForOwner = new FilterBindingModel();
             filterForOwner.OwnerId = userId;

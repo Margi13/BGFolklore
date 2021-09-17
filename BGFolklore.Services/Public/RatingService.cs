@@ -36,7 +36,10 @@ namespace BGFolklore.Services.Public
                     averageRating += rating.Rate;
                     count++;
                 }
-                averageRating = averageRating / (float)count;
+                if (count > 0)
+                {
+                    averageRating = averageRating / (float)count;
+                }
             }
             catch (Exception)
             {

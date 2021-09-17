@@ -1,0 +1,27 @@
+﻿@model ManageUserViewModel
+@{
+    var activeEvents = Model.ActivePublicEvents.Count();
+    var activeReports = Model.ActiveReports.Count();
+    var roles = "";
+    foreach (var role in Model.Roles)
+    {
+        roles += " " + role.ToLower();
+    }
+}
+<tr class="info-row @roles">
+    <td title="@Model.Email">@Model.UserName</td>
+    <td title="Активни: @activeEvents">@Model.AllEventsCount</td>
+    <td title="Активни: @activeEvents">@Model.AllReportsCount</td>
+    <td class="text-center m-auto">
+        @foreach (var roleName in Model.Roles)
+        {
+            <div class="role-name bg-gray rounded-pill mb-1">@roleName</div>
+        }
+        <br />
+        <a class="btn btn-danger bg-brown op-80" asp-action="AddToRole" asp-route-userId="@Model.Id" asp-route-roleName="@Constants.ModeratorRoleName">+</a>
+        <a class="btn btn-danger bg-brown op-80" asp-action="RemoveFromRole" asp-route-userId="@Model.Id" asp-route-roleName="@Constants.ModeratorRoleName">-</a>
+    </td>
+    <td>
+        <a class="btn btn-danger bg-brown op-80 m-1" asp-action="ManageUser" asp-route-userId="@Model.Id">Виж повече</a>
+    </td>
+</tr>

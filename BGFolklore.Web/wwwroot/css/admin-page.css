@@ -1,0 +1,29 @@
+﻿
+.table-header > a,
+.table-header > a:visited {
+    color: white;
+    background-color: transparent;
+}
+
+.table-header:hover {
+    color: white;
+    background-color: brown !important;
+    opacity: 100% !important;
+    font-size: unset;
+}
+
+.number-cell {
+    max-width: 100px;
+}
+
+.role-name {
+    padding: 3px 20px;
+    margin: auto;
+}
+
+.area-link:hover {
+    background-color: #c14545 !important;
+}
+.info-row:hover {
+    background: rgb(250 235 215);
+}

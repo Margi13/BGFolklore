@@ -329,11 +329,10 @@ namespace BGFolklore.Web.Controllers
 
         public IActionResult OwnEvents()
         {
-            Guid userId;
             OwnerEventsViewModel ownEventsViewModel;
             try
             {
-                userId = this.mapper.Map<Guid>(userManager.GetUserId(User));
+                string userId = userManager.GetUserId(User);
                 ownEventsViewModel = calendarService.GetAllEventsForUser(userId);
             }
             catch (Exception)

@@ -1,26 +1,80 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IList<ManageUserViewModel>
 @{
     ViewData["Title"] = "Управление на потребителите";
 }
 
-<header class="page-header admin-header">
+<header class="page-header admin-header m-0">
     <div class="rt-container op-80 bg-brown">
-        <h1>@ViewData["Title"]</h1>
-        @*<p>Там, където музиката се включва, а заобикалящият ни свят се изключва!</p>*@
+        <h2>@ViewData["Title"]</h2>
+        <p>@*Там, където музиката се включва, а заобикалящият ни свят се изключва!*@</p>
     </div>
     <div class="nav-container horizontal-top">
         <div class="page-navbar horizontal-navbar">
-            <ul class="my-4">
-                <li><a class="nav-link op-80 bg-brown" href="#">Всички потребители</a></li>
-                <li><a class="nav-link op-80 bg-brown" href="#">Модератори</a></li>
-                <li><a class="nav-link op-80 bg-brown" href="#">Организации</a></li>
-                <li><a class="nav-link op-80 bg-brown" href="#">Обикновени потребители</a></li>
+            <ul>
+                <li class="w-auto">
+                    <a class="area-link op-80 bg-brown" href="#" id="allRoles">Всички</a>
+                </li>
+                <li class="w-auto">
+                    <a class="area-link op-80 bg-brown" href="#" id="@Constants.ModeratorRoleName.ToLower()">Модератори</a>
+                </li>
+                <li class="w-auto">
+                    <a class="area-link op-80 bg-brown" href="#" id="@Constants.OrgRoleName.ToLower()">Организации</a>
+                </li>
+                <li class="w-auto">
+                    <a class="area-link op-80 bg-brown" href="#" id="@Constants.UserRoleName.ToLower()">Обикновени потребители</a>
+                </li>
             </ul>
         </div>
     </div>
 </header>
-<section class="home-section">
 
+<section id="table-container">
+    <table class="calendar-table">
+        <thead>
+            <tr class="text-center">
+                <th class="table-header" title="Подреди по потребителско име">
+                    <a asp-action="ShowAllUsers"
+                       asp-route-sortBy="@ViewData["UserName"]">
+                        Потребителско име
+                    </a>
+                </th>
+                <th class="table-header number-cell" title="Подреди по брой събития">
+                    <a asp-action="ShowAllUsers"
+                       asp-route-sortBy="@ViewData["CountEvents"]">
+                        Събития
+                    </a>
+                </th>
+                <th class="table-header number-cell" title="Подреди по брой сигнали">
+                    <a asp-action="ShowAllUsers"
+                       asp-route-sortBy="@ViewData["CountReports"]">
+                        Сигнали
+                    </a>
+                </th>
+                <th>Какви роли има?</th>
+                <th>Управление</th>
+            </tr>
+        </thead>
+        <tbody>
+            @Html.DisplayForModel();
+        </tbody>
+    </table>
 </section>
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/admin-page.css" />
+    <link rel="stylesheet" href="~/css/calendar.css" />
+}
+@section Scripts {
+    <script type="text/javascript">
+        $(".area-link").click(function () {
+            let rows = document.getElementsByClassName('info-row');
+            for (let r of rows) {
+                if (this.id.includes("allRoles") || r.classList.contains(this.id)) {
+                    r.classList.remove("hidden");
+                } else {
+                    r.classList.add("hidden");
+                }
+            }
+        });
+    </script>
+}

@@ -66,7 +66,7 @@ namespace BGFolklore.Services.Public
             return resultRecurringEvents;
         }
 
-        public IEnumerable<PublicEvent> OrderFilteredData(Guid? ownerId, bool isRecurring, IEnumerable<PublicEvent> listToOrder)
+        public IEnumerable<PublicEvent> OrderFilteredData(string ownerId, bool isRecurring, IEnumerable<PublicEvent> listToOrder)
         {
             if (listToOrder == null)
             {
@@ -218,7 +218,7 @@ namespace BGFolklore.Services.Public
             return events;
         }
 
-        private IEnumerable<PublicEvent> GetOwnersEvents(Guid? ownerId, IEnumerable<PublicEvent> listToFilter)
+        private IEnumerable<PublicEvent> GetOwnersEvents(string ownerId, IEnumerable<PublicEvent> listToFilter)
         {
             IEnumerable<PublicEvent> filtered = new List<PublicEvent>();
             if (ownerId != null)

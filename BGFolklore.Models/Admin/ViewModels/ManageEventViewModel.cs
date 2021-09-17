@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BGFolklore.Models.Admin.ViewModels
 {
-    public class EventViewModel
+    public class ManageEventViewModel
     {
         public Guid Id { get; set; }
 
@@ -16,31 +16,13 @@ namespace BGFolklore.Models.Admin.ViewModels
 
         public string Name { get; set; }
 
-        public DateTime InsertDateTime { get; set; }
-
         public DateTime? UpdateDateTime { get; set; }
-
-        public DateTime EventDateTime { get; set; }
-
-        public int DurationInDays { get; set; }
-
-        public int OccuringDays { get; set; }
-
-        public PlaceType PlaceType { get; set; }
-
-        public int IntendedFor { get; set; }
-
-        public int TownId { get; set; }
 
         public string Address { get; set; }
 
         public string Phone { get; set; }
 
         public string Description { get; set; }
-
-        public float Rating { get; set; }
-
-        public int StatusId { get; set; }
 
         public IList<Feedback> Feedbacks { get; set; }
     }

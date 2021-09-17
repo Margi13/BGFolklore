@@ -2,6 +2,7 @@
 using BGFolklore.Data.Models;
 using BGFolklore.Data.Models.Calendar;
 using BGFolklore.Data.Models.Gallery;
+using BGFolklore.Models.Admin.ViewModels;
 using BGFolklore.Models.Calendar.BindingModels;
 using BGFolklore.Models.Calendar.ViewModels;
 using BGFolklore.Models.Gallery.ViewModels;
@@ -66,10 +67,16 @@ namespace BGFolklore.Web.Mapping
                 .ForMember(dest => dest.Owner, opt => opt.Ignore());
 
             //Admin managment maps
-            //EventViewModel -> PublicEvent
-            //UserViewModel -> User
-            //FeedbackViewModel -> Feedback
+            this.CreateMap<User, ManageUserViewModel>()
+                .ForMember(dest => dest.Roles, opt => opt.Ignore())
+                .ForMember(dest => dest.ActivePublicEvents, opt => opt.Ignore())
+                .ForMember(dest => dest.ActiveReports, opt => opt.Ignore())
+                .ForMember(dest => dest.AllEventsCount, opt => opt.MapFrom(s => s.PublicEvents.Count()))
+                .ForMember(dest => dest.AllReportsCount, opt => opt.MapFrom(s => s.Reports.Count()));
 
+            this.CreateMap<PublicEvent, ManageEventViewModel>();
+
+            this.CreateMap<Feedback, ManageFeedbackViewModel>();
         }
     }
 }

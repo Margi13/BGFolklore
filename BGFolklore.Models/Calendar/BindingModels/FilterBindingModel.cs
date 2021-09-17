@@ -10,7 +10,7 @@ namespace BGFolklore.Models.Calendar.BindingModels
 {
     public class FilterBindingModel
     {
-        public Guid? OwnerId { get; set; }
+        public string OwnerId { get; set; }
         [Required]
         public bool IsRecurring { get; set; }
 

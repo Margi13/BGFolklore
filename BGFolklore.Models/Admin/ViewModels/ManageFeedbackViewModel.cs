@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BGFolklore.Models.Admin.ViewModels
 {
-    public class FeedbackViewModel
+    public class ManageFeedbackViewModel
     {
         public Guid Id { get; set; }
 
