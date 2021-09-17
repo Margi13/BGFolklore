@@ -1,0 +1,70 @@
+﻿@model ManageEventViewModel
+@{ 
+    ViewData["Title"] = "Събитие";
+}
+@*@{
+        var activeEvents = Model.ActivePublicEvents == null ? 0 : Model.ActivePublicEvents.Count();
+        var activeReports = Model.ActiveReports == null ? 0 : Model.ActiveReports.Count();
+        var roles = new string[] { Constants.AdminRoleName, Constants.ModeratorRoleName, Constants.OrgRoleName, Constants.UserRoleName };
+    }*@
+<section id="table-container" class="w-75">
+    <table class="w-50">
+        <tr>
+            <th></th>
+            <td>@Model.OwnerUserName</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td> @Model.Name</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td> @Model.UpdateDateTime</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>@Model.Phone</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>@Model.Address</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td> @Model.Description</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td id="showFeeds"> @Model.Description</td>
+        </tr>
+        <tr>
+            <th>Управление</th>
+            <td class="text-center m-auto"></td>
+        </tr>
+    </table>
+    @*<div id="events-table" class="hidden mt-3">
+            <partial name="_EventsPartial" model="@Model.ActivePublicEvents" />
+        </div>*@
+    <div id="feedbacks-table" class="hidden mt-3">
+        <partial name="_FeedbacksPartial" model="@Model.Feedbacks" />
+    </div>
+</section>
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/admin-page.css" />
+    <link rel="stylesheet" href="~/css/calendar.css" />
+}
+@section Scripts {
+    <script type="text/javascript">
+        //$("#showEvents").click(function () {
+        //    let eventsTable = $("#events-table");
+        //    eventsTable.removeClass("hidden");
+        //    let feedsTable = $("#feedbacks-table");
+        //    feedsTable.addClass("hidden");
+        //});
+        $("#showFeeds").click(function () {
+            let feedsTable = $("#feedbacks-table");
+            feedsTable.removeClass("hidden");
+        });
+    </script>
+}

@@ -1,4 +1,4 @@
-﻿@model IList<ManageUserViewModel>
+﻿@model IList<ManageEventViewModel>
 @{
     ViewData["Title"] = "Управление на събитията";
 }
@@ -15,7 +15,7 @@
                     <a class="area-link op-80 bg-brown" href="#" id="allEvents">Всички</a>
                 </li>
                 <li class="w-auto">
-                    <a class="area-link op-80 bg-brown" href="#" id="withFeeds">С активни сигнали</a>
+                    <a class="area-link op-80 bg-brown" href="#" id="withFeeds">Със сигнали</a>
                 </li>
                 <li class="w-auto">
                     <a class="area-link op-80 bg-brown" href="#" id="withoutFeeds">Без сигнали</a>
@@ -30,25 +30,27 @@
         <thead>
             <tr class="text-center">
                 <th class="table-header" title="Подреди по потребителско име">
-                    <a asp-action="ShowAllUsers"
+                    <a asp-action="ShowAllEvents"
                        asp-route-sortBy="@ViewData["UserName"]">
-                        Потребителско име
+                        Собственик
                     </a>
                 </th>
                 <th class="table-header number-cell" title="Подреди по брой събития">
-                    <a asp-action="ShowAllUsers"
-                       asp-route-sortBy="@ViewData["CountEvents"]">
-                        Събития
+                    <a asp-action="ShowAllEvents"
+                       asp-route-sortBy="@ViewData["EventName"]">
+                        Име на събитието
                     </a>
                 </th>
-                <th class="table-header number-cell" title="Подреди по брой сигнали">
-                    <a asp-action="ShowAllUsers"
+                <th>Последна промяна</th>
+                <th>Адрес</th>
+                <th>Описание</th>
+                <th class="table-header number-cell" title="Подреди по брой събития">
+                    <a asp-action="ShowAllEvents"
                        asp-route-sortBy="@ViewData["CountReports"]">
                         Сигнали
                     </a>
                 </th>
-                <th>Какви роли има?</th>
-                <th>Управление</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -66,7 +68,7 @@
         $(".area-link").click(function () {
             let rows = document.getElementsByClassName('info-row');
             for (let r of rows) {
-                if (this.id.includes("allRoles") || r.classList.contains(this.id)) {
+                if (this.id.includes("allEvents") || r.classList.contains(this.id)) {
                     r.classList.remove("hidden");
                 } else {
                     r.classList.add("hidden");

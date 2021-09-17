@@ -122,6 +122,7 @@ namespace BGFolklore.Web
             services.AddScoped<IFilterService, FilterService>();
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<IManageUsersService, ManageUsersService>();
+            services.AddScoped<IManageEventsService, ManageEventsService>();
         }
     }
 }

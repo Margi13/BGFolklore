@@ -16,24 +16,27 @@ namespace BGFolklore.Web.Areas.Admin.Controllers
 {
     //[Authorize(Roles = CustomRoleNames.Administrator)]
     [Area("Admin")]
-    [Authorize(Roles = Constants.AdminRoleName)]
+    [Authorize(Roles = Constants.AdminRoleName + "," + Constants.ModeratorRoleName)]
 
     public class AdminController : BaseController
     {
         private readonly IManageUsersService manageUsersService;
+        private readonly IManageEventsService manageEventsService;
 
         public AdminController(ILogger<AdminController> logger,
             IWebHostEnvironment webHostEnvironment,
-            IManageUsersService manageUsersService) : base(logger, webHostEnvironment)
+            IManageUsersService manageUsersService,
+            IManageEventsService manageEventsService) : base(logger, webHostEnvironment)
         {
             this.manageUsersService = manageUsersService;
+            this.manageEventsService = manageEventsService;
         }
         //public IActionResult Index()
         //{
         //    return View();
         //}
 
-        [Authorize(Roles = Constants.AdminRoleName)]
+        //Users
         public IActionResult ShowAllUsers(string sortBy)
         {
             ViewData["UserName"] = sortBy == "UserName" ? "UserName_desc" : "UserName";
@@ -109,5 +112,68 @@ namespace BGFolklore.Web.Areas.Admin.Controllers
             }
             return allUsersViewModel;
         }
+
+        //Events
+        public IActionResult ShowAllEvents(string sortBy)
+        {
+            ViewData["UserName"] = sortBy == "UserName" ? "UserName_desc" : "UserName";
+            ViewData["EventName"] = sortBy == "EventName" ? "EventName_desc" : "EventName";
+            ViewData["CountReports"] = sortBy == "CountReports" ? "CountReports_desc" : "CountReports";
+
+            IList<ManageEventViewModel> allEventsViewModel;
+            try
+            {
+                allEventsViewModel = manageEventsService.GetAllEvents();
+                if (allEventsViewModel != null)
+                {
+                    allEventsViewModel = SortEventViewModel(allEventsViewModel, sortBy);
+                }
+            }
+            catch (Exception)
+            {
+                return Error();
+            }
+
+            return View(allEventsViewModel);
+        }
+        private IList<ManageEventViewModel> SortEventViewModel(IList<ManageEventViewModel> allEventsViewModel, string sortBy)
+        {
+            switch (sortBy)
+            {
+                case "UserName":
+                    allEventsViewModel = allEventsViewModel.OrderBy(e => e.OwnerUserName).ToList();
+                    break;
+                case "UserName_desc":
+                    allEventsViewModel = allEventsViewModel.OrderByDescending(e => e.OwnerUserName).ToList();
+                    break;
+                case "EventName":
+                    allEventsViewModel = allEventsViewModel.OrderBy(e => e.Name).ToList();
+                    break;
+                case "EventName_desc":
+                    allEventsViewModel = allEventsViewModel.OrderByDescending(e => e.Name).ToList();
+                    break;
+                case "CountReports":
+                    allEventsViewModel = allEventsViewModel.OrderBy(e => e.Feedbacks.Count).ToList();
+                    break;
+                case "CountReports_desc":
+                    allEventsViewModel = allEventsViewModel.OrderByDescending(e => e.Feedbacks.Count).ToList();
+                    break;
+                default:
+                    allEventsViewModel = allEventsViewModel.OrderBy(e => e.Name).ToList();
+                    break;
+            }
+            return allEventsViewModel;
+        }
+
+        public IActionResult ManageEvents(string userId)
+        {
+
+            return View();
+        }
+        public IActionResult ManageFeedbacks()
+        {
+            return View();
+        }
+
     }
 }

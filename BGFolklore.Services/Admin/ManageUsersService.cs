@@ -18,12 +18,12 @@ namespace BGFolklore.Services.Admin
 {
     public class ManageUsersService : BaseService, IManageUsersService
     {
-        private readonly ICalendarService calendarService;
+        private readonly IManageEventsService manageEventsService;
         private readonly IFeedbackService feedbackService;
 
-        public ManageUsersService(ApplicationDbContext context, IMapper mapper, ICalendarService calendarService, IFeedbackService feedbackService) : base(context, mapper)
+        public ManageUsersService(ApplicationDbContext context, IMapper mapper, IManageEventsService manageEventsService, IFeedbackService feedbackService) : base(context, mapper)
         {
-            this.calendarService = calendarService;
+            this.manageEventsService = manageEventsService;
             this.feedbackService = feedbackService;
         }
 
@@ -116,7 +116,7 @@ namespace BGFolklore.Services.Admin
                     AddOwnerName(userViewModel.ActivePublicEvents);
                     foreach (var eventViewModel in userViewModel.ActivePublicEvents)
                     {
-                        AddEventFeedbacks(eventViewModel);
+                        manageEventsService.AddEventFeedbacks(eventViewModel);
                     }
                 }
                 if (reports.Count != 0)
@@ -135,18 +135,7 @@ namespace BGFolklore.Services.Admin
 
             return userViewModel;
         }
-        private void AddEventFeedbacks(ManageEventViewModel eventViewModel)
-        {
-            var allEventFeedbacks = this.Context.Feedback.Where(f => f.EventId.Equals(eventViewModel.Id)).ToList();
-            if (allEventFeedbacks != null)
-            {
-                eventViewModel.Feedbacks = this.Mapper.Map<IList<ManageFeedbackViewModel>>(allEventFeedbacks);
-            }
-            else
-            {
-                eventViewModel.Feedbacks = new List<ManageFeedbackViewModel>();
-            }
-        }
+        
         private void AddEventName(IList<ManageFeedbackViewModel> reportViewModels)
         {
             foreach (var viewModel in reportViewModels)
