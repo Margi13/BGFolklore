@@ -8,5 +8,5 @@ Add the following code to the Configure method in your Application's Startup cla
           endpoints.MapControllerRoute(
             name : "areas",
             pattern : "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-          ); 
+          );
         });
