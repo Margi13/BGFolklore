@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGFolklore.Models", "BGFolk
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BGFolklore.Services", "BGFolklore.Services", "{941DD0F7-37A7-4936-8756-B44EB6A2BD74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BGFolklore.Services", "BGFolklore.Services\BGFolklore.Services.csproj", "{6D6830D4-54A3-41ED-80F4-D279791E808D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BGFolklore.Services", "BGFolklore.Services\BGFolklore.Services.csproj", "{6D6830D4-54A3-41ED-80F4-D279791E808D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

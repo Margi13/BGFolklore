@@ -131,7 +131,7 @@
             <div class="form-group row">
                 <label asp-for="EventDateTime" class="col-4 col-form-label"></label>
                 <div class="col-8">
-                    <input asp-for="EventDateTime" class="form-control" id="datetimePicker" value="@Model.EventDateTime" />
+                    <input asp-for="EventDateTime" class="form-control" id="datetimePicker" value="@Model.EventDateTime"/>
                 </div>
                 <span asp-validation-for="EventDateTime" class="col-8 offset-4 text-danger"></span>
             </div>
@@ -163,7 +163,7 @@
                     <button type="submit" class="btn btn-danger bg-brown">
                         @if (ViewData["PageType"].Equals("Create"))
                         {
-                            <diiv>Създай</diiv>
+                            <div>Създай</div>
                         }
                         else if (ViewData["PageType"].Equals("Update"))
                         {

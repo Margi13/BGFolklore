@@ -16,7 +16,7 @@ namespace BGFolklore.Models.Calendar.BindingModels
 
         [Required(ErrorMessage = "Не сте посочили дата/час!")]
         [DataType(DataType.DateTime, ErrorMessage = "Въведете валидни дата и час [dd/mm/yyyy hh:mm]")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "0:dd/mm/yyyy hh:mm")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "0:dd/MM/yyyy hh:mm")]
         public DateTime EventDateTime { get; set; }
 
         [Required(ErrorMessage = "Не сте посочили име!")]

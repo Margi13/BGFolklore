@@ -1,4 +1,5 @@
-﻿using BGFolklore.Data.Models;
+﻿using BGFolklore.Common;
+using BGFolklore.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,10 +14,10 @@ namespace BGFolklore.Web.Common
     {
         private static List<string> roleNames = new List<string>()
         {
-            "Administrator",
-            "Moderator",
-            "Organization",
-            "User"
+            Constants.AdminRoleName,
+            Constants.ModeratorRoleName,
+            Constants.OrgRoleName,
+            Constants.UserRoleName
 
         };
         private static List<string> userNames = new List<string>()
