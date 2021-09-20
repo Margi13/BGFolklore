@@ -1,5 +1,6 @@
 ﻿using BGFolklore.Common.Nomenclatures;
 using BGFolklore.Data.Models.Calendar;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace BGFolklore.Models.Admin.ViewModels
         public string OwnerUserName { get; set; }
 
         public string Name { get; set; }
+
+        public int TownId { get; set; }
 
         public DateTime InsertDateTime { get; set; }
 
