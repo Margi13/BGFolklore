@@ -107,7 +107,7 @@
                 <div class="form-group row">
                     <label asp-for="DurationInDays" class="col-4 col-form-label"></label>
                     <div class="col-8">
-                        <input asp-for="DurationInDays" class="form-control" />
+                        <input asp-for="DurationInDays" class="form-control" min="0"/>
                     </div>
                     <span asp-validation-for="DurationInDays" class="col-8 offset-4 text-danger"></span>
                 </div>
