@@ -1,7 +1,10 @@
 ﻿@using BGFolklore.Common.Nomenclatures
 @model ManageFeedbackViewModel
 
-<tr class="info-row">
+@{
+    bool isNew = Model.StatusId == (int)StatusName.New;
+}
+<tr class="info-row @(isNew ? "newFeeds" : "oldFeeds")">
     <td>@Model.OwnerUserName</td>
     <td>@Model.CreateDateTime</td>
     <td class="text-break min-w-90">
@@ -27,7 +30,7 @@
         }
     </td>
     <td>
-        <div>@(Model.StatusId==(int)StatusName.New ? "Нов" : "Прочетен") </div>
+        <div>@(isNew ? "Нов" : "Прочетен") </div>
     </td>
     <td>
         <div class="d-flex justify-content-start">

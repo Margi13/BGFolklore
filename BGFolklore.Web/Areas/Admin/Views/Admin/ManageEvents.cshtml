@@ -5,17 +5,13 @@
     ViewData["Title"] = "Събитие";
 }
 
-<section id="table-container" class="w-75">
+<section id="table-container" class="w-75 pt-1">
     <h2 class="text-center">@Model.Name</h2>
     <h4 class="text-center mb-5">Град @Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</h4>
     <table class="w-50 calendar-table">
         <tr>
             <th class="vertical-heading">Собственик</th>
             <td>@Model.OwnerUserName</td>
-        </tr>
-        <tr>
-            <th class="vertical-heading">Име на събитието</th>
-            <td>@Model.Name</td>
         </tr>
         <tr>
             <th class="vertical-heading">Последна промяна</th>
