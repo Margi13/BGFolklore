@@ -1,4 +1,4 @@
-using BGFolklore.Data;
+ï»¿using BGFolklore.Data;
 using BGFolklore.Data.Models;
 using BGFolklore.Services.Admin;
 using BGFolklore.Services.Admin.Interfaces;
@@ -60,7 +60,7 @@ namespace BGFolklore.Web
                 .AddMvcOptions(options =>
                 {
                     options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
-                        _ => "Ïîëåòî å çàäúëæèòåëíî.");
+                        _ => "ÐŸÐ¾Ð»ÐµÑ‚Ð¾ Ðµ Ð·Ð°Ð´ÑŠÐ»Ð¶Ð¸Ñ‚ÐµÐ»Ð½Ð¾!");
                 });
 
             RegisterServiceLayer(services);
@@ -109,7 +109,7 @@ namespace BGFolklore.Web
 
                 endpoints.MapRazorPages();
             });
-            app.SeedDatabaseAsync();
+            app.SeedDatabaseAsync().GetAwaiter();
         }
         private void RegisterServiceLayer(IServiceCollection services)
         {
@@ -123,6 +123,7 @@ namespace BGFolklore.Web
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<IManageUsersService, ManageUsersService>();
             services.AddScoped<IManageEventsService, ManageEventsService>();
+            services.AddScoped<IManageFeedbacksService, ManageFeedbacksService>();
         }
     }
 }
