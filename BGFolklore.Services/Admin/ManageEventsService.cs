@@ -1,66 +1,99 @@
 ﻿using AutoMapper;
 using BGFolklore.Common.Nomenclatures;
 using BGFolklore.Data;
+using BGFolklore.Data.Models;
 using BGFolklore.Data.Models.Calendar;
 using BGFolklore.Models.Admin.ViewModels;
 using BGFolklore.Services.Admin.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BGFolklore.Services.Admin
 {
     public class ManageEventsService : BaseService, IManageEventsService
     {
-        public ManageEventsService(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
+        private readonly IManageFeedbacksService manageFeedsService;
+
+        public ManageEventsService(ApplicationDbContext context, IMapper mapper,
+            IManageFeedbacksService manageFeedsService) : base(context, mapper)
         {
+            this.manageFeedsService = manageFeedsService;
         }
 
         public IList<ManageEventViewModel> GetAllEvents()
         {
             IList<ManageEventViewModel> eventViewModels = new List<ManageEventViewModel>();
-            var eventsFromData = this.Context.PublicEvents.Where(pe=>pe.StatusId != (int)StatusName.Deleted);
-            if (eventsFromData != null)
+            try
             {
-                var publicEvents = this.Mapper.Map<IEnumerable<PublicEvent>>(eventsFromData).ToList();
-                eventViewModels = this.Mapper.Map<IList<ManageEventViewModel>>(publicEvents);
-                foreach (var viewModel in eventViewModels)
+                var eventsFromData = this.Context.PublicEvents.Where(pe => pe.StatusId != (int)StatusName.Deleted);
+                if (eventsFromData != null)
                 {
-                    AddEventFeedbacks(viewModel);
-                    var userName = this.Context.Users.Where(u => u.Id.Equals(viewModel.OwnerId)).Select(u => u.UserName).FirstOrDefault().ToString();
-                    viewModel.OwnerUserName = userName;
+                    var publicEvents = this.Mapper.Map<IEnumerable<PublicEvent>>(eventsFromData).ToList();
+                    eventViewModels = this.Mapper.Map<IList<ManageEventViewModel>>(publicEvents);
+                    foreach (var viewModel in eventViewModels)
+                    {
+                        manageFeedsService.AddEventFeedbacks(viewModel);
+                    }
+                    AddDataToEvent(eventViewModels);
                 }
             }
-            return eventViewModels;
-        }
-        public ManageEventViewModel GetEventById(Guid eventId)
-        {
-            ManageEventViewModel eventViewModels = new ManageEventViewModel();
-            var eventsFromData = this.Context.PublicEvents.Where(pe=>pe.Id.Equals(eventId)).FirstOrDefault();
-            if (eventsFromData != null)
+            catch (Exception)
             {
-                eventViewModels = this.Mapper.Map<ManageEventViewModel>(eventsFromData);
-
-                    AddEventFeedbacks(eventViewModels);
-                    var userName = this.Context.Users.Where(u => u.Id.Equals(eventViewModels.OwnerId)).Select(u => u.UserName).FirstOrDefault().ToString();
-                eventViewModels.OwnerUserName = userName;
-
+                throw;
             }
             return eventViewModels;
         }
-        public void AddEventFeedbacks(ManageEventViewModel eventViewModel)
+        public ManageEventViewModel GetEvent(Guid eventId)
         {
-            var allEventFeedbacks = this.Context.Feedback.Where(f => f.EventId.Equals(eventViewModel.Id)).ToList();
-            if (allEventFeedbacks != null)
+            ManageEventViewModel eventViewModel = new ManageEventViewModel();
+            var eventFromData = this.Context.PublicEvents.Where(pe => pe.Id.Equals(eventId)).FirstOrDefault();
+            if (eventFromData != null)
             {
-                eventViewModel.Feedbacks = this.Mapper.Map<IList<ManageFeedbackViewModel>>(allEventFeedbacks);
+                eventViewModel = this.Mapper.Map<ManageEventViewModel>(eventFromData);
+
+                manageFeedsService.AddEventFeedbacks(eventViewModel);
+                var userName = this.Context.Users.Where(u => u.Id.Equals(eventViewModel.OwnerId)).Select(u => u.UserName).FirstOrDefault().ToString();
+                eventViewModel.OwnerUserName = userName;
+
             }
-            else
+            return eventViewModel;
+        }
+
+        public void AddEventsToUser(User user)
+        {
+            try
             {
-                eventViewModel.Feedbacks = new List<ManageFeedbackViewModel>();
+                var allUserEventsFromData = this.Context.PublicEvents.Where(pe => pe.OwnerId == user.Id).ToList();
+                if (allUserEventsFromData != null)
+                {
+                    user.PublicEvents = this.Mapper.Map<IList<PublicEvent>>(allUserEventsFromData);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
+        public void AddDataToEvent(IList<ManageEventViewModel> eventViewModels)
+        {
+            foreach (var viewModel in eventViewModels)
+            {
+                AddOwnerName(viewModel);
+            }
+        }
+        private void AddOwnerName(ManageEventViewModel viewModel)
+        {
+                var userName = this.Context.Users.Where(e => e.Id.Equals(viewModel.OwnerId)).Select(u => u.UserName).FirstOrDefault();
+                if (userName != null)
+                {
+                    viewModel.OwnerUserName = userName;
+                }
+                else
+                {
+                    viewModel.OwnerUserName = "Не е намерен!";
+                }
+        }
+
     }
 }

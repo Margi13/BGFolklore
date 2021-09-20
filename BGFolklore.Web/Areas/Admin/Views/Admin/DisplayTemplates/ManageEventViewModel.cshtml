@@ -1,5 +1,5 @@
 ﻿@model ManageEventViewModel
-@{ 
+@{
     var hasFeeds = Model.Feedbacks.Count == 0 ? "withoutFeeds" : "withFeeds";
 }
 <tr class="info-row @hasFeeds">
@@ -36,18 +36,15 @@
         }
     </td>
     <td>
-        <div class="d-flex flex-column align-items-center">
+        <div class="d-flex justify-content-between align-items-center">
             @Model.Feedbacks.Count
-            <a asp-action="ManageFeedbacks" asp-route-eventId="@Model.Id"
-               class="btn btn-danger op-80 bg-brown @(Model.Feedbacks.Count == 0 ? "disabled" : "")">
-                Виж
-            </a>
         </div>
     </td>
-    @if (User.IsInRole(Constants.AdminRoleName))
-    {
-        <td>
-            <a class="btn btn-danger bg-brown op-80 m-1" asp-action="DeleteEvent" asp-route-eventId="@Model.Id">И</a>
-        </td>
-    }
+    <td>
+        <a class="btn bg-light rounded-circle" title="Виж повече"
+           asp-action="ManageEvents" asp-route-eventId="@Model.Id">
+            <i class="fas fa-eye"></i>
+        </a>
+    </td>
+
 </tr>

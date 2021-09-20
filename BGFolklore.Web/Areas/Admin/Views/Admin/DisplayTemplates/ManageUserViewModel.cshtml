@@ -18,7 +18,10 @@
             <div class="role-name bg-gray rounded-pill mb-1">@roleName</div>
         }
     </td>
-    <td>
-        <a class="btn btn-danger bg-brown op-80 m-1" asp-action="ManageUser" asp-route-userId="@Model.Id">Виж повече</a>
+    <td class="text-center">
+        <a class="btn btn-danger bg-brown op-80 m-1" 
+           asp-action="ManageUser" asp-route-userId="@Model.Id">
+            Виж повече
+        </a>
     </td>
 </tr>

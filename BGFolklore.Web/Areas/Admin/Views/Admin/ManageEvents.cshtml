@@ -1,45 +1,73 @@
-﻿@model ManageEventViewModel
-@{ 
+﻿@using BGFolklore.Web.Common;
+
+@model ManageEventViewModel
+@{
     ViewData["Title"] = "Събитие";
 }
-@*@{
-        var activeEvents = Model.ActivePublicEvents == null ? 0 : Model.ActivePublicEvents.Count();
-        var activeReports = Model.ActiveReports == null ? 0 : Model.ActiveReports.Count();
-        var roles = new string[] { Constants.AdminRoleName, Constants.ModeratorRoleName, Constants.OrgRoleName, Constants.UserRoleName };
-    }*@
+
 <section id="table-container" class="w-75">
-    <table class="w-50">
+    <h2 class="text-center">@Model.Name</h2>
+    <h4 class="text-center mb-5">Град @Towns.AllTowns.OrderBy(t => t.Id).ToArray()[Model.TownId - 1].Name</h4>
+    <table class="w-50 calendar-table">
         <tr>
-            <th></th>
+            <th class="vertical-heading">Собственик</th>
             <td>@Model.OwnerUserName</td>
         </tr>
         <tr>
-            <th></th>
-            <td> @Model.Name</td>
+            <th class="vertical-heading">Име на събитието</th>
+            <td>@Model.Name</td>
         </tr>
         <tr>
-            <th></th>
-            <td> @Model.UpdateDateTime</td>
+            <th class="vertical-heading">Последна промяна</th>
+            <td>@(Model.UpdateDateTime == null ? "Няма" : Model.UpdateDateTime)</td>
         </tr>
         <tr>
-            <th></th>
+            <th class="vertical-heading">Телефон за контакти</th>
             <td>@Model.Phone</td>
         </tr>
         <tr>
-            <th></th>
+            <th class="vertical-heading">Адрес</th>
             <td>@Model.Address</td>
         </tr>
         <tr>
-            <th></th>
+            <th class="vertical-heading">Описание на събитието</th>
             <td> @Model.Description</td>
         </tr>
         <tr>
-            <th></th>
-            <td id="showFeeds"> @Model.Description</td>
+            <th class="vertical-heading">Брой активни сигнали</th>
+            <td>
+                <div class="d-flex justify-content-between">
+                    @Model.Feedbacks.Count
+                    <a id="showFeeds" href="#events-table"
+                       class="btn btn-danger op-80 bg-brown ml-4 @(Model.Feedbacks.Count == 0 ? "disabled" : "")">
+                        Покажи
+                    </a>
+                </div>
+            </td>
         </tr>
         <tr>
-            <th>Управление</th>
-            <td class="text-center m-auto"></td>
+            <th class="vertical-heading">Управление</th>
+            <td>
+                <div class="d-flex justify-content-around">
+                    <a asp-action="ReportEvent" asp-route-eventId="@Model.Id"
+                       class="btn bg-light rounded-circle"
+                       title="Редактиране на информацията за събитието.">
+                        Докладвай
+                        <i class="fas fa-bug font"></i>
+                    </a>
+                    @if (User.IsInRole(Constants.AdminRoleName))
+                    {
+                        <a asp-action="DeleteEvent" asp-route-eventId="@Model.Id"
+                           class="btn bg-light rounded-circle"
+                           title="Изтриване на събитието.">
+                            Изтрий
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+
+                    }
+                </div>
+            </td>
+
         </tr>
     </table>
     @*<div id="events-table" class="hidden mt-3">

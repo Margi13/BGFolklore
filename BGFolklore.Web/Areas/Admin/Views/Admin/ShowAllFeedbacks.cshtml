@@ -1,6 +1,6 @@
-﻿@model IList<ManageUserViewModel>
+﻿@model IList<ManageFeedbackViewModel>
 @{
-    ViewData["Title"] = "Управление на потребителите";
+    ViewData["Title"] = "Управление на сигналите";
 }
 
 <header class="page-header admin-header m-0">
@@ -12,16 +12,13 @@
         <div class="page-navbar horizontal-navbar">
             <ul>
                 <li class="w-auto">
-                    <a class="area-link op-80 bg-brown" href="#" id="allRoles">Всички</a>
+                    <a class="area-link op-80 bg-brown" href="#" id="allFeeds">Всички</a>
                 </li>
                 <li class="w-auto">
-                    <a class="area-link op-80 bg-brown" href="#" id="@Constants.ModeratorRoleName.ToLower()">Модератори</a>
+                    <a class="area-link op-80 bg-brown" href="#" id="newFeeds">Нови сигнали</a>
                 </li>
                 <li class="w-auto">
-                    <a class="area-link op-80 bg-brown" href="#" id="@Constants.OrgRoleName.ToLower()">Организации</a>
-                </li>
-                <li class="w-auto">
-                    <a class="area-link op-80 bg-brown" href="#" id="@Constants.UserRoleName.ToLower()">Обикновени потребители</a>
+                    <a class="area-link op-80 bg-brown" href="#" id="oldFeeds">Прочетени сигнали</a>
                 </li>
             </ul>
         </div>
@@ -29,29 +26,30 @@
 </header>
 
 <section class="p-0" id="table-container">
-    <table class="calendar-table w-50">
+    <table class="calendar-table">
         <thead>
             <tr class="text-center">
                 <th class="table-header" title="Подреди по потребителско име">
-                    <a asp-action="ShowAllUsers"
+                    <a asp-action="ShowAllEvents"
                        asp-route-sortBy="@ViewData["UserName"]">
-                        Потребителско име
+                        Подател
                     </a>
                 </th>
+                <th>Дата на подаване</th>
                 <th class="table-header number-cell" title="Подреди по брой събития">
-                    <a asp-action="ShowAllUsers"
-                       asp-route-sortBy="@ViewData["CountEvents"]">
-                        Събития
+                    <a asp-action="ShowAllEvents"
+                       asp-route-sortBy="@ViewData["EventName"]">
+                        Име на събитието
                     </a>
                 </th>
-                <th class="table-header number-cell" title="Подреди по брой сигнали">
-                    <a asp-action="ShowAllUsers"
-                       asp-route-sortBy="@ViewData["CountReports"]">
-                        Сигнали
+                <th>Описание на сигнал</th>
+                <th class="table-header number-cell" title="Подреди по брой събития">
+                    <a asp-action="ShowAllEvents"
+                       asp-route-sortBy="@ViewData["Status"]">
+                        Статус на сигнал
                     </a>
                 </th>
-                <th>Какви роли има?</th>
-                <th>Управление</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -69,7 +67,7 @@
         $(".area-link").click(function () {
             let rows = document.getElementsByClassName('info-row');
             for (let r of rows) {
-                if (this.id.includes("allRoles") || r.classList.contains(this.id)) {
+                if (this.id.includes("allFeeds") || r.classList.contains(this.id)) {
                     r.classList.remove("hidden");
                 } else {
                     r.classList.add("hidden");

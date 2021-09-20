@@ -1,6 +1,74 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model ManageFeedbackViewModel
 @{
     ViewData["Title"] = "Сигнал";
+}
+
+<section id="table-container" class="w-75">
+    <table class="w-50">
+        <tr>
+            <th class="vertical-heading">Подател</th>
+            <td>@Model.OwnerUserName</td>
+        </tr>
+        <tr>
+            <th class="vertical-heading">Дата на подаване</th>
+            <td>@Model.CreateDateTime</td>
+        </tr>
+        <tr>
+            <th class="vertical-heading">Име на събитието</th>
+            <td>@Model.EventName</td>
+        </tr>
+        <tr>
+            <th class="vertical-heading">Сигнал</th>
+            <td>@Model.Description</td>
+        </tr>
+        <tr>
+            <th class="vertical-heading">Статус</th>
+            <td>@(Model.StatusId == 1 ? "Нов" : "Прочетен")</td>
+        </tr>
+        <tr>
+            <th class="vertical-heading">Управление</th>
+            <td>
+                <div class="d-flex justify-content-around">
+                    <a class="btn bg-light rounded-circle" title="Виж събитие"
+                       asp-action="ManageEvents" asp-route-eventId="@Model.EventId">
+                        Виж събитие
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a class="btn bg-light rounded-circle" title="Изтрий сигнал"
+                       asp-action="DeleteFeedback" asp-route-feedId="@Model.Id">
+                        Изтрий сигнал
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </table>
+    @*<div id="events-table" class="hidden mt-3">
+            <partial name="_EventsPartial" model="@Model.ActivePublicEvents" />
+        </div>*@
+    @*<div id="feedbacks-table" class="hidden mt-3">
+            <partial name="_FeedbacksPartial" model="@Model.Feedbacks" />
+        </div>*@
+</section>
+
+@section CSS {
+    <link rel="stylesheet" href="~/css/admin-page.css" />
+    <link rel="stylesheet" href="~/css/calendar.css" />
+}
+@section Scripts {
+    <script type="text/javascript">
+        //$("#showEvents").click(function () {
+        //    let eventsTable = $("#events-table");
+        //    eventsTable.removeClass("hidden");
+        //    let feedsTable = $("#feedbacks-table");
+        //    feedsTable.addClass("hidden");
+        //});
+        $("#showFeeds").click(function () {
+            let feedsTable = $("#feedbacks-table");
+            feedsTable.removeClass("hidden");
+        });
+    </script>
 }

@@ -8,19 +8,19 @@
 <section id="table-container" class="w-75">
     <table class="w-50">
         <tr>
-            <th>Потребителско име</th>
+            <th class="vertical-heading">Потребителско име</th>
             <td>@Model.UserName</td>
         </tr>
         <tr>
-            <th>Имейл</th>
+            <th class="vertical-heading">Имейл</th>
             <td> @Model.Email</td>
         </tr>
         <tr>
-            <th>Създадени събития</th>
+            <th class="vertical-heading">Създадени събития</th>
             <td> @Model.AllEventsCount</td>
         </tr>
         <tr>
-            <th>От които активни</th>
+            <th class="vertical-heading">От които активни</th>
             <td>
                 <div class="d-flex justify-content-between">
                     @activeEvents
@@ -32,11 +32,11 @@
             </td>
         </tr>
         <tr>
-            <th>Подадени сигнали</th>
+            <th class="vertical-heading">Подадени сигнали</th>
             <td> @Model.AllReportsCount</td>
         </tr>
         <tr>
-            <th>От които активни</th>
+            <th class="vertical-heading">От които активни</th>
             <td>
                 <div class="d-flex justify-content-between">
                     @activeReports
@@ -48,7 +48,7 @@
             </td>
         </tr>
         <tr>
-            <th>Управление на ролите</th>
+            <th class="vertical-heading">Управление на ролите</th>
             <td class="text-center m-auto">
                 @foreach (var roleName in roles)
                 {

@@ -19,12 +19,14 @@ namespace BGFolklore.Services.Admin
     public class ManageUsersService : BaseService, IManageUsersService
     {
         private readonly IManageEventsService manageEventsService;
-        private readonly IFeedbackService feedbackService;
+        private readonly IManageFeedbacksService manageFeedsService;
 
-        public ManageUsersService(ApplicationDbContext context, IMapper mapper, IManageEventsService manageEventsService, IFeedbackService feedbackService) : base(context, mapper)
+        public ManageUsersService(ApplicationDbContext context, IMapper mapper, 
+            IManageEventsService manageEventsService, 
+            IManageFeedbacksService manageFeedsService) : base(context, mapper)
         {
             this.manageEventsService = manageEventsService;
-            this.feedbackService = feedbackService;
+            this.manageFeedsService = manageFeedsService;
         }
 
         public IList<ManageUserViewModel> GetAllUsers()
@@ -95,7 +97,7 @@ namespace BGFolklore.Services.Admin
                 }
             }
         }
-
+        
         private ManageUserViewModel GetUserViewModel(User user)
         {
             ManageUserViewModel userViewModel = new ManageUserViewModel();
@@ -103,8 +105,8 @@ namespace BGFolklore.Services.Admin
             userViewModel.ActiveReports = new List<ManageFeedbackViewModel>();
             try
             {
-                AddEventsToUser(user);
-                AddReportsToUser(user);
+                manageEventsService.AddEventsToUser(user);
+                manageFeedsService.AddReportsToUser(user);
                 userViewModel = this.Mapper.Map<ManageUserViewModel>(user);
 
                 var events = user.PublicEvents.Where(pe => pe.StatusId != (int)StatusName.Deleted).ToList();
@@ -113,17 +115,16 @@ namespace BGFolklore.Services.Admin
                 if (events.Count != 0)
                 {
                     userViewModel.ActivePublicEvents = this.Mapper.Map<IList<ManageEventViewModel>>(events);
-                    AddOwnerName(userViewModel.ActivePublicEvents);
+                    manageEventsService.AddDataToEvent(userViewModel.ActivePublicEvents);
                     foreach (var eventViewModel in userViewModel.ActivePublicEvents)
                     {
-                        manageEventsService.AddEventFeedbacks(eventViewModel);
+                        manageFeedsService.AddEventFeedbacks(eventViewModel);
                     }
                 }
                 if (reports.Count != 0)
                 {
                     userViewModel.ActiveReports = this.Mapper.Map<IList<ManageFeedbackViewModel>>(reports);
-                    AddOwnerName(userViewModel.ActiveReports);
-                    AddEventName(userViewModel.ActiveReports);
+                    manageFeedsService.AddDataToFeedbacks(userViewModel.ActiveReports);
                 }
 
                 AddRolesToUserViewModel(userViewModel);
@@ -135,87 +136,19 @@ namespace BGFolklore.Services.Admin
 
             return userViewModel;
         }
-        
-        private void AddEventName(IList<ManageFeedbackViewModel> reportViewModels)
-        {
-            foreach (var viewModel in reportViewModels)
-            {
-                var eventName = this.Context.PublicEvents.Where(e => e.Id.Equals(viewModel.EventId)).Select(e => e.Name).FirstOrDefault();
-                if (eventName != null)
-                {
-                    viewModel.EventName = eventName.ToString();
-                }
-                else
-                {
-                    viewModel.EventName = "Не е намеренo!";
-                }
-            }
-        }
 
-        private void AddOwnerName(IList<ManageFeedbackViewModel> reportViewModels)
-        {
-            foreach (var viewModel in reportViewModels)
-            {
-                var user = GetUserById(viewModel.OwnerId);
-                if (user != null)
-                {
-                    viewModel.OwnerUserName = user.UserName;
-                }
-                else
-                {
-                    viewModel.OwnerUserName = "Не е намерен!";
-                }
-            }
-        }
-        private void AddOwnerName(IList<ManageEventViewModel> eventViewModels)
-        {
-            foreach (var viewModel in eventViewModels)
-            {
-                var user = GetUserById(viewModel.OwnerId);
-                if (user != null)
-                {
-                    viewModel.OwnerUserName = user.UserName;
-                }
-                else
-                {
-                    viewModel.OwnerUserName = "Не е намерен!";
-                }
-            }
-        }
         private string GetRoleId(string roleName)
         {
             var roleId = this.Context.Roles.Where(r => r.Name.Equals(roleName)).Select(r => r.Id).FirstOrDefault();
             return roleId;
         }
-        private void AddEventsToUser(User user)
+        private void AddRolesToUserViewModel(ManageUserViewModel userViewModel)
         {
-            try
+            userViewModel.Roles = new List<string>();
+            var roleNames = GetUserRoles(userViewModel.Id);
+            foreach (var roleName in roleNames)
             {
-                var allUserEventsFromData = this.Context.PublicEvents.Where(pe => pe.OwnerId == user.Id).ToList();
-                if (allUserEventsFromData != null)
-                {
-                    user.PublicEvents = this.Mapper.Map<IList<PublicEvent>>(allUserEventsFromData);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        private void AddReportsToUser(User user)
-        {
-            try
-            {
-                var allUserReportsFromData = this.Context.Feedback.Where(f => f.OwnerId == user.Id).ToList();
-                if (allUserReportsFromData != null)
-                {
-                    user.Reports = this.Mapper.Map<IList<Feedback>>(allUserReportsFromData);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.Message);
+                userViewModel.Roles.Add(roleName);
             }
         }
         private IList<string> GetUserRoles(string userId)
@@ -232,15 +165,6 @@ namespace BGFolklore.Services.Admin
             }
             roles = roles.OrderBy(r => r).ToList();
             return roles;
-        }
-        private void AddRolesToUserViewModel(ManageUserViewModel userViewModel)
-        {
-            userViewModel.Roles = new List<string>();
-            var roleNames = GetUserRoles(userViewModel.Id);
-            foreach (var roleName in roleNames)
-            {
-                userViewModel.Roles.Add(roleName);
-            }
         }
         private User GetUserById(string userId)
         {
