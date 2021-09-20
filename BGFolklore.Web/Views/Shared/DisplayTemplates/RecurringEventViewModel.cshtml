@@ -91,7 +91,7 @@
                 }
                 <i class="far fa-star"></i>
             }
-            @Model.Rating
+            @(Math.Round(Model.Rating, 2))
         </div>
     </td>
     @if (User.Identity.IsAuthenticated)
