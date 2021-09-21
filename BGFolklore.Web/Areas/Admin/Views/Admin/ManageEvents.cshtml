@@ -49,17 +49,24 @@
             <th class="vertical-heading">Управление</th>
             <td>
                 <div class="d-flex justify-content-around">
-                    <a class="btn bg-light rounded-circle" id="showReport" href="#report-form"
-                       title="Редактиране на информацията за събитието.">
-                        Докладвай
-                        <i class="fas fa-bug font"></i>
-                    </a>
-                    <a asp-action="EditEvent" asp-route-eventId="@Model.Id"
-                       class="btn bg-light rounded-circle"
-                       title="Редактиране на информацията за събитието.">
-                        Редактирай
-                        <i class="fas fa-edit font"></i>
-                    </a>
+                    @if (userManager.GetUserId(User).Equals(Model.OwnerId))
+                    {
+                        <a asp-controller="Calendar" asp-action="EditEvent" asp-route-eventId="@Model.Id"
+                           class="btn bg-light rounded-circle"
+                           title="Редактиране на информацията за събитието.">
+                            Редактирай
+                            <i class="fas fa-edit font"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn bg-light rounded-circle" id="showReport" href="#report-form"
+                           title="Редактиране на информацията за събитието.">
+                            Докладвай
+                            <i class="fas fa-bug font"></i>
+                        </a>
+                    }
+
                     @if (User.IsInRole(Constants.AdminRoleName))
                     {
                         <a asp-action="DeleteEvent" asp-route-eventId="@Model.Id"

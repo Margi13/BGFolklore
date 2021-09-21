@@ -5,10 +5,12 @@ using BGFolklore.Services.Admin.Interfaces;
 using BGFolklore.Services.Public.Interfaces;
 using BGFolklore.Web.Common;
 using BGFolklore.Web.Controllers;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,17 +27,23 @@ namespace BGFolklore.Web.Areas.Admin.Controllers
         private readonly IManageUsersService manageUsersService;
         private readonly IManageEventsService manageEventsService;
         private readonly IManageFeedbacksService manageFeedbacksService;
+        private readonly IFeedbackService feedbackService;
+        private readonly ICalendarService calendarService;
 
         public AdminController(ILogger<AdminController> logger,
             IWebHostEnvironment webHostEnvironment,
             ITownsService townsService,
             IManageUsersService manageUsersService,
             IManageEventsService manageEventsService,
-            IManageFeedbacksService manageFeedbacksService) : base(logger, webHostEnvironment)
+            IManageFeedbacksService manageFeedbacksService,
+            IFeedbackService feedbackService,
+            ICalendarService calendarService) : base(logger, webHostEnvironment)
         {
             this.manageUsersService = manageUsersService;
             this.manageEventsService = manageEventsService;
             this.manageFeedbacksService = manageFeedbacksService;
+            this.feedbackService = feedbackService;
+            this.calendarService = calendarService;
             if (Towns.AllTowns is null)
             {
                 Towns.GetTowns(townsService);
@@ -124,6 +132,20 @@ namespace BGFolklore.Web.Areas.Admin.Controllers
             return View(eventViewModel);
         }
 
+        [Authorize(Roles = Constants.AdminRoleName)]
+        public IActionResult DeleteEvent(Guid eventId)
+        {
+            try
+            {
+                calendarService.DeletePublicEvent(eventId);
+            }
+            catch (Exception)
+            {
+                return Redirect(Request.Headers["Referer"].ToString());
+            }
+            return RedirectToAction("ShowAllEvents");
+        }
+
         public IActionResult ShowAllFeedbacks(string sortBy)
         {
             ViewData["UserName"] = sortBy == "UserName" ? "UserName_desc" : "UserName";
@@ -150,6 +172,23 @@ namespace BGFolklore.Web.Areas.Admin.Controllers
         {
             var feedbackViewModel = manageFeedbacksService.GetFeedback(feedId);
             return View(feedbackViewModel);
+        }
+        public IActionResult DeleteFeedback(Guid feedId, Guid eventId)
+        {
+            string path = Request.Headers["Referer"].ToString();
+            try
+            {
+                feedbackService.ChangeFeedbackStatus(feedId, (int)StatusName.Deleted);
+                if (path.Contains("ManageFeedbacks"))
+                {
+                    return RedirectToAction("ManageEvents", eventId);
+                }
+                return Redirect(path);
+            }
+            catch (Exception)
+            {
+                return Redirect(path);
+            }
         }
 
         private IList<ManageUserViewModel> SortViewModel(IList<ManageUserViewModel> allUsersViewModel, string sortBy)

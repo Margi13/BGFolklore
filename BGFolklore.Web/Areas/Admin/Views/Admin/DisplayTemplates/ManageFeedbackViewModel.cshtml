@@ -39,7 +39,7 @@
                 <i class="fas fa-eye"></i>
             </a>
             <a class="btn bg-light rounded-circle" title="Изтрий сигнал"
-               asp-action="DeleteFeedback" asp-route-feedId="@Model.Id">
+               asp-action="DeleteFeedback" asp-route-feedId="@Model.Id" asp-route-eventId="@Model.EventId">
                 <i class="fas fa-trash-alt"></i>
             </a>
         </div>
