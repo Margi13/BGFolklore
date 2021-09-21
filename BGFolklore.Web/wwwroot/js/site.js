@@ -3,7 +3,7 @@
     addInfoToModal(modelData);
 
     displayModal();
-    if (userId == modelData.ownerId) {
+    if (userId === modelData.ownerId) {
         $(".rating-container").hide();
     } else {
         ratingFunctionality();
@@ -25,7 +25,7 @@
         let readerButtons = document.getElementById('readerButtons');
         document.getElementById('reportBtn').onclick = (e) => reportButtonOnClick(e, modelData.id, userId);
 
-        if (userId == modelData.ownerId) {
+        if (userId === modelData.ownerId) {
             readerSpan.style.display = 'none';
             readerButtons.style.display = 'none';
 
@@ -61,7 +61,7 @@ function closeModal() {
     }
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
-        if (event.target == modal) {
+        if (event.target === modal) {
             modal.style.display = 'none';
             document.body.style.overflow = '';
             $('.trans--grow').removeClass('grow');
@@ -84,7 +84,7 @@ function ratingFunctionality() {
         let rateStars = document.getElementsByClassName('rate-star');
         let inputRate = document.getElementById("inputRate");
         if (inputRate.className.includes('rated')) {
-            for (var i = 0; i < rateStars.length; i++) {
+            for (let i = 0; i < rateStars.length; i++) {
                 if (rateStars[i].dataset.value <= inputRate.value) {
                     rateStars[i].classList.add('fas');
                     rateStars[i].classList.remove('far');
@@ -96,7 +96,7 @@ function ratingFunctionality() {
         } else {
             rateStars[0].classList.add('fas');
             rateStars[0].classList.remove('far');
-            for (var i = 1; i < rateStars.length; i++) {
+            for (let i = 1; i < rateStars.length; i++) {
                 rateStars[i].classList.add('far');
                 rateStars[i].classList.remove('fas');
             }
@@ -115,7 +115,7 @@ function ratingFunctionality() {
 function reportButtonOnClick(e, eventId, ownerId) {
     let reportForm = document.getElementById('reportForm');
 
-    if (reportForm.style.display == 'none') {
+    if (reportForm.style.display === 'none') {
         reportForm.style.display = 'flex';
         reportForm.style.flexDirection = "column";
 
