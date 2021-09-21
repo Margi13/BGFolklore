@@ -146,7 +146,7 @@ namespace BGFolklore.Web.Controllers
             }
             return View(viewModel);
         }
-        
+
         [HttpPost]
         [AllowAnonymous]
         public IActionResult RecurringEvents(FilterBindingModel filterBindingModel)
@@ -267,14 +267,8 @@ namespace BGFolklore.Web.Controllers
                 {
                     return Error();
                 }
-                if (addEventBindingModel.IsRecurring)
-                {
-                    return RedirectToAction("RecurringEvents");
-                }
-                else
-                {
-                    return RedirectToAction("UpcomingEvents");
-                }
+
+                return RedirectToAction("OwnEvents");
             }
             else
             {
