@@ -1,4 +1,5 @@
-﻿using BGFolklore.Web.Models;
+﻿using BGFolklore.Services.Public.Interfaces;
+using BGFolklore.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +21,14 @@ namespace BGFolklore.Web.Controllers
     {
 
         private readonly ILogger<HomeController> _logger;
+        private readonly IGalleryService galleryService;
+
         public HomeController(ILogger<HomeController> logger,
-            IWebHostEnvironment webHostEnvironment) :base(logger,webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            IGalleryService galleryService) :base(logger,webHostEnvironment)
         {
             _logger = logger;
+            this.galleryService = galleryService;
         }
 
         public IActionResult Index()
@@ -45,8 +50,9 @@ namespace BGFolklore.Web.Controllers
 
         public IActionResult EthnoAreas()
         {
+            var ethnoAreas = galleryService.GetAllGalleryViewModels();
             //string str = localizer["First"]; // Returns right thing
-            return View();
+            return View(ethnoAreas);
         }
     }
 }

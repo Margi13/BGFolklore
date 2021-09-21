@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization
+@using BGFolklore.Web.Controllers
+
+@inject IStringLocalizer<GalleryController> localizer
+
+@model IViewLocalizer
+@{
+    string areaName = ViewData["AreaName"].ToString();
+}
+<div class="history-body">
+    <div class="intro-container">
+        <hr class="trans--grow hr1">
+        <div class="d-flex align-items-center">
+            <img src="~/images/embroidery/elbetitsa_2.jpg" class="intro-img"/>
+            <h1 class="mb-0 w-75">@localizer[areaName]</h1>
+            <img src="~/images/embroidery/elbetitsa_2.jpg" class="intro-img"/>
+        </div>
+        <hr class="trans--grow hr1">
+    </div>
+
+    <p class="border px-5 py-4 mt-2">@Model[areaName + "_Intro"]</p>
+</div>
+<div class="history-body">
+    <h4 class="text-center">Произход на името</h4>
+    <div class="info-card text-center float-right">
+        <img src="~/images/map/@areaName.ToLower()_oblast.jpg" alt="area map" />
+        <p>Карта на областта</p>
+    </div>
+    <p>@Model[areaName + "_Name"]</p>
+</div>
+<div class="history-body float-xl-none">
+    <h4 class="text-center">Характерни песни</h4>
+    <p>@Model[areaName + "_SongsP1"]</p>
+    <p>@Model[areaName + "_SongsP2"]</p>
+</div>
+<div class="history-body">
+    <h4 class="text-center">Музикални инструменти</h4>
+    <p>@Model[areaName + "_Instruments"]</p>
+</div>
+<div class="history-body">
+    <h4 class="text-center">Народните носии</h4>
+    <div class="info-card text-center float-left">
+        <img src="~/images/gallery/@areaName.ToLower()/2.jpg" alt="area costume" />
+        <p>Характерна носия</p>
+    </div>
+    <p>@Model[areaName + "_CostumesP1"]</p>
+    <p>@Model[areaName + "_CostumesP2"]</p>
+    <div class="info-card text-center float-right">
+        <img src="~/images/gallery/@areaName.ToLower()/3.jpg" alt="area costume" />
+        <p>Характерна носия</p>
+    </div>
+    <p>@Model[areaName + "_CostumesP3"]</p>
+</div>
+<div class="history-body">
+    <h4 class="text-center">Стил, форма и характер на народните танци</h4>
+    <p>@Model[areaName + "_DancesP1"]</p>
+    <p>@Model[areaName + "_DancesP2"]</p>
+    <p>@Model[areaName + "_DancesP3"]</p>
+</div>

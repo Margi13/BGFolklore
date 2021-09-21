@@ -1,27 +1,24 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization;
-@inject IViewLocalizer historyLocalizer
+﻿
+@using BGFolklore.Models.Gallery.ViewModels;
+@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer ethnoAreasLocalizer
+
+@model IList<EthnoAreaViewModel>
 @{
     ViewData["Title"] = "Етнографските области";
+    ViewData["Description"] = "Богата е нашата история и култура. Не забрявайте да си спомняте и обичате фолклора, заради това, което сме!";
 }
 <header class="page-header home-header">
     <div class="rt-container op-80 bg-brown">
-        <h1>История на българските народни танци</h1>
+        <h1>@ViewData["Title"]</h1>
+        <p>@ViewData["Description"]</p>
     </div>
     <div class="nav-container">
         <div class="page-navbar">
-            <ul class="my-4">
-                <li><a class="nav-link op-80 bg-brown" href="#history">Шопска област</a></li>
-                <li><a class="nav-link op-80 bg-brown" href="#writers"></a></li>
-                <li><a class="nav-link op-80 bg-brown" href="#costumes"></a></li>
-                @*<li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="History">История на българските хора</a></li>
-                    <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="Embroidery">Шевицата - символика</a></li>*@
-            </ul>
+            <partial name="_AreasNavBar" model="@Model" />
         </div>
         <div class="page-navbar">
             <ul class="my-4">
-                @*<li><a class="nav-link op-80 bg-brown" href="#history">Шопска област</a></li>
-                    <li><a class="nav-link op-80 bg-brown" href="#writers"></a></li>
-                    <li><a class="nav-link op-80 bg-brown" href="#costumes"></a></li>*@
                 <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="History">История на българските хора</a></li>
                 <li><a class="nav-link op-80 bg-brown" asp-area="" asp-controller="Home" asp-action="Embroidery">Шевицата - символика</a></li>
             </ul>
@@ -30,7 +27,33 @@
     </div>
 </header>
 
-<section>
+<section class="home-section">
+    <section class="area-section history-body pt-0 w-75">
+        <h1 class="mb-0">Фолклорни етнографски области</h1>
+        <hr class="trans--grow hr1"> 
+        <p class="mt-4">
+            България е страна с изключително богат и разнообразен фолклор. Малко други държави могат да се похвалят с толкова интересни и запленяващи народни танци. Нашите български етнографски области са седем – шопска, северняшка, тракийска, пиринска (македонска), добруджанска, странджанска и родопска. Всяка от тях се отличава със свои характерни танцувални движения, стил, обичаи, носии, но резки граници не могат да се поставят, тъй като те взаимно са си оказали влияние.
+        </p>
+        <p>
+            Техните различия са обусловени от историческото минало, географското разположение и поминъка на хората. Ритъмът и динамиката на хората са различни за фолклорните области, но всички танци носят своя собствена красота и очарование. Бързите пленяват с пъргавина и техничност, бавните – със стил и елегантност.
+        </p>
+        <p>
+            Българските народни танци са изключително красиво изкуство. Българите се славят с уменията си като танцьори.
+        </p>
+        <p>
+            България е разделена на седем фолклорни области: северняшка, добруджанска, тракийска, шопска, македонска, родопска и странджанска. Във всяка от тези области танците имат свой собствен характер.
+        </p>
+        <p>
+            Сложността и красотата на българските народни танци се крие в неравноделните тактови размери. Те са характерни за нашия фолклор и не се срещат в западните държави. Като най-известна се откроява ръченицата – танц в размер 7/8, който може да се танцува както самостоятелно, така и по двойки или групово.
+        </p>
+        <p>
+            Българските народни носии и шевици са изтъкани от тайнственост и традиция. Нравите и обичаите на прабългари, славяни и траки са се свързвали и преплитали през вековете, докато накрая са се превърнали в уникални по рода си облекла за различни обреди и празници.
+        </p>
+        <p>
+            Носията е отразявала възрастовото разделение, пол, семейно и социално положение. Тя е била нещо като своеобразна лична карта на своя носител. В миналото по събори и панаири именно по носията се е разпознавало кой откъде е. Хората са започвали да носят пълния комплект народно облекло едва при настъпването на социалната зрялост, т.е. при женитбата. Това значи, че от деня на сватбата младоженките започвали да се и забраждат. Преди да се омъжат момите носели венец – на празник или на хорото. В деня на сватбата обаче идва и първата “заметка” или “превез”.
+        </p>
+
+    </section>
     <span class="rel">
         <span class="sticky">
             <a href="#top">
@@ -38,7 +61,33 @@
             </a>
         </span>
     </span>
+    <div id="gallery">
+
+        @foreach (var area in Model)
+        {
+            <section id="@area.AreaName" class="hidden area-section pt-0 w-75">
+                <partial name="_AreaInfoPartial" model="@ethnoAreasLocalizer" view-data="@(new ViewDataDictionary(ViewData) { { "AreaName", area.AreaName} })" />
+            </section>
+        }
+    </div>
 </section>
 @section CSS {
     <link rel="stylesheet" href="~/css/home.css" />
+}
+@section Scripts{
+    <script type="text/javascript">
+
+        $(".area-link").click(function (e) {
+            $('.trans--grow').removeClass('grow');
+            $(".area-section").hide();
+            $("#" + e.target.id.split('-')[1]).show();
+            setTimeout(function () {
+                $('.trans--grow').addClass('grow');
+            }, 275);
+        });
+        setTimeout(function () {
+            $('.trans--grow').addClass('grow');
+        }, 275);
+
+    </script>
 }
