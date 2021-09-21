@@ -112,7 +112,7 @@ namespace BGFolklore.Web.Controllers
             return EventFeedbacks(eventId);
         }
         [HttpPost]
-        public IActionResult AddFeedback(FeedbackBindingModel feedbackBindingModel)
+        public IActionResult AddFeedback(FeedbackBindingModel feedbackBindingModel, bool fromAdmin = false)
         {
             if (ModelState.IsValid)
             {
@@ -130,6 +130,10 @@ namespace BGFolklore.Web.Controllers
                 {
                     return Error();
                 }
+                if (fromAdmin)
+                {
+                    return Redirect(Request.Headers["Referer"].ToString());
+                }
 
                 if (eventViewModel.IsRecurring)
                 {
@@ -143,9 +147,14 @@ namespace BGFolklore.Web.Controllers
             else
             {
                 var feedbackViewModel = this.mapper.Map<FeedbackViewModel>(feedbackBindingModel);
+
                 //return PartialView("_MoreInfoBoxPartial", feedbackViewModel);
                 var pathParts = Request.Headers["Referer"].ToString().Split("/");
                 string lastAction = pathParts[pathParts.Length - 1].Split("?")[0];
+                if (fromAdmin)
+                {
+                    return Redirect(Request.Headers["Referer"].ToString());
+                }
                 return RedirectToAction(lastAction);
             }
         }

@@ -1,5 +1,9 @@
 ﻿@using BGFolklore.Web.Common;
+@using BGFolklore.Data.Models;
+@using Microsoft.AspNetCore.Identity;
+@using BGFolklore.Models.Calendar.ViewModels
 
+@inject UserManager<User> userManager;
 @model ManageEventViewModel
 @{
     ViewData["Title"] = "Събитие";
@@ -45,11 +49,16 @@
             <th class="vertical-heading">Управление</th>
             <td>
                 <div class="d-flex justify-content-around">
-                    <a asp-action="ReportEvent" asp-route-eventId="@Model.Id"
-                       class="btn bg-light rounded-circle"
+                    <a class="btn bg-light rounded-circle" id="showReport" href="#report-form"
                        title="Редактиране на информацията за събитието.">
                         Докладвай
                         <i class="fas fa-bug font"></i>
+                    </a>
+                    <a asp-action="EditEvent" asp-route-eventId="@Model.Id"
+                       class="btn bg-light rounded-circle"
+                       title="Редактиране на информацията за събитието.">
+                        Редактирай
+                        <i class="fas fa-edit font"></i>
                     </a>
                     @if (User.IsInRole(Constants.AdminRoleName))
                     {
@@ -66,9 +75,9 @@
 
         </tr>
     </table>
-    @*<div id="events-table" class="hidden mt-3">
-            <partial name="_EventsPartial" model="@Model.ActivePublicEvents" />
-        </div>*@
+    <div id="report-form" class="hidden mt-3 w-50 mx-auto">
+        <partial name="_ReportFormPartial" model="@(new FeedbackViewModel() { OwnerId = userManager.GetUserId(User), EventId = Model.Id })" />
+    </div>
     <div id="feedbacks-table" class="hidden mt-3">
         <partial name="_FeedbacksPartial" model="@Model.Feedbacks" />
     </div>
@@ -80,12 +89,10 @@
 }
 @section Scripts {
     <script type="text/javascript">
-        //$("#showEvents").click(function () {
-        //    let eventsTable = $("#events-table");
-        //    eventsTable.removeClass("hidden");
-        //    let feedsTable = $("#feedbacks-table");
-        //    feedsTable.addClass("hidden");
-        //});
+        $("#showReport").click(function () {
+            let reportForm = $("#report-form");
+            reportForm.removeClass("hidden");
+        });
         $("#showFeeds").click(function () {
             let feedsTable = $("#feedbacks-table");
             feedsTable.removeClass("hidden");

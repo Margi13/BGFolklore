@@ -1,0 +1,34 @@
+﻿@using BGFolklore.Models.Calendar.ViewModels
+
+@model FeedbackViewModel
+
+<form method="post" asp-controller="Feedback" asp-action="AddFeedback" asp-route-fromAdmin="@true"
+      class="text-center">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group row hidden">
+        <label asp-for="OwnerId" class="col-form-label"></label>
+        <div>
+            <input asp-for="OwnerId" class="form-control" value="@Model.OwnerId" />
+        </div>
+        <span asp-validation-for="OwnerId" class="text-danger"></span>
+    </div>
+    <div class="form-group row hidden">
+        <label asp-for="EventId" class="col-form-label"></label>
+        <div>
+            <input asp-for="EventId" class="form-control" value="@Model.EventId" />
+        </div>
+        <span asp-validation-for="EventId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="col-form-label"></label>
+        <div>
+            <textarea asp-for="Description" class="form-control"></textarea>
+        </div>
+        <span asp-validation-for="Description" class="text-danger text-center"></span>
+    </div>
+    <div>
+        <div class="m-auto">
+            <button type="submit" class="btn btn-danger bg-brown op-80">Изпрати <i class="fas fa-bug"></i></button>
+        </div>
+    </div>
+</form>
