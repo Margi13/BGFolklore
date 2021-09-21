@@ -431,3 +431,30 @@ input:checked + .slider:before {
     .slider.round:before {
         border-radius: 50%;
     }
+
+
+.trans--grow {
+    -webkit-transition: width 1s ease-out; /* For Safari 3.1 to 6.0 */
+    transition: width 1s ease-out;
+    width: 0%;
+}
+
+.grow {
+    width: 100%;
+}
+
+.hr1 {
+    margin: auto;
+}
+
+.hr2 {
+    margin-right: 0;
+}
+
+hr {
+    margin: 20px 0;
+    padding: 3px 0;
+    border: none;
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(191,0,0,1) 50%, rgba(255,255,255,1) 100%);
+    letter-spacing: 5px;
+}
