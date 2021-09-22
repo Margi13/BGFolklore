@@ -73,7 +73,7 @@ namespace BGFolklore.Services.Public
                 viewModel.VideoViewModels = GetEthnoAreaVideos(ethnoArea.Id);
                 ethnoAreaViewModels.Add(viewModel);
             }
-
+            
             return ethnoAreaViewModels.ToList();
         }
 
@@ -127,7 +127,7 @@ namespace BGFolklore.Services.Public
             }
             return videos;
         }
-        public IList<ImageViewModel> GetEthnoAreaImages(int areaId)
+        private IList<ImageViewModel> GetEthnoAreaImages(int areaId)
         {
             IList<ImageViewModel> images;
             try
@@ -155,7 +155,7 @@ namespace BGFolklore.Services.Public
             return images;
         }
 
-        public IList<VideoViewModel> GetEthnoAreaVideos(int areaId)
+        private IList<VideoViewModel> GetEthnoAreaVideos(int areaId)
         {
             IList<VideoViewModel> videos;
             try
@@ -221,7 +221,8 @@ namespace BGFolklore.Services.Public
                         var resultedVideos = this.Mapper.Map<IList<VideoViewModel>>(findedVideos);
                         foreach (var vid in resultedVideos)
                         {
-
+                            var ethnoArea = GetEthnoAreaById(vid.EthnoAreaId);
+                            vid.AreaName = ethnoArea.AreaName;
                             videos.Add(vid);
                         }
                     }

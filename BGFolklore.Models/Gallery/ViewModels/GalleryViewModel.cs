@@ -9,7 +9,9 @@ namespace BGFolklore.Models.Gallery.ViewModels
 {
     public class GalleryViewModel
     {
-        public GalleryFilterViewModel FilterViewModel { get; set; }
+        [Display(Name = "Търсене на")]
+        public string WordsToSearch { get; set; }
+        public IList<VideoViewModel> AllVideos { get; set; }
         public IList<EthnoAreaViewModel> EthnoAreaViewModels { get; set; }
     }
 }

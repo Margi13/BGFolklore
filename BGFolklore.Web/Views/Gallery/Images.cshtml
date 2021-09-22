@@ -1,4 +1,7 @@
 ﻿@using BGFolklore.Models.Gallery.ViewModels
+@using Microsoft.Extensions.Localization
+@using BGFolklore.Web.Controllers
+@inject IStringLocalizer<GalleryController> localizer
 @model GalleryViewModel
 @{
     ViewData["Title"] = "Български носии";
@@ -11,14 +14,21 @@
     </div>
     <div class="nav-container">
         <partial name="_AreasNavBar" model="@Model.EthnoAreaViewModels" />
-        @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
+    </div>
+</header>
+
+<section class="gallery-section hidden" id="gallery">
+    <div class="text-center">
+        <a class="btn btn-danger bg-brown op-80 text-white" href="#gallery" id="all">Всички</a>
+        <a class="btn btn-danger bg-brown op-80 text-white" href="#gallery" id="female">Женски</a>
+        <a class="btn btn-danger bg-brown op-80 text-white" href="#gallery" id="male">Мъжки</a>
     </div>
 
-</header>
-<section class="gallery-section hidden" id="gallery">
     @foreach (var area in Model.EthnoAreaViewModels)
     {
-        <div class="area-gallery @area.AreaName" id="@area.AreaName"> @Html.DisplayFor(m => area.ImageViewModels)</div>
+        <div class="area-gallery @area.AreaName" id="@area.AreaName">
+            @Html.DisplayFor(m => area.ImageViewModels)
+        </div>
     }
 </section>
 
@@ -33,6 +43,8 @@
     <script type="text/javascript">
         $(".area-link").click(function (e) {
 
+            $(".male").show();
+            $(".female").show();
             $(".area-gallery").hide();
             $(".gallery-section").show();
             $("#" + e.target.id.split('-')[1]).show();
@@ -52,6 +64,18 @@
                     'close'
                 ]
             });
+        });
+        $("#all").click(function (e) {
+            $(".male").show();
+            $(".female").show();
+        });
+        $("#female").click(function (e) {
+            $(".male").hide();
+            $(".female").show();
+        });
+        $("#male").click(function (e) {
+            $(".female").hide();
+            $(".male").show();
         });
     </script>
 }

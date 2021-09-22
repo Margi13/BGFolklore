@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
+using System;
+
 namespace BGFolklore.Web.Controllers
 {
     public class GalleryController : BaseController
@@ -24,41 +26,41 @@ namespace BGFolklore.Web.Controllers
         {
             GalleryViewModel galleryViewModel = new GalleryViewModel();
             galleryViewModel.EthnoAreaViewModels = galleryService.GetAllGalleryViewModels();
-            galleryViewModel.FilterViewModel = new GalleryFilterViewModel();
             return View(galleryViewModel);
         }
         public IActionResult Videos()
         {
             GalleryViewModel galleryViewModel = new GalleryViewModel();
             galleryViewModel.EthnoAreaViewModels = galleryService.GetAllGalleryViewModels();
-            galleryViewModel.FilterViewModel = new GalleryFilterViewModel();
+            galleryViewModel.WordsToSearch = "";
 
             return View(galleryViewModel);
         }
         [HttpPost]
         public IActionResult Videos(GalleryViewModel galleryViewModel)
         {
-            //Трябва да го измисля как ще стане...
-            GalleryFilterViewModel viewModel = new GalleryFilterViewModel();
-            if (ModelState.IsValid)
+            galleryViewModel.EthnoAreaViewModels = galleryService.GetAllGalleryViewModels();
+            if (ModelState.IsValid && galleryViewModel.WordsToSearch != null)
             {
                 try
                 {
-                    var wordsToSearch = galleryViewModel.FilterViewModel.VideoSearch.Split(" ");
+                    var wordsToSearch = galleryViewModel.WordsToSearch.Split(" ");
                     var filteredVideos = galleryService.GetFilteredVideos(wordsToSearch);
                     if (filteredVideos != null)
                     {
+                        galleryViewModel.AllVideos = filteredVideos;
                     }
                 }
-                catch (System.Exception)
+                catch (Exception)
                 {
                     throw;
                 }
-                return View(viewModel);
+                return View(galleryViewModel);
             }
             else
             {
-                return View(viewModel);
+                galleryViewModel.AllVideos = null;
+                return View(galleryViewModel);
             }
 
             //return View(viewModel);

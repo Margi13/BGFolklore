@@ -2,10 +2,11 @@
 @using BGFolklore.Common
 @model ImageViewModel
 
-@*@foreach (var viewModel in Model)*@
-@*{*@
+@{ 
+    string costumeType = (Model.CostumeType == 1 ? "female" : Model.CostumeType==2 ? "male" : "female male");
+}
 
-<div class="image-card">
+<div class="image-card @costumeType">
     <a href="@Model.ImagesPath" data-fancybox="@Model.AreaName" data-caption="@Model.Title">
         <img class="gallery-item" src="@Model.ImagesPath" />
     </a>
@@ -14,7 +15,3 @@
         <p>@Model.Description</p>
     </div>
 </div>
-@*}*@
-
-
-

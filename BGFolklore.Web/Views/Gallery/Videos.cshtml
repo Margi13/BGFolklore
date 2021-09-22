@@ -11,44 +11,50 @@
     </div>
     <div class="nav-container">
         <partial name="_AreasNavBar" model="@Model.EthnoAreaViewModels" />
-        @*<img src="~/images/map/wholemap.gif" class="nav-area-image" />*@
     </div>
 </header>
 
 <div class="m-auto text-center m-3 form-container">
-    <h6 id="filterBtn" class="mb-1">Филтриране</h6>
-    <section class="row hidden form-filter" id="filter">
+    <section class="row form-filter m-auto align-self-end" id="filter">
         <div class="col-10 offset-1">
-            <form method="post" asp-controller="Gallery" asp-action="Videos">
+            <form method="post" asp-controller="Gallery" asp-action="Videos" class="d-flex justify-content-end align-items-center">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
                 <div class="form-group row">
-                    <label asp-for="FilterViewModel.VideoSearch" class="col-4 col-form-label text-left"></label>
-                    <div class="col-8">
-                        <input asp-for="FilterViewModel.VideoSearch" class="form-control" />
+                    <label asp-for="WordsToSearch" class="col-4 col-form-label text-right"></label>
+                    <div class="col-6">
+                        <input asp-for="WordsToSearch" class="form-control" />
                     </div>
-                    <span asp-validation-for="FilterViewModel.VideoSearch" class="col-8 offset-4 text-danger"></span>
+                    <span asp-validation-for="WordsToSearch" class="col-6 offset-4 text-danger"></span>
                 </div>
-                <div class="row">
+                <div class="form-group row">
                     <div class="text-center m-auto">
-                        <button type="submit" class="btn btn-danger bg-brown">Филтрирай</button>
+                        <button type="submit" class="btn btn-danger bg-brown">Търси</button>
                     </div>
+                    <a class="btn btn-danger bg-brown ml-2" asp-action="Videos">Изчисти филтър</a>
                 </div>
             </form>
         </div>
     </section>
 </div>
-
-<section class="gallery-section hidden" id="gallery">
+<section class="gallery-section " id="gallery">
     <div class="videos-container">
         <div id="iframe-container">
-
+            <iframe src="https://www.youtube.com/embed/qM4yVEJsCcQ" allowFullscreen="true" title="YouTube video player" frameBorder="0" width="650" height="500" class="youtube-video" id="frame"
+                    origin="https://localhost:44338/" >
+            </iframe>
         </div>
         <div id="areaContainer">
-            @foreach (var area in Model.EthnoAreaViewModels)
+            @if (Model.AllVideos != null)
             {
-                <div class="area-videos @area.AreaName" id="@area.AreaName">@Html.DisplayFor(m => area.VideoViewModels)</div>
+                <div class="area-videos filtered-videos">@Html.DisplayFor(m => m.AllVideos)</div>
+
+                <div class="filtered-videos more-cards text-center op-80 bg-white py-3">Може да видиш още:</div>
             }
+
+                @foreach (var area in Model.EthnoAreaViewModels)
+                {
+                    <div class="area-videos @area.AreaName" id="@area.AreaName">@Html.DisplayFor(m => area.VideoViewModels)</div>
+                }
         </div>
     </div>
 </section>
@@ -60,26 +66,28 @@
 @section Scripts{
     <script type="text/javascript">
         $('.area-link').click(function (e) {
-
-            let frameContainer = document.getElementById('iframe-container');
-            frameContainer.innerHTML = '';
+            //let frameContainer = document.getElementById('iframe-container');
+            //frameContainer.innerHTML = '';
             $(".area-videos").hide();
             $(".gallery-section").show();
+            $(".filtered-videos").hide();
+            let frame = document.getElementById('frame');
+            frame.src = "https://www.youtube.com/embed/qM4yVEJsCcQ";
             $("#" + e.target.id.split('-')[1]).show();
         });
         $('.card').click(function () {
-            let playerDiv = document.getElementById('iframe-container');
-            playerDiv.innerHTML = '';
-
-            let frame = document.createElement('iframe');
+            //let playerDiv = document.getElementById('iframe-container');
+            //playerDiv.innerHTML = '';
+            //let frame = document.createElement('iframe');
+            let frame = document.getElementById('frame');
             frame.src = "https://www.youtube.com/embed/" + $(this).attr('id') + "?enablejsapi=1&autoplay=1";
-            frame.allowFullscreen = true;
-            frame.title = "YouTube video player";
-            frame.frameBorder = "0";
-            frame.width = "650px";
-            frame.height = "500px";
-            frame.classList.add('youtube-video');
-            playerDiv.appendChild(frame);
+            //frame.allowFullscreen = true;
+            //frame.title = "YouTube video player";
+            //frame.frameBorder = "0";
+            //frame.width = "650px";
+            //frame.height = "500px";
+            //frame.classList.add('youtube-video');
+            //playerDiv.appendChild(frame);
 
             $('.nav-item').onfocus = () => {
                 $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');

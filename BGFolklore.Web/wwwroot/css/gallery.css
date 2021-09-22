@@ -58,7 +58,7 @@ img.gallery-item {
     margin-left: 20px;
 }
 
-.card {
+.card, .more-cards {
     border: 10px solid;
     border-image: url("../images/borders/shevitsa.png") 22 round;
 }
