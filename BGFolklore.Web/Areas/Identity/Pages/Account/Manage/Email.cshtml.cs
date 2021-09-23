@@ -97,10 +97,10 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
             if (Input.NewEmail != email)
             {
                 var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateChangeEmailTokenAsync(user, Input.NewEmail);
+                var code = await _userManager.GenerateChangeEmailTokenAsync(user, email);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-                //var encryptedNewEmail = EncryptDecrypt.Encryption();
+                var encryptedNewEmail = EncryptDecrypt.Encryption(Input.NewEmail);
 
                 var callbackUrl = Url.Page(
                     "/Account/ConfirmEmailChange",
@@ -112,7 +112,13 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
                     "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = "Confirmation link to change email sent. It's confirmed automaticali.";
+                var code2 = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var result = await _userManager.ConfirmEmailAsync(user, code2);
+                if (result.Succeeded)
+                {
+                    var resultSet = await _userManager.SetEmailAsync(user, encryptedNewEmail);
+                }
                 return RedirectToPage();
             }
 

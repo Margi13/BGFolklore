@@ -8,7 +8,7 @@ namespace BGFolklore.Common.Common
 {
     public class EncryptDecrypt
     {
-        static char[] Symbols = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' ', '!', '\"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~' };
+        static char[] Symbols = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' ', '!', '\"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~' };
         static readonly char[,] Matrix = NTable("bgfolklore");
         private static char[,] NTable(string key)
         {
@@ -20,7 +20,7 @@ namespace BGFolklore.Common.Common
                 {
                     if (matrix[i, j - 1] == 'z')
                     {
-                        matrix[i, j] = '@';
+                        matrix[i, j] = 'A';
                     }
                     else if (matrix[i, j - 1] == 'Z')
                     {
@@ -57,7 +57,7 @@ namespace BGFolklore.Common.Common
 
         public static string Encryption(string wordToEncrypt)
         {
-            if(wordToEncrypt == null)
+            if (wordToEncrypt == null)
             {
                 return null;
             }
@@ -66,10 +66,18 @@ namespace BGFolklore.Common.Common
             {
                 for (int j = 0; j < Symbols.Length; j++)
                 {
-                    if (wordToEncrypt[i] == Symbols[j])
+                    if (wordToEncrypt[i] == '@')
                     {
-                        result += Matrix[i % 5, j];
+                        result += '@';
                         break;
+                    }
+                    else
+                    {
+                        if (wordToEncrypt[i] == Symbols[j])
+                        {
+                            result += Matrix[i % 5, j];
+                            break;
+                        }
                     }
                 }
             }
@@ -86,10 +94,18 @@ namespace BGFolklore.Common.Common
             {
                 for (int j = 0; j < Symbols.Length; j++)
                 {
-                    if (wordToDecrypt[i] == Matrix[i % 5, j])
+                    if (wordToDecrypt[i] == '@')
                     {
-                        result += Symbols[j];
+                        result += '@';
                         break;
+                    }
+                    else
+                    {
+                        if (wordToDecrypt[i] == Matrix[i % 5, j])
+                        {
+                            result += Symbols[j];
+                            break;
+                        }
                     }
                 }
             }
