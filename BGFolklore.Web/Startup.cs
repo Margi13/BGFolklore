@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,8 +53,10 @@ namespace BGFolklore.Web
 
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-            services.AddMvc()
-                .AddViewLocalization();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            }).AddViewLocalization();
 
             //Makes custom default error message, when value is null. It's used when default value is empty string.
             services.AddRazorPages()
@@ -91,6 +94,7 @@ namespace BGFolklore.Web
 
             app.UseRouting();
 
+            //app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
 
