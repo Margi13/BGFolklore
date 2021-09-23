@@ -1,8 +1,10 @@
 ﻿@page
+@using BGFolklore.Common.Common
 @model EmailModel
 @{
     ViewData["Title"] = "Смяна на имейл";
     ViewData["ActivePage"] = ManageNavPages.Email;
+    var decryptedEmail = EncryptDecrypt.Decryption(Model.Email);
 }
 
 <h4 class="text-center">@ViewData["Title"]</h4>
@@ -16,7 +18,7 @@
                 @if (Model.IsEmailConfirmed)
                 {
                     <div class="input-group">
-                        <input asp-for="Email" class="form-control" disabled />
+                        <input asp-for="Email" class="form-control" disabled value="@decryptedEmail"/>
                         <div class="input-group-append">
                             <span class="input-group-text text-success font-weight-bold">✓</span>
                         </div>

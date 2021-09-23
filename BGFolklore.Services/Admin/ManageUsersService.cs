@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BGFolklore.Common;
+using BGFolklore.Common.Common;
 using BGFolklore.Common.Nomenclatures;
 using BGFolklore.Data;
 using BGFolklore.Data.Models;
@@ -169,6 +170,7 @@ namespace BGFolklore.Services.Admin
         private User GetUserById(string userId)
         {
             User user = this.Context.Users.Where(u => u.Id.Equals(userId)).FirstOrDefault();
+            user.Email = EncryptDecrypt.Decryption(user.Email);
             return user;
         }
     }

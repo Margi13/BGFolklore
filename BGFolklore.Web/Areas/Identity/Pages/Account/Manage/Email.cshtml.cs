@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using BGFolklore.Common.Common;
 
 namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -59,7 +60,7 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                NewEmail = email,
+                NewEmail = EncryptDecrypt.Decryption(email)
             };
 
             IsEmailConfirmed = true;
@@ -92,11 +93,15 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
             }
 
             var email = await _userManager.GetEmailAsync(user);
+            //email = EncryptDecrypt.Decryption(email);
             if (Input.NewEmail != email)
             {
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateChangeEmailTokenAsync(user, Input.NewEmail);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                //var encryptedNewEmail = EncryptDecrypt.Encryption();
+
                 var callbackUrl = Url.Page(
                     "/Account/ConfirmEmailChange",
                     pageHandler: null,

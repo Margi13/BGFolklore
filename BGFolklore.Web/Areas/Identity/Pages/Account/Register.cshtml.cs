@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using BGFolklore.Common;
+using BGFolklore.Common.Common;
 using BGFolklore.Common.Nomenclatures;
 using BGFolklore.Data.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -52,18 +53,18 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account
             [Display(Name = "Както какъв се регистрирате?")]
             public string RoleNameToAdd { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Полето е задължително")]
             [EmailAddress]
             [Display(Name = "Имейл")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Полето е задължително")]
             [StringLength(50, ErrorMessage = "Потребителското име трябва да е между {2} и {1} символа.", MinimumLength = 2)]
             [DataType(DataType.Text)]
             [Display(Name = "Потребителско име")]
             public string UserName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Полето е задължително")]
             [StringLength(100, ErrorMessage = "Паролата трябва да е между {2} и {1} символа.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Парола")]
@@ -87,7 +88,8 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.UserName, Email = Input.Email };
+                var encryptedEmail = EncryptDecrypt.Encryption(Input.Email);
+                var user = new User { UserName = Input.UserName, Email = encryptedEmail };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -100,16 +102,6 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account
                     {
                         await _userManager.AddToRoleAsync(user, Constants.UserRoleName);
                     }
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    //var callbackUrl = Url.Page(
-                    //    "/Account/ConfirmEmail",
-                    //    pageHandler: null,
-                    //    values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                    //    protocol: Request.Scheme);
-
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

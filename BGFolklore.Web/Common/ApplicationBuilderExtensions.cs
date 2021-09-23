@@ -1,4 +1,5 @@
 ﻿using BGFolklore.Common;
+using BGFolklore.Common.Common;
 using BGFolklore.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -59,7 +60,8 @@ namespace BGFolklore.Web.Common
                 {
                     User user = new User();
                     user.UserName = userName;
-                    user.Email = userName + "@admin.bg";
+                    var email = userName + "@admin.bg";
+                    user.Email = EncryptDecrypt.Encryption(email);
                     user.EmailConfirmed = true;
 
                     await userManager.CreateAsync(user, password);

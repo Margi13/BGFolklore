@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+
+using BGFolklore.Common.Common;
 using BGFolklore.Data.Models;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -37,6 +40,8 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Мобилен телефон")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "Собствено име")]
+            public string Name { get; set; }
         }
 
         private async Task LoadAsync(User user)
@@ -48,7 +53,8 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = EncryptDecrypt.Decryption(phoneNumber),
+                Name = user.Name
             };
         }
 
@@ -79,16 +85,24 @@ namespace BGFolklore.Web.Areas.Identity.Pages.Account.Manage
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            phoneNumber = EncryptDecrypt.Decryption(phoneNumber);
             if (Input.PhoneNumber != phoneNumber)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                var encryptedPhone = EncryptDecrypt.Encryption(Input.PhoneNumber);
+                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, encryptedPhone);
+
+                if (Input.Name != user.Name)
+                {
+                    var encryptetName = EncryptDecrypt.Encryption(Input.Name);
+                    user.Name = encryptetName;
+                }
+                
                 if (!setPhoneResult.Succeeded)
                 {
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
             }
-
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
