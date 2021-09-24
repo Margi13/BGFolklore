@@ -55,6 +55,7 @@ namespace BGFolklore.Web.Areas.Admin.Controllers
         //}
 
         //Users
+        [Authorize(Roles = Constants.AdminRoleName)]
         public IActionResult ShowAllUsers(string sortBy)
         {
             ViewData["UserName"] = sortBy == "UserName" ? "UserName_desc" : "UserName";
@@ -67,12 +68,14 @@ namespace BGFolklore.Web.Areas.Admin.Controllers
 
             return View(allUsersViewModel);
         }
+        [Authorize(Roles = Constants.AdminRoleName)]
         public IActionResult ManageUser(string userId)
         {
             var userViewModel = manageUsersService.GetUser(userId);
 
             return View(userViewModel);
         }
+        [Authorize(Roles = Constants.AdminRoleName)]
         public IActionResult AddToRole(string userId, string roleName)
         {
             ManageUserViewModel userViewModel;
@@ -88,6 +91,7 @@ namespace BGFolklore.Web.Areas.Admin.Controllers
             return View("ManageUser", userViewModel);
 
         }
+        [Authorize(Roles = Constants.AdminRoleName)]
         public IActionResult RemoveFromRole(string userId, string roleName)
         {
             ManageUserViewModel userViewModel;

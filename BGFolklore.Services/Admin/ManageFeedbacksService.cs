@@ -59,7 +59,7 @@ namespace BGFolklore.Services.Admin
         {
             try
             {
-                IList<Feedback> allEventFeedbacks = this.Context.Feedback.Where(f => f.EventId.Equals(eventViewModel.Id)).ToList();
+                IList<Feedback> allEventFeedbacks = this.Context.Feedback.Where(f => f.EventId.Equals(eventViewModel.Id) && f.StatusId != (int)StatusName.Deleted).ToList();
                 if (allEventFeedbacks != null)
                 {
                     eventViewModel.Feedbacks = this.Mapper.Map<IList<ManageFeedbackViewModel>>(allEventFeedbacks);

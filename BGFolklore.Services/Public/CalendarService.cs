@@ -165,7 +165,7 @@ namespace BGFolklore.Services.Public
                 var newPublicEvent = this.Mapper.Map<PublicEvent>(newEvent);
                 newPublicEvent.InsertDateTime = DateTime.Now;
                 newPublicEvent.Feedbacks = new List<Feedback>();
-
+                newPublicEvent.Owner = this.Context.Users.Where(u => u.Id.Equals(newEvent.OwnerId)).FirstOrDefault();
                 newPublicEvent = CopyEventInfo(newPublicEvent, newEvent);
 
                 newPublicEvent.Town = townsService.GetTownByGivenId(newEvent.TownId);
@@ -301,6 +301,7 @@ namespace BGFolklore.Services.Public
                 findedPublicEvent.Feedbacks = feedbackService.GetFeedbacksFromData(findedPublicEvent.Id);
                 findedPublicEvent.Town = townsService.GetTownByGivenId(findedPublicEvent.TownId);
                 findedPublicEvent.Status = statusService.GetStatus(findedPublicEvent.StatusId);
+                findedPublicEvent.Owner = this.Context.Users.Where(u => u.Id.Equals(findedPublicEvent.OwnerId)).FirstOrDefault();
             }
             catch (Exception)
             {

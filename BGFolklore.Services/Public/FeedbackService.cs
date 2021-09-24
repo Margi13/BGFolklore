@@ -30,6 +30,8 @@ namespace BGFolklore.Services.Public
             {
                 throw new Exception();
             }
+            feedback.Event = this.Context.PublicEvents.Where(pe => pe.Id.Equals(feedback.EventId)).FirstOrDefault();
+            feedback.Owner = this.Context.Users.Where(u => u.Id.Equals(feedback.OwnerId)).FirstOrDefault();
             Feedback feedbackToReturn = this.Mapper.Map<Feedback>(feedback);
             return feedbackToReturn;
         }
@@ -41,8 +43,8 @@ namespace BGFolklore.Services.Public
 
             var newFeedback = this.Mapper.Map<Feedback>(feedbackBindingModel);
 
-            var pe = this.Context.PublicEvents.Where(pe => pe.Id == feedbackBindingModel.EventId).FirstOrDefault();
-            var ow = this.Context.Users.Where(u => u.Id == feedbackBindingModel.OwnerId).FirstOrDefault();
+            var pe = this.Context.PublicEvents.Where(pe => pe.Id.Equals(feedbackBindingModel.EventId)).FirstOrDefault();
+            var ow = this.Context.Users.Where(u => u.Id.Equals(feedbackBindingModel.OwnerId)).FirstOrDefault();
 
             try
             {
